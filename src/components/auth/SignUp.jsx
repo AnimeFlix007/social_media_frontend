@@ -52,7 +52,7 @@ const SignUp = () => {
           onBlur={handleBlur}
           value={values.username}
           className={
-            Boolean(errors.username && touched.username) && "error-input"
+            Boolean(errors.username && touched.username) ? "error-input" : ""
           }
           name="username"
           id="username"
@@ -86,7 +86,9 @@ const SignUp = () => {
           onChange={handleChange}
           onBlur={handleBlur}
           value={values.email}
-          className={Boolean(errors.email && touched.email) && "error-input"}
+          className={
+            Boolean(errors.email && touched.email) ? "error-input" : ""
+          }
           name="email"
           id="email"
           type="text"
@@ -118,7 +120,7 @@ const SignUp = () => {
           onBlur={handleBlur}
           value={values.password}
           className={
-            Boolean(errors.password && touched.password) && "error-input"
+            Boolean(errors.password && touched.password) ? "error-input" : ""
           }
           type="password"
           name="password"
@@ -153,8 +155,9 @@ const SignUp = () => {
           onBlur={handleBlur}
           value={values.confirm_password}
           className={
-            Boolean(errors.confirm_password && touched.confirm_password) &&
-            "error-input"
+            Boolean(errors.confirm_password && touched.confirm_password)
+              ? "error-input"
+              : ""
           }
           type="text"
           name="confirm_password"

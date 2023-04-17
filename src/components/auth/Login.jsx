@@ -45,7 +45,7 @@ const Login = () => {
           onChange={handleChange}
           onBlur={handleBlur}
           value={values.email}
-          className={Boolean(errors.email && touched.email) && "error-input"}
+          className={Boolean(errors.email && touched.email) ? "error-input" : ""}
           name="email"
           id="email"
           type="text"
@@ -79,7 +79,7 @@ const Login = () => {
           onBlur={handleBlur}
           value={values.password}
           className={
-            Boolean(errors.password && touched.password) && "error-input"
+            Boolean(errors.password && touched.password) ? "error-input" : ""
           }
           type="password"
           name="password"
