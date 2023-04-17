@@ -70,12 +70,21 @@ form.sign-in-form {
   position: relative;
 }
 
+.input-field.error-input {
+  border: .1px solid #e3000a;
+  background-color: #ffc8cb2f;
+}
+
 .input-field i {
   text-align: center;
   line-height: 55px;
   color: #acacac;
   transition: 0.5s;
   font-size: 1.1rem;
+}
+
+.input-field i.error-input {
+  color: #e3000a;
 }
 
 .input-field input {
@@ -88,9 +97,25 @@ form.sign-in-form {
   color: #333;
 }
 
+.input-field .helper-text {
+  width: 380px;
+  color: #e3000a;
+  padding-top: 5px;
+  padding-left: 15px;
+  font-size: 15px;
+}
+
 .input-field input::placeholder {
   color: #aaa;
   font-weight: 500;
+}
+
+.input-field input.error-input {
+  color: #e3000a;
+}
+
+.input-field input.error-input::placeholder {
+  color: #e3000a;
 }
 
 .social-text {

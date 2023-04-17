@@ -27,23 +27,70 @@ const Login = () => {
   return (
     <form className="sign-in-form">
       <h2 className="title">Sign in</h2>
-      <div className="input-field">
-        <i className="fas fa-user"></i>
+      <div
+        className={
+          Boolean(errors.email && touched.email)
+            ? "input-field error-input"
+            : "input-field"
+        }
+      >
+        <i
+          className={
+            Boolean(errors.email && touched.email)
+              ? "fas fa-user error-input"
+              : "fas fa-user"
+          }
+        ></i>
         <input
           onChange={handleChange}
           onBlur={handleBlur}
           value={values.email}
           className={Boolean(errors.email && touched.email) && "error-input"}
+          name="email"
+          id="email"
           type="text"
           placeholder="E-mail"
         />
-        {Boolean(errors.email && touched.email) && <p className="helper-text">{errors.email}</p>}
+        {Boolean(errors.email && touched.email) && (
+          <p className="helper-text">{errors.email}</p>
+        )}
       </div>
-      <div className="input-field">
-        <i className="fas fa-lock"></i>
-        <input type="password" placeholder="Password" />
+      <div
+        style={
+          Boolean(errors.email && touched.email)
+            ? { marginTop: "1.5rem", marginBottom: "1.5rem" }
+            : { marginBottom: "1.5rem" }
+        }
+        className={
+          Boolean(errors.password && touched.password)
+            ? "input-field error-input"
+            : "input-field"
+        }
+      >
+        <i
+          className={
+            Boolean(errors.password && touched.password)
+              ? "fas fa-lock error-input"
+              : "fas fa-lock"
+          }
+        ></i>
+        <input
+          onChange={handleChange}
+          onBlur={handleBlur}
+          value={values.password}
+          className={
+            Boolean(errors.password && touched.password) && "error-input"
+          }
+          type="password"
+          name="password"
+          id="password"
+          placeholder="Password"
+        />
+        {Boolean(errors.password && touched.password) && (
+          <p className="helper-text">{errors.password}</p>
+        )}
       </div>
-      <button type="submit" className="btn solid">
+      <button onClick={handleSubmit} type="submit" className="btn solid">
         Login
       </button>
       <p className="social-text">Or Sign in with social platforms</p>
