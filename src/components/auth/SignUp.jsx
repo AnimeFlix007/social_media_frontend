@@ -2,11 +2,13 @@ import React from "react";
 import "../../styles/auth/auth.css";
 import { useFormik } from "formik";
 import * as Yup from "Yup";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { authRegister } from "../../context/slice/authSlice";
+import Loader from "../global/Loader";
 
 const SignUp = () => {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
+  const { loading } = useSelector((store) => store.auth);
   const { handleChange, handleBlur, errors, values, touched, handleSubmit } =
     useFormik({
       enableReinitialize: true,
@@ -30,10 +32,15 @@ const SignUp = () => {
       }),
       onSubmit: (values, action) => {
         console.log(values);
-        dispatch(authRegister(values))
+        dispatch(authRegister(values));
         action.resetForm();
       },
     });
+
+  if (loading) {
+    return <Loader />;
+  }
+
   return (
     <form className="sign-up-form">
       <h2 className="title">Sign up</h2>

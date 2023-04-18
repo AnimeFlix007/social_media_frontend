@@ -2,11 +2,13 @@ import React from "react";
 import "../../styles/auth/auth.css";
 import { useFormik } from "formik";
 import * as Yup from "Yup";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { authLogin } from "../../context/slice/authSlice";
+import Loader from "../global/Loader";
 
 const Login = () => {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
+  const { loading } = useSelector((store) => store.auth);
   const { handleChange, handleBlur, errors, values, touched, handleSubmit } =
     useFormik({
       enableReinitialize: true,
@@ -26,12 +28,17 @@ const Login = () => {
         const data = {
           email: values.login_email,
           password: values.login_password,
-        }
+        };
         console.log(data);
-        dispatch(authLogin(data))
+        dispatch(authLogin(data));
         action.resetForm();
       },
     });
+
+  if (loading) {
+    return <Loader />;
+  }
+
   return (
     <form className="sign-in-form">
       <h2 className="title">Sign in</h2>
@@ -53,7 +60,11 @@ const Login = () => {
           onChange={handleChange}
           onBlur={handleBlur}
           value={values.login_email}
-          className={Boolean(errors.login_email && touched.login_email) ? "error-input" : ""}
+          className={
+            Boolean(errors.login_email && touched.login_email)
+              ? "error-input"
+              : ""
+          }
           name="login_email"
           id="login_email"
           type="text"
@@ -87,7 +98,9 @@ const Login = () => {
           onBlur={handleBlur}
           value={values.login_password}
           className={
-            Boolean(errors.login_password && touched.login_password) ? "error-input" : ""
+            Boolean(errors.login_password && touched.login_password)
+              ? "error-input"
+              : ""
           }
           type="password"
           name="login_password"
