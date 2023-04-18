@@ -2,25 +2,33 @@ import React from "react";
 import "../../styles/auth/auth.css";
 import { useFormik } from "formik";
 import * as Yup from "Yup";
+import { useDispatch } from "react-redux";
+import { authLogin } from "../../context/slice/authSlice";
 
 const Login = () => {
+  const dispatch = useDispatch()
   const { handleChange, handleBlur, errors, values, touched, handleSubmit } =
     useFormik({
       enableReinitialize: true,
       initialValues: {
-        email: "",
-        password: "",
+        login_email: "",
+        login_password: "",
       },
       validationSchema: Yup.object({
-        email: Yup.string()
-          .email("Enter a valid email")
-          .required("Email is Required"),
-        password: Yup.string()
+        login_email: Yup.string()
+          .email("Enter a valid login_email")
+          .required("E-mail is Required"),
+        login_password: Yup.string()
           .min(6, "Password should be more than 6 characters")
           .required("Password is required"),
       }),
       onSubmit: (values, action) => {
-        console.log(values);
+        const data = {
+          email: values.login_email,
+          password: values.login_password,
+        }
+        console.log(data);
+        dispatch(authLogin(data))
         action.resetForm();
       },
     });
@@ -29,14 +37,14 @@ const Login = () => {
       <h2 className="title">Sign in</h2>
       <div
         className={
-          Boolean(errors.email && touched.email)
+          Boolean(errors.login_email && touched.login_email)
             ? "input-field error-input"
             : "input-field"
         }
       >
         <i
           className={
-            Boolean(errors.email && touched.email)
+            Boolean(errors.login_email && touched.login_email)
               ? "fas fa-user error-input"
               : "fas fa-user"
           }
@@ -44,32 +52,32 @@ const Login = () => {
         <input
           onChange={handleChange}
           onBlur={handleBlur}
-          value={values.email}
-          className={Boolean(errors.email && touched.email) ? "error-input" : ""}
-          name="email"
-          id="email"
+          value={values.login_email}
+          className={Boolean(errors.login_email && touched.login_email) ? "error-input" : ""}
+          name="login_email"
+          id="login_email"
           type="text"
           placeholder="E-mail"
         />
-        {Boolean(errors.email && touched.email) && (
-          <p className="helper-text">{errors.email}</p>
+        {Boolean(errors.login_email && touched.login_email) && (
+          <p className="helper-text">{errors.login_email}</p>
         )}
       </div>
       <div
         style={
-          Boolean(errors.email && touched.email)
+          Boolean(errors.login_email && touched.login_email)
             ? { marginTop: "1.5rem", marginBottom: "1.5rem" }
             : { marginBottom: "1.5rem" }
         }
         className={
-          Boolean(errors.password && touched.password)
+          Boolean(errors.login_password && touched.login_password)
             ? "input-field error-input"
             : "input-field"
         }
       >
         <i
           className={
-            Boolean(errors.password && touched.password)
+            Boolean(errors.login_password && touched.login_password)
               ? "fas fa-lock error-input"
               : "fas fa-lock"
           }
@@ -77,17 +85,17 @@ const Login = () => {
         <input
           onChange={handleChange}
           onBlur={handleBlur}
-          value={values.password}
+          value={values.login_password}
           className={
-            Boolean(errors.password && touched.password) ? "error-input" : ""
+            Boolean(errors.login_password && touched.login_password) ? "error-input" : ""
           }
           type="password"
-          name="password"
-          id="password"
+          name="login_password"
+          id="login_password"
           placeholder="Password"
         />
-        {Boolean(errors.password && touched.password) && (
-          <p className="helper-text">{errors.password}</p>
+        {Boolean(errors.login_password && touched.login_password) && (
+          <p className="helper-text">{errors.login_password}</p>
         )}
       </div>
       <button onClick={handleSubmit} type="submit" className="btn solid">
