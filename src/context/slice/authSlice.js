@@ -22,11 +22,12 @@ export const authLogin = createAsyncThunk(
     try {
       const res = await axios.post(`${BaseUrl}api/auth/login`, payload, {
         headers: { "Content-Type": "application/json" },
+        withCredentials: true
       });
       localStorage.setItem(
         "vmediauser",
         JSON.stringify({
-          token: res.data.access_token,
+          access_token: res.data.access_token,
           user: res.data?.user,
         })
       );
@@ -46,6 +47,25 @@ export const authRegister = createAsyncThunk(
     try {
       const res = await axios.post(`${BaseUrl}api/auth/register`, payload, {
         headers: { "Content-Type": "application/json" },
+        withCredentials: true
+      });
+      return fulfillWithValue(res.data);
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
+export const authRefreshToken = createAsyncThunk(
+  "auth/refresh_token",
+  async (
+    payload={},
+    { getState, rejectWithValue, dispatch, fulfillWithValue }
+  ) => {
+    try {
+      const res = await axios.post(`${BaseUrl}api/auth/refresh_token`, payload, {
+        headers: { "Content-Type": "application/json" },
+        withCredentials: true
       });
       return fulfillWithValue(res.data);
     } catch (error) {
@@ -79,6 +99,17 @@ const authSlice = createSlice({
       toast.success(action?.payload?.message, options);
     },
     [authRegister.rejected]: (state, action) => {
+      state.loading = false;
+      toast.error(action?.payload?.message, options);
+    },
+    [authRefreshToken.pending]: (state, action) => {
+      // state.loading = true;
+    },
+    [authRefreshToken.fulfilled]: (state, action) => {
+      state.user = action?.payload;
+      toast.success(action?.payload?.message, options);
+    },
+    [authRefreshToken.rejected]: (state, action) => {
       state.loading = false;
       toast.error(action?.payload?.message, options);
     },
