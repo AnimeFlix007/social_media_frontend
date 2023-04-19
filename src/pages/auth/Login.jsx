@@ -13,7 +13,7 @@ const AuthPage = () => {
     setMode(mode);
   };
   return (
-    <div className={"container " + mode}>
+    <div className={"Container " + mode}>
       <div className="forms-container">
         <div className="signin-signup">
           <Login />

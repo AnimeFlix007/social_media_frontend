@@ -3,7 +3,7 @@ import "../../styles/global/loader.css";
 
 const Loader = () => {
   return (
-    <div class="ring">
+    <div className="ring">
       Loading
       <span></span>
     </div>

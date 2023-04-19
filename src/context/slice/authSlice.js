@@ -140,7 +140,7 @@ const authSlice = createSlice({
       state.loading = true;
     },
     [authLogout.fulfilled]: (state, action) => {
-      state.loading = true;
+      state.loading = false;
       state.user = {};
       toast.success(action?.payload?.message, options);
     },

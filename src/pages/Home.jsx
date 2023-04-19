@@ -1,8 +1,9 @@
 import React from 'react'
+import Sidebar from '../components/global/Sidebar'
 
 const Home = () => {
   return (
-    <div>Home</div>
+    <Sidebar />
   )
 }
 
