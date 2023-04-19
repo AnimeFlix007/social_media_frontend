@@ -22,7 +22,7 @@ export const authLogin = createAsyncThunk(
     try {
       const res = await axios.post(`${BaseUrl}api/auth/login`, payload, {
         headers: { "Content-Type": "application/json" },
-        withCredentials: true
+        withCredentials: true,
       });
       localStorage.setItem(
         "vmediauser",
@@ -47,7 +47,7 @@ export const authRegister = createAsyncThunk(
     try {
       const res = await axios.post(`${BaseUrl}api/auth/register`, payload, {
         headers: { "Content-Type": "application/json" },
-        withCredentials: true
+        withCredentials: true,
       });
       return fulfillWithValue(res.data);
     } catch (error) {
@@ -59,14 +59,37 @@ export const authRegister = createAsyncThunk(
 export const authRefreshToken = createAsyncThunk(
   "auth/refresh_token",
   async (
-    payload={},
+    payload = {},
     { getState, rejectWithValue, dispatch, fulfillWithValue }
   ) => {
     try {
-      const res = await axios.post(`${BaseUrl}api/auth/refresh_token`, payload, {
+      const res = await axios.post(
+        `${BaseUrl}api/auth/refresh_token`,
+        payload,
+        {
+          headers: { "Content-Type": "application/json" },
+          withCredentials: true,
+        }
+      );
+      return fulfillWithValue(res.data);
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
+export const authLogout = createAsyncThunk(
+  "auth/logout",
+  async (
+    payload = {},
+    { getState, rejectWithValue, dispatch, fulfillWithValue }
+  ) => {
+    try {
+      const res = await axios.post(`${BaseUrl}api/auth/logout`, payload, {
         headers: { "Content-Type": "application/json" },
-        withCredentials: true
+        withCredentials: true,
       });
+      localStorage.removeItem("vmediauser");
       return fulfillWithValue(res.data);
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -110,6 +133,18 @@ const authSlice = createSlice({
       toast.success(action?.payload?.message, options);
     },
     [authRefreshToken.rejected]: (state, action) => {
+      state.loading = false;
+      toast.error(action?.payload?.message, options);
+    },
+    [authLogout.pending]: (state, action) => {
+      state.loading = true;
+    },
+    [authLogout.fulfilled]: (state, action) => {
+      state.loading = true;
+      state.user = {};
+      toast.success(action?.payload?.message, options);
+    },
+    [authLogout.rejected]: (state, action) => {
       state.loading = false;
       toast.error(action?.payload?.message, options);
     },
