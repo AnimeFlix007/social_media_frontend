@@ -5,12 +5,13 @@ import PageNotFound from "../components/PageNotFound";
 import Home from "../pages/Home";
 import { useDispatch, useSelector } from "react-redux";
 import { authRefreshToken } from "../context/slice/authSlice";
+import Layout from "../layout/Layout";
 
 const Router = () => {
   const { user } = useSelector((store) => store.auth);
   const dispatch = useDispatch();
   useEffect(() => {
-    if(user?.access_token) {
+    if (user?.access_token) {
       dispatch(authRefreshToken());
     }
   }, [dispatch]);
@@ -19,7 +20,13 @@ const Router = () => {
       <Route
         path="/"
         element={
-          user?.access_token ? <Home /> : <Navigate to={"/auth"} replace />
+          user?.access_token ? (
+            <Layout>
+              <Home />
+            </Layout>
+          ) : (
+            <Navigate to={"/auth"} replace />
+          )
         }
       />
       <Route

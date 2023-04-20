@@ -1,9 +1,8 @@
 import React from 'react'
-import Sidebar from '../components/global/Sidebar'
 
 const Home = () => {
   return (
-    <Sidebar />
+    <section className='main'>home</section>
   )
 }
 

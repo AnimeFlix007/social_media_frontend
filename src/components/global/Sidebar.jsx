@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "../../styles/global/Sidebar.css";
-import Logo from "../../assets/LogoImg.jpg";
+import Logo from "../../assets/FairyTailLogo.png";
 import { useDispatch, useSelector } from "react-redux";
 import { togglemode } from "../../context/slice/modeSlice";
 import { authLogout } from "../../context/slice/authSlice";
@@ -8,19 +8,15 @@ import { authLogout } from "../../context/slice/authSlice";
 const Sidebar = () => {
   const [showSidebar, setShowSidebar] = useState(false);
   const { darkMode } = useSelector((store) => store.mode);
+  const [searchUser, setSearchUser] = useState("");
   const dispatch = useDispatch();
   return (
     <nav className={showSidebar ? "sidebar open" : "sidebar close"}>
       <header>
         <div className="image-text">
           <span className="image">
-            <img src={Logo} alt="Logo" />
+            <img className={showSidebar ? "open" : ""} src={Logo} alt="Logo" />
           </span>
-
-          <div className="text logo-text">
-            <span className="name">Codinglab</span>
-            <span className="profession">Web developer</span>
-          </div>
         </div>
 
         <i
@@ -33,21 +29,26 @@ const Sidebar = () => {
         <div className="menu">
           <li className="search-box">
             <i className="bx bx-search icon"></i>
-            <input type="text" placeholder="Search..." />
+            <input
+              value={searchUser}
+              onChange={(e) => setSearchUser(e.target.value)}
+              type="text"
+              placeholder="Search..."
+            />
           </li>
 
           <ul className="menu-links">
             <li className="nav-link">
               <a href="#">
                 <i className="bx bx-home-alt icon"></i>
-                <span className="text nav-text">Dashboard</span>
+                <span className="text nav-text">Home</span>
               </a>
             </li>
 
             <li className="nav-link">
               <a href="#">
                 <i className="bx bx-bar-chart-alt-2 icon"></i>
-                <span className="text nav-text">Revenue</span>
+                <span className="text nav-text">Discover</span>
               </a>
             </li>
 
@@ -60,13 +61,6 @@ const Sidebar = () => {
 
             <li className="nav-link">
               <a href="#">
-                <i className="bx bx-pie-chart-alt icon"></i>
-                <span className="text nav-text">Analytics</span>
-              </a>
-            </li>
-
-            <li className="nav-link">
-              <a href="#">
                 <i className="bx bx-heart icon"></i>
                 <span className="text nav-text">Likes</span>
               </a>
@@ -74,8 +68,8 @@ const Sidebar = () => {
 
             <li className="nav-link">
               <a href="#">
-                <i className="bx bx-wallet icon"></i>
-                <span className="text nav-text">Wallets</span>
+                <i className="bx bx-user icon"></i>
+                <span className="text nav-text">Profile</span>
               </a>
             </li>
           </ul>
