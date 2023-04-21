@@ -1,0 +1,29 @@
+.search-component > .search-box {
+  border-radius: 60px;
+  padding: 10px 20px;
+  background-color: var(--primary-color-light);
+  cursor: pointer;
+  transition: var(--tran-05);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+.search-component > .search-box > i {
+    margin-right: 1rem;
+    padding-top: 4px;
+    font-size: 1.45rem;
+}
+
+.search-component > .search-box > input {
+  height: 100%;
+  width: 100%;
+  outline: none;
+  border: none;
+  background-color: var(--primary-color-light);
+  color: var(--text-color);
+  border-radius: 6px;
+  font-size: 17px;
+  font-weight: 500;
+  transition: var(--tran-05);
+}

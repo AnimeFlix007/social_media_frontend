@@ -3,9 +3,12 @@ import { Navigate, Route, Routes } from "react-router-dom";
 import Login from "../pages/auth/Login";
 import PageNotFound from "../components/PageNotFound";
 import Home from "../pages/Home";
+import ProfileDetail from "../pages/profile/ProfileDetail";
 import { useDispatch, useSelector } from "react-redux";
 import { authRefreshToken } from "../context/slice/authSlice";
 import Layout from "../layout/Layout";
+import SearchedUsers from "../pages/SearchedUsers";
+import Profile from "../pages/profile/Profile";
 
 const Router = () => {
   const { user } = useSelector((store) => store.auth);
@@ -34,7 +37,7 @@ const Router = () => {
         element={
           user?.access_token ? (
             <Layout>
-              <Home />
+              <SearchedUsers />
             </Layout>
           ) : (
             <Navigate to={"/auth"} replace />
@@ -82,7 +85,19 @@ const Router = () => {
         element={
           user?.access_token ? (
             <Layout>
-              <Home />
+              <Profile />
+            </Layout>
+          ) : (
+            <Navigate to={"/auth"} replace />
+          )
+        }
+      />
+      <Route
+        path="/profile/:id"
+        element={
+          user?.access_token ? (
+            <Layout>
+              <ProfileDetail />
             </Layout>
           ) : (
             <Navigate to={"/auth"} replace />

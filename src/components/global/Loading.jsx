@@ -10,7 +10,7 @@ const Loading = () => {
         color: "white",
         top: 0,
         left: 0,
-        zIndex: 50,
+        zIndex: 999,
         height: "100vh"
       }}
     >
