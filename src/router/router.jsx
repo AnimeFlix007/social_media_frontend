@@ -30,6 +30,66 @@ const Router = () => {
         }
       />
       <Route
+        path="/search"
+        element={
+          user?.access_token ? (
+            <Layout>
+              <Home />
+            </Layout>
+          ) : (
+            <Navigate to={"/auth"} replace />
+          )
+        }
+      />
+      <Route
+        path="/discover"
+        element={
+          user?.access_token ? (
+            <Layout>
+              <Home />
+            </Layout>
+          ) : (
+            <Navigate to={"/auth"} replace />
+          )
+        }
+      />
+      <Route
+        path="/notification"
+        element={
+          user?.access_token ? (
+            <Layout>
+              <Home />
+            </Layout>
+          ) : (
+            <Navigate to={"/auth"} replace />
+          )
+        }
+      />
+      <Route
+        path="/likes"
+        element={
+          user?.access_token ? (
+            <Layout>
+              <Home />
+            </Layout>
+          ) : (
+            <Navigate to={"/auth"} replace />
+          )
+        }
+      />
+      <Route
+        path="/profile"
+        element={
+          user?.access_token ? (
+            <Layout>
+              <Home />
+            </Layout>
+          ) : (
+            <Navigate to={"/auth"} replace />
+          )
+        }
+      />
+      <Route
         path="/auth"
         element={
           !user?.access_token ? <Login /> : <Navigate to={"/"} replace />

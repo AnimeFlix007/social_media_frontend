@@ -4,12 +4,14 @@ import Logo from "../../assets/FairyTailLogo.png";
 import { useDispatch, useSelector } from "react-redux";
 import { togglemode } from "../../context/slice/modeSlice";
 import { authLogout } from "../../context/slice/authSlice";
+import { Link, useLocation } from "react-router-dom";
 
 const Sidebar = () => {
   const [showSidebar, setShowSidebar] = useState(false);
-  const { darkMode } = useSelector((store) => store.mode);
-  const [searchUser, setSearchUser] = useState("");
+  const { pathname } = useLocation();
   const dispatch = useDispatch();
+
+  const { darkMode } = useSelector((store) => store.mode);
   return (
     <nav className={showSidebar ? "sidebar open" : "sidebar close"}>
       <header>
@@ -27,22 +29,47 @@ const Sidebar = () => {
 
       <div className="menu-bar">
         <div className="menu">
-          <li className="search-box">
-            <i className="bx bx-search icon"></i>
-            <input
-              value={searchUser}
-              onChange={(e) => setSearchUser(e.target.value)}
-              type="text"
-              placeholder="Search..."
-            />
-          </li>
-
           <ul className="menu-links">
             <li className="nav-link">
-              <a href="#">
-                <i className="bx bx-home-alt icon"></i>
-                <span className="text nav-text">Home</span>
-              </a>
+              <Link to="/" className={pathname === "/" ? "active" : ""}>
+                <i
+                  className={
+                    pathname === "/"
+                      ? "bx bx-home-alt icon active"
+                      : "bx bx-home-alt icon"
+                  }
+                ></i>
+                <span
+                  className={
+                    pathname === "/" ? "text nav-text active" : "text nav-text"
+                  }
+                >
+                  Home
+                </span>
+              </Link>
+            </li>
+            <li className="nav-link">
+              <Link
+                to="/search"
+                className={pathname === "/search" ? "active" : ""}
+              >
+                <i
+                  className={
+                    pathname === "/search"
+                      ? "bx bx-search-alt icon active"
+                      : "bx bx-search-alt icon"
+                  }
+                ></i>
+                <span
+                  className={
+                    pathname === "/search"
+                      ? "text nav-text active"
+                      : "text nav-text"
+                  }
+                >
+                  Search
+                </span>
+              </Link>
             </li>
 
             <li className="nav-link">
@@ -76,7 +103,7 @@ const Sidebar = () => {
         </div>
 
         <div className="bottom-content">
-          <li onClick={() => dispatch(authLogout())} className="">
+          <li onClick={() => dispatch(authLogout())} className="logout">
             <i className="bx bx-log-out icon"></i>
             <span className="text nav-text">Logout</span>
           </li>
