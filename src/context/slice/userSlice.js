@@ -6,6 +6,8 @@ import { options } from "../../utils/ToastOptions";
 
 const initialState = {
   users: [],
+  user_profile: {},
+  invalid_user_profile: false,
   loading: false,
 };
 
@@ -19,6 +21,22 @@ export const SearchedUsers = createAsyncThunk(
         { headers: { Authorization: `Bearer ${token}` } }
       );
       return fulfillWithValue(res.data.users);
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
+export const userProfile = createAsyncThunk(
+  "users/getUserProfile",
+  async (payload, { rejectWithValue, fulfillWithValue, getState }) => {
+    const token = getState()?.auth?.user?.access_token;
+    try {
+      const res = await axios.get(
+        `${BaseUrl}api/users/${payload.id}`,
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      return fulfillWithValue(res.data.user);
     } catch (error) {
       return rejectWithValue(error.response.data);
     }
@@ -39,6 +57,19 @@ const users = createSlice({
     },
     [SearchedUsers.rejected]: (state, action) => {
       state.loading = false;
+      toast.error(action?.payload?.message, options);
+    },
+    [userProfile.pending]: (state, action) => {
+      state.loading = true;
+      state.invalid_user_profile = false;
+    },
+    [userProfile.fulfilled]: (state, action) => {
+      state.loading = false;
+      state.user_profile = action.payload;
+    },
+    [userProfile.rejected]: (state, action) => {
+      state.loading = false;
+      state.invalid_user_profile = true;
       toast.error(action?.payload?.message, options);
     },
   },
