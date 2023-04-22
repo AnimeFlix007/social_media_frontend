@@ -12,6 +12,7 @@ const Sidebar = () => {
   const dispatch = useDispatch();
 
   const { darkMode } = useSelector((store) => store.mode);
+  const { user } = useSelector((store) => store.auth);
   return (
     <nav className={showSidebar ? "sidebar open" : "sidebar close"}>
       <header>
@@ -94,10 +95,27 @@ const Sidebar = () => {
             </li>
 
             <li className="nav-link">
-              <a href="#">
-                <i className="bx bx-user icon"></i>
-                <span className="text nav-text">Profile</span>
-              </a>
+              <Link
+                to={"/profile/" + user?.user?._id}
+                className={pathname === "/profile/" + user?.user?._id ? "active" : ""}
+              >
+                <i
+                  className={
+                    pathname === "/profile/" + user?.user?._id
+                      ? "bx bx-user icon active"
+                      : "bx bx-user icon"
+                  }
+                ></i>
+                <span
+                  className={
+                    pathname === "/profile/" + user?.user?._id
+                      ? "text nav-text active"
+                      : "text nav-text"
+                  }
+                >
+                  Profile
+                </span>
+              </Link>
             </li>
           </ul>
         </div>

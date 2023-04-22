@@ -4,6 +4,8 @@ import { useParams } from "react-router-dom";
 import { userProfile } from "../../context/slice/userSlice";
 import BadRequestEmpty from "../../assets/BadRequestEmpty.avif";
 import "../../styles/profile/error-profile.css";
+import Loading from "../../components/global/Loading";
+import UserProfile from "../../components/profile/UserProfile";
 
 const ProfileDetail = () => {
   const { id } = useParams();
@@ -18,7 +20,7 @@ const ProfileDetail = () => {
 
   return (
     <div className="main">
-      {loading && <p>loading...</p>}
+      {loading && <Loading />}
       {!loading && invalid_user_profile && (
         <div className="bad-request-empty">
           <h1>404: The Profile you are looking for isn’t here</h1>
@@ -30,7 +32,7 @@ const ProfileDetail = () => {
           <button>View Your Profile</button>
         </div>
       )}
-      {!loading && user_profile && <p>{user_profile?.username}</p>}
+      {!loading && user_profile && <UserProfile profile={user_profile} />}
     </div>
   );
 };
