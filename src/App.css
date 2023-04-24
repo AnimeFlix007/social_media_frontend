@@ -12,3 +12,18 @@
   width: 100%;
   min-height: 100vh;
 }
+
+.primary-btn {
+  background: var(--primary-color);
+  color: #fff;
+  border: none;
+  padding: 10px 25px;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 20px;
+  border-radius: 10px;
+}
+
+.primary-btn:hover {
+  background: var(--primary-color-main);
+}

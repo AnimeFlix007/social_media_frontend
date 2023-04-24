@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { authRefreshToken } from "../context/slice/authSlice";
 import Layout from "../layout/Layout";
 import SearchedUsers from "../pages/SearchedUsers";
-import Profile from "../pages/profile/Profile";
+import EditProfile from "../pages/profile/EditProfile";
 
 const Router = () => {
   const { user } = useSelector((store) => store.auth);
@@ -81,11 +81,11 @@ const Router = () => {
         }
       />
       <Route
-        path="/profile"
+        path="/profile/:id"
         element={
           user?.access_token ? (
             <Layout>
-              <Profile />
+              <ProfileDetail />
             </Layout>
           ) : (
             <Navigate to={"/auth"} replace />
@@ -93,11 +93,11 @@ const Router = () => {
         }
       />
       <Route
-        path="/profile/:id"
+        path="/edit-profile/:id"
         element={
           user?.access_token ? (
             <Layout>
-              <ProfileDetail />
+              <EditProfile />
             </Layout>
           ) : (
             <Navigate to={"/auth"} replace />

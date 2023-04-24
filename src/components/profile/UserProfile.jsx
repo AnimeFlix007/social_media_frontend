@@ -2,17 +2,24 @@ import React from "react";
 import "../../styles/profile/profile.css";
 import { Tab, Tabs } from "@mui/material";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const UserProfile = ({ profile }) => {
   const [value, setValue] = React.useState(1);
+  const navigate = useNavigate()
   const { user } = useSelector((store) => store.auth);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
+  const navigateToEditProfileHandler = () => {
+    navigate(`/edit-profile/${user?.user?._id}`)
+  }
   return (
     <div className="header__wrapper">
-      <header></header>
+      <header>
+        <img src={profile?.bg_image} alt="bg_image" />
+      </header>
       <div className="cols__container">
         <div className="left__col">
           <div className="img__container">
@@ -62,7 +69,7 @@ const UserProfile = ({ profile }) => {
               <Tab value={3} label="Friends" />
             </Tabs>
             {profile._id === user?.user?._id ? (
-              <button>Edit</button>
+              <button onClick={navigateToEditProfileHandler}>Edit</button>
             ) : (
               <button>Follow</button>
             )}

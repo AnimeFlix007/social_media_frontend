@@ -1,8 +1,14 @@
-.header__wrapper header {
+.header__wrapper > header {
   width: 100%;
-  background: url("https://fictionhorizon.com/wp-content/uploads/2023/03/FairyTail.jpg")
-    no-repeat 50% 20% / cover;
+  /* background: url("https://fictionhorizon.com/wp-content/uploads/2023/03/FairyTail.jpg")
+    no-repeat 50% 20% / cover; */
   min-height: calc(100px + 15vw);
+}
+.header__wrapper > header > img {
+  border-radius: 20px;
+  width: 100%;
+  height: 40vh;
+  object-fit: contain;
 }
 
 .header__wrapper .cols__container .left__col {
@@ -19,6 +25,19 @@
   left: 50%;
   transform: translatex(-50%);
 }
+
+.header__wrapper
+  .cols__container
+  .left__col
+  .img__container:hover
+  > .backdrop-img {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
 .header__wrapper .cols__container .left__col .img__container img {
   width: 120px;
   height: 120px;
@@ -26,6 +45,17 @@
   border-radius: 50%;
   display: block;
   box-shadow: 1px 3px 12px rgba(0, 0, 0, 0.18);
+}
+
+.header__wrapper .cols__container .left__col .img__container .backdrop-img {
+  position: absolute;
+  top: 0%;
+  left: 0%;
+  background-color: rgb(17 17 17 / 35%);
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  display: none;
 }
 .header__wrapper .cols__container .left__col .img__container span {
   position: absolute;
