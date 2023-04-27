@@ -7,3 +7,12 @@
   margin: 1rem 0.55rem;
   margin-top: 3rem;
 }
+
+.btns-container {
+  width: "100%";
+  display: flex;
+  align-self: center;
+  justify-content: flex-end;
+  flex-direction: row;
+  margin-top: 1rem;
+}

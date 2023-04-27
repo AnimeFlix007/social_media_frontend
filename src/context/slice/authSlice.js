@@ -71,6 +71,13 @@ export const authRefreshToken = createAsyncThunk(
           withCredentials: true,
         }
       );
+      localStorage.setItem(
+        "vmediauser",
+        JSON.stringify({
+          access_token: res.data.access_token,
+          user: res.data?.user,
+        })
+      );
       return fulfillWithValue(res.data);
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -91,6 +98,29 @@ export const authLogout = createAsyncThunk(
       });
       localStorage.removeItem("vmediauser");
       return fulfillWithValue(res.data);
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
+export const editProfile = createAsyncThunk(
+  "auth/editProfile",
+  async (payload, { rejectWithValue, fulfillWithValue, getState }) => {
+    const token = getState()?.auth?.user?.access_token;
+    try {
+      const res = await axios.patch(
+        `${BaseUrl}api/users/${payload.id}`,
+        payload,
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      const strData = JSON.parse(localStorage.getItem("vmediauser"));
+      const data = {
+        ...strData,
+        user: res.data.user
+      }
+      localStorage.setItem("vmediauser", JSON.stringify(data))
+      return fulfillWithValue(data);
     } catch (error) {
       return rejectWithValue(error.response.data);
     }
@@ -145,6 +175,18 @@ const authSlice = createSlice({
       toast.success(action?.payload?.message, options);
     },
     [authLogout.rejected]: (state, action) => {
+      state.loading = false;
+      toast.error(action?.payload?.message, options);
+    },
+    [editProfile.pending]: (state, action) => {
+      state.loading = true;
+    },
+    [editProfile.fulfilled]: (state, action) => {
+      state.loading = false;
+      state.user = action.payload;
+      toast.success("Profile Updated Successfully", options);
+    },
+    [editProfile.rejected]: (state, action) => {
       state.loading = false;
       toast.error(action?.payload?.message, options);
     },
