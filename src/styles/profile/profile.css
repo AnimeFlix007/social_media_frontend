@@ -73,12 +73,22 @@
   font-size: 22px;
   margin-bottom: 5px;
 }
+.header__wrapper .cols__container .left__col > h3 {
+  margin-top: 60px;
+  font-weight: 600;
+  font-size: 16px;
+  color: var(--primary-color-main);
+  margin-bottom: 5px;
+  margin-top: 0px;
+}
 .header__wrapper .cols__container .left__col p {
   font-size: 0.9rem;
   color: #818181;
   margin: 0;
 }
 .header__wrapper .cols__container .left__col .about {
+  display: flex;
+  flex-direction: row;
   justify-content: space-between;
   position: relative;
   margin: 35px 0;

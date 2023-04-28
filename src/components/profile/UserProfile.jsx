@@ -6,15 +6,15 @@ import { useNavigate } from "react-router-dom";
 
 const UserProfile = ({ profile }) => {
   const [value, setValue] = React.useState(1);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const { user } = useSelector((store) => store.auth);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
   const navigateToEditProfileHandler = () => {
-    navigate(`/edit-profile/${user?.user?._id}`)
-  }
+    navigate(`/edit-profile/${user?.user?._id}`);
+  };
   return (
     <div className="header__wrapper">
       <header>
@@ -23,22 +23,20 @@ const UserProfile = ({ profile }) => {
       <div className="cols__container">
         <div className="left__col">
           <div className="img__container">
-            <img
-              src={profile?.avatar}
-              alt={profile?.username}
-            />
+            <img src={profile?.avatar} alt={profile?.username} />
             <span></span>
           </div>
-          <h2>{profile?.username}</h2>
-          <p>UX/UI Designer</p>
+          {profile?.fullname && <h2>{profile?.fullname}</h2>}
+          <h3>@{profile?.username}</h3>
+          <p>{profile?.role}</p>
           <p>{profile?.email}</p>
 
           <ul className="about">
             <li>
-              <span>4,073</span>Followers
+              <span>{profile?.followers?.length}</span>Followers
             </li>
             <li>
-              <span>322</span>Following
+              <span>{profile?.following?.length}</span>Following
             </li>
             <li>
               <span>200,543</span>Attraction
@@ -46,9 +44,7 @@ const UserProfile = ({ profile }) => {
           </ul>
 
           <div className="content">
-            <p>
-              {profile?.story}
-            </p>
+            <p>{profile?.story}</p>
 
             <ul>
               <i className="fab fa-twitter"></i>

@@ -19,6 +19,7 @@ const editProfileSchema = Yup.object({
   instagram: Yup.string(),
   gender: Yup.string(),
   story: Yup.string().required("Please write something about you"),
+  role: Yup.string().required("Please select your role"),
 });
 
 const EditProfilleForm = () => {
@@ -36,6 +37,7 @@ const EditProfilleForm = () => {
     instagram: user?.user?.instagram,
     gender: user?.user?.gender,
     story: user?.user?.story,
+    role: user?.user?.role,
   };
   const { handleChange, handleBlur, handleSubmit, errors, values, touched } =
     useFormik({
@@ -228,6 +230,27 @@ const EditProfilleForm = () => {
         >
           <MenuItem value={"Male"}>Male</MenuItem>
           <MenuItem value={"Female"}>Female</MenuItem>
+        </TextField>
+        <TextField
+          id="role"
+          name="role"
+          label="Designation"
+          select
+          variant="outlined"
+          fullWidth
+          value={values.role}
+          onChange={handleChange}
+          onBlur={handleBlur}
+          helperText={touched.role && errors.role}
+          error={Boolean(touched.role && errors.role)}
+        >
+          <MenuItem value={"Business"}>Business</MenuItem>
+          <MenuItem value={"Influencer"}>Influencer</MenuItem>
+          <MenuItem value={"Influencer"}>Student</MenuItem>
+          <MenuItem value={"UI/UX Designer"}>UI/UX Designer</MenuItem>
+          <MenuItem value={"Frontend Developer"}>Frontend Developer</MenuItem>
+          <MenuItem value={"FullStack MERN Developer"}>FullStack MERN Developer</MenuItem>
+          <MenuItem value={"Backend Developer"}>Backend Developer</MenuItem>
         </TextField>
       </div>
       <TextField
