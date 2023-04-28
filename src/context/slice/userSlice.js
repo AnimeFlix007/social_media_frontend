@@ -9,6 +9,7 @@ const initialState = {
   user_profile: {},
   invalid_user_profile: false,
   loading: false,
+  followed: false
 };
 
 export const SearchedUsers = createAsyncThunk(
@@ -36,6 +37,22 @@ export const userProfile = createAsyncThunk(
         headers: { Authorization: `Bearer ${token}` },
       });
       return fulfillWithValue(res.data.user);
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
+export const followUser = createAsyncThunk(
+  "users/followUser",
+  async (payload, { rejectWithValue, fulfillWithValue, getState }) => {
+    const token = getState()?.auth?.user?.access_token;
+    console.log(token);
+    try {
+      const res = await axios.patch(`${BaseUrl}api/users/follow`, payload, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      return fulfillWithValue(res.data);
     } catch (error) {
       return rejectWithValue(error.response.data);
     }
@@ -71,6 +88,20 @@ const users = createSlice({
       state.loading = false;
       state.invalid_user_profile = true;
       toast.error(action?.payload?.message, options);
+    },
+    [followUser.pending]: (state, action) => {
+      state.followed = false
+    },
+    [followUser.fulfilled]: (state, action) => {
+      state.followed = true
+      toast.success(action?.payload?.message, options);
+    },
+    [followUser.rejected]: (state, action) => {
+      state.followed = false
+      toast.error(
+        action?.payload?.message || "Something went wrong!!",
+        options
+      );
     },
   },
 });

@@ -10,13 +10,13 @@ import UserProfile from "../../components/profile/UserProfile";
 const ProfileDetail = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
-  const { invalid_user_profile, user_profile, loading } = useSelector(
+  const { invalid_user_profile, user_profile, loading, followed } = useSelector(
     (store) => store.users
   );
 
   useEffect(() => {
     dispatch(userProfile({ id }));
-  }, [id, dispatch]);
+  }, [id, dispatch, followed]);
 
   return (
     <div className="main">

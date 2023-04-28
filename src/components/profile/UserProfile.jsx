@@ -1,13 +1,17 @@
-import React from "react";
+import React, { useMemo } from "react";
 import "../../styles/profile/profile.css";
 import { Tab, Tabs } from "@mui/material";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { followUser } from "../../context/slice/userSlice";
 
 const UserProfile = ({ profile }) => {
   const [value, setValue] = React.useState(1);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const { user } = useSelector((store) => store.auth);
+
+  const isFollowing = profile?.followers?.find((p) => p._id == user?.user?._id);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -15,6 +19,10 @@ const UserProfile = ({ profile }) => {
   const navigateToEditProfileHandler = () => {
     navigate(`/edit-profile/${user?.user?._id}`);
   };
+
+  function followUserHandler(id) {
+    dispatch(followUser({ followId: id }));
+  }
   return (
     <div className="header__wrapper">
       <header>
@@ -42,7 +50,6 @@ const UserProfile = ({ profile }) => {
               <span>200,543</span>Attraction
             </li>
           </ul>
-
           <div className="content">
             <p>{profile?.story}</p>
 
@@ -65,9 +72,21 @@ const UserProfile = ({ profile }) => {
               <Tab value={3} label="Friends" />
             </Tabs>
             {profile._id === user?.user?._id ? (
-              <button onClick={navigateToEditProfileHandler}>Edit</button>
+              <button
+                className="primary-btn"
+                onClick={navigateToEditProfileHandler}
+              >
+                Edit
+              </button>
+            ) : isFollowing ? (
+              <button className="danger-btn">Unfollow</button>
             ) : (
-              <button>Follow</button>
+              <button
+                onClick={() => followUserHandler(profile._id)}
+                className="primary-btn"
+              >
+                Follow
+              </button>
             )}
           </nav>
 

@@ -163,7 +163,6 @@ const authSlice = createSlice({
       toast.success(action?.payload?.message, options);
     },
     [authRefreshToken.rejected]: (state, action) => {
-      state.loading = false;
       toast.error(action?.payload?.message, options);
     },
     [authLogout.pending]: (state, action) => {

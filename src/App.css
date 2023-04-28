@@ -27,3 +27,18 @@
 .primary-btn:hover {
   background: var(--primary-color-main);
 }
+
+.danger-btn {
+  background: var(--error-color);
+  color: #fff;
+  border: none;
+  padding: 10px 25px;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 20px;
+  border-radius: 10px;
+}
+
+.danger-btn:hover {
+  background: var(--error-color-main);
+}

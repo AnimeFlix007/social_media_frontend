@@ -149,18 +149,6 @@
   color: #1d1d1d;
   font-weight: 600;
 }
-.header__wrapper .cols__container .right__col > nav > button:last-child {
-  background: #0091ff;
-  color: #fff;
-  border: none;
-  padding: 10px 25px;
-  border-radius: 4px;
-  cursor: pointer;
-  margin-top: 20px;
-}
-.header__wrapper .cols__container .right__col nav > button:last-child:hover {
-  opacity: 0.8;
-}
 .header__wrapper .cols__container .right__col .photos {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
