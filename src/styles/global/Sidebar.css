@@ -239,7 +239,8 @@ body.dark .switch::before {
 
 .sidebar.close ~ .main {
   left: 78px;
-  height: 100vh;
+  min-height: 100vh;
+  height: auto;
   width: calc(100% - 78px);
 }
 body.dark .main {

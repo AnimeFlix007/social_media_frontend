@@ -1,6 +1,13 @@
 .searched-users {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(275px, 1fr));
+  width: 100%;
+  margin: 2rem auto;
+  grid-gap: 0.8rem;
+}
+.suggested-users {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(275px, 1fr));
   width: 100%;
   margin: 2rem auto;
   grid-gap: 0.8rem;
