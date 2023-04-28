@@ -59,6 +59,21 @@ export const followUser = createAsyncThunk(
   }
 );
 
+export const unfollowUser = createAsyncThunk(
+  "users/unfollowUser",
+  async (payload, { rejectWithValue, fulfillWithValue, getState }) => {
+    const token = getState()?.auth?.user?.access_token;
+    try {
+      const res = await axios.patch(`${BaseUrl}api/users/unfollow`, payload, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      return fulfillWithValue(res.data);
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
 const users = createSlice({
   name: "users",
   initialState,
@@ -89,15 +104,21 @@ const users = createSlice({
       state.invalid_user_profile = true;
       toast.error(action?.payload?.message, options);
     },
-    [followUser.pending]: (state, action) => {
-      state.followed = false
-    },
     [followUser.fulfilled]: (state, action) => {
-      state.followed = true
+      state.followed = Math.random()
       toast.success(action?.payload?.message, options);
     },
     [followUser.rejected]: (state, action) => {
-      state.followed = false
+      toast.error(
+        action?.payload?.message || "Something went wrong!!",
+        options
+      );
+    },
+    [unfollowUser.fulfilled]: (state, action) => {
+      state.followed = Math.random()
+      toast.success(action?.payload?.message, options);
+    },
+    [unfollowUser.rejected]: (state, action) => {
       toast.error(
         action?.payload?.message || "Something went wrong!!",
         options

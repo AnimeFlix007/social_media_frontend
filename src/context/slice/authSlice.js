@@ -71,14 +71,12 @@ export const authRefreshToken = createAsyncThunk(
           withCredentials: true,
         }
       );
-      localStorage.setItem(
-        "vmediauser",
-        JSON.stringify({
-          access_token: res.data.access_token,
-          user: res.data?.user,
-        })
-      );
-      return fulfillWithValue(res.data);
+      const data = {
+        access_token: res.data.access_token,
+        user: res.data?.user,
+      };
+      localStorage.setItem("vmediauser", JSON.stringify(data));
+      return fulfillWithValue(data);
     } catch (error) {
       return rejectWithValue(error.response.data);
     }
@@ -117,9 +115,9 @@ export const editProfile = createAsyncThunk(
       const strData = JSON.parse(localStorage.getItem("vmediauser"));
       const data = {
         ...strData,
-        user: res.data.user
-      }
-      localStorage.setItem("vmediauser", JSON.stringify(data))
+        user: res.data.user,
+      };
+      localStorage.setItem("vmediauser", JSON.stringify(data));
       return fulfillWithValue(data);
     } catch (error) {
       return rejectWithValue(error.response.data);

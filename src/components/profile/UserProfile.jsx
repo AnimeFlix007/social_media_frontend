@@ -3,7 +3,7 @@ import "../../styles/profile/profile.css";
 import { Tab, Tabs } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { followUser } from "../../context/slice/userSlice";
+import { followUser, unfollowUser } from "../../context/slice/userSlice";
 
 const UserProfile = ({ profile }) => {
   const [value, setValue] = React.useState(1);
@@ -22,6 +22,9 @@ const UserProfile = ({ profile }) => {
 
   function followUserHandler(id) {
     dispatch(followUser({ followId: id }));
+  }
+  function unfollowUserHandler(id) {
+    dispatch(unfollowUser({ unfollowId: id }));
   }
   return (
     <div className="header__wrapper">
@@ -79,7 +82,7 @@ const UserProfile = ({ profile }) => {
                 Edit
               </button>
             ) : isFollowing ? (
-              <button className="danger-btn">Unfollow</button>
+              <button onClick={() => unfollowUserHandler(profile._id)} className="danger-btn">Unfollow</button>
             ) : (
               <button
                 onClick={() => followUserHandler(profile._id)}
