@@ -58,6 +58,7 @@ export default function FollowersDrawer({ profile }) {
                   <Avatar alt={user.username} src={user.avatar} />
                 </ListItemAvatar>
                 <ListItemText primary={user.fullname} secondary={user.role} />
+                <ListItemText primary={user.followers.length} secondary="Followers" />
               </ListItemButton>
             </ListItem>
           );
