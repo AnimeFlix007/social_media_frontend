@@ -14,7 +14,7 @@ const EditProfile = () => {
   return (
     <section className="main">
       {loading && <Loading />}
-      {!loading && id != user?.user?._id && (
+      {!loading && id.toString() !== user?.user?._id.toString() && (
         <div className="bad-request-empty">
           <h1>403: Sorry you can edit only your profile!</h1>
           <p>
@@ -27,7 +27,7 @@ const EditProfile = () => {
           </button>
         </div>
       )}
-      {!loading && id == user?.user?._id && <EditProfilleForm />}
+      {!loading && id.toString() === user?.user?._id.toString() && <EditProfilleForm />}
     </section>
   );
 };

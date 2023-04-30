@@ -9,6 +9,7 @@ import { authRefreshToken } from "../context/slice/authSlice";
 import Layout from "../layout/Layout";
 import SearchedUsers from "../pages/SearchedUsers";
 import EditProfile from "../pages/profile/EditProfile";
+import Discover from "../pages/Discover";
 
 const Router = () => {
   const { user } = useSelector((store) => store.auth);
@@ -49,7 +50,7 @@ const Router = () => {
         element={
           user?.access_token ? (
             <Layout>
-              <Home />
+              <Discover />
             </Layout>
           ) : (
             <Navigate to={"/auth"} replace />

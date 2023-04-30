@@ -1,9 +1,11 @@
-import React, { useMemo } from "react";
+import React from "react";
 import "../../styles/profile/profile.css";
 import { Tab, Tabs } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { followUser, unfollowUser } from "../../context/slice/userSlice";
+import FollowersDrawer from "./FollowersDrawer";
+import FollowingDrawer from "./FollowingDrawer";
 
 const UserProfile = ({ profile }) => {
   const [value, setValue] = React.useState(1);
@@ -43,12 +45,8 @@ const UserProfile = ({ profile }) => {
           <p>{profile?.email}</p>
 
           <ul className="about">
-            <li>
-              <span>{profile?.followers?.length}</span>Followers
-            </li>
-            <li>
-              <span>{profile?.following?.length}</span>Following
-            </li>
+            <FollowersDrawer profile={profile} />
+            <FollowingDrawer profile={profile} />
             <li>
               <span>200,543</span>Attraction
             </li>
@@ -82,7 +80,12 @@ const UserProfile = ({ profile }) => {
                 Edit
               </button>
             ) : isFollowing ? (
-              <button onClick={() => unfollowUserHandler(profile._id)} className="danger-btn">Unfollow</button>
+              <button
+                onClick={() => unfollowUserHandler(profile._id)}
+                className="danger-btn"
+              >
+                Unfollow
+              </button>
             ) : (
               <button
                 onClick={() => followUserHandler(profile._id)}

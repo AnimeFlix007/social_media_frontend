@@ -74,10 +74,27 @@ const Sidebar = () => {
             </li>
 
             <li className="nav-link">
-              <a href="#">
-                <i className="bx bx-bar-chart-alt-2 icon"></i>
-                <span className="text nav-text">Discover</span>
-              </a>
+              <Link
+                to="/discover"
+                className={pathname === "/discover" ? "active" : ""}
+              >
+                <i
+                  className={
+                    pathname === "/discover"
+                      ? "bx bx-bar-chart-alt-2 icon active"
+                      : "bx bx-bar-chart-alt-2 icon"
+                  }
+                ></i>
+                <span
+                  className={
+                    pathname === "/discover"
+                      ? "text nav-text active"
+                      : "text nav-text"
+                  }
+                >
+                  Discover
+                </span>
+              </Link>
             </li>
 
             <li className="nav-link">
@@ -90,14 +107,16 @@ const Sidebar = () => {
             <li className="nav-link">
               <a href="#">
                 <i className="bx bx-heart icon"></i>
-                <span className="text nav-text">Likes</span>
+                <span className="text nav-text">Create Post</span>
               </a>
             </li>
 
             <li className="nav-link">
               <Link
                 to={"/profile/" + user?.user?._id}
-                className={pathname === "/profile/" + user?.user?._id ? "active" : ""}
+                className={
+                  pathname === "/profile/" + user?.user?._id ? "active" : ""
+                }
               >
                 <i
                   className={

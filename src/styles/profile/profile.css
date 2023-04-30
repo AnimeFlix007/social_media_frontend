@@ -98,10 +98,17 @@
   flex-direction: column;
   color: #818181;
   font-size: 0.9rem;
+  cursor: pointer;
 }
 .header__wrapper .cols__container .left__col .about li span {
   color: #1d1d1d;
   font-weight: 600;
+}
+.header__wrapper .cols__container .left__col .about li:hover {
+  color: var(--primary-color-main);
+}
+.header__wrapper .cols__container .left__col .about li:hover span {
+  color: var(--primary-color);
 }
 .header__wrapper .cols__container .left__col .about:after {
   position: absolute;
