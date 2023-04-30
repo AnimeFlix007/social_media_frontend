@@ -32,7 +32,7 @@ const ProfileDetail = () => {
           <button>View Your Profile</button>
         </div>
       )}
-      {!loading && user_profile && <UserProfile profile={user_profile} />}
+      {!loading && user_profile && !invalid_user_profile && <UserProfile profile={user_profile} />}
     </div>
   );
 };
