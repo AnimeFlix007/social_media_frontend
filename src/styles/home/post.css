@@ -1,0 +1,50 @@
+.create-post-container {
+  background-color: var(--sidebar-color);
+  width: 50%;
+  border-radius: 10px;
+}
+
+.create-post-container > div {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-direction: row;
+  padding-left: 1rem;
+}
+
+@media screen and (max-width: 850px) {
+  .create-post-container {
+    width: 100%;
+  }
+}
+
+.create-post-container > div:nth-child(2) {
+  margin-top: 1rem;
+  padding-bottom: 0.5rem;
+  padding-left: 3.5rem;
+}
+
+.create-post-container > div > textarea {
+  height: 100%;
+  width: 100%;
+  outline: none;
+  border: none;
+  color: var(--text-color);
+  border-radius: 6px;
+  font-size: 17px;
+  font-weight: 500;
+  transition: var(--tran-05);
+  margin-top: 1.4rem;
+  padding-left: 2rem;
+}
+
+.create-post-container > div > .post-icons {
+  font-size: 1.4rem;
+  margin: 0 0.75rem;
+  cursor: pointer;
+}
+
+.create-post-container > div > .post-icons:last-child {
+  font-size: 1.2rem;
+  margin-left: 0.55rem;
+}

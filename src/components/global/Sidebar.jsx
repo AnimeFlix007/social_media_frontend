@@ -105,10 +105,27 @@ const Sidebar = () => {
             </li>
 
             <li className="nav-link">
-              <a href="#">
-                <i className="bx bx-heart icon"></i>
-                <span className="text nav-text">Create Post</span>
-              </a>
+              <Link
+                to="/create-post"
+                className={pathname === "/create-post" ? "active" : ""}
+              >
+                <i
+                  className={
+                    pathname === "/create-post"
+                      ? "bx bx-add-to-queue icon active"
+                      : "bx bx-add-to-queue icon"
+                  }
+                ></i>
+                <span
+                  className={
+                    pathname === "/create-post"
+                      ? "text nav-text active"
+                      : "text nav-text"
+                  }
+                >
+                  Create Post
+                </span>
+              </Link>
             </li>
 
             <li className="nav-link">

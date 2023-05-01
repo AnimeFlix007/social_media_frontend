@@ -403,12 +403,10 @@ form.sign-in-form {
   .Container {
     padding: 1.5rem;
   }
-
   .Container:before {
     bottom: 72%;
     left: 50%;
   }
-
   .Container.sign-up-mode:before {
     bottom: 28%;
     left: 50%;

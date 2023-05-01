@@ -1,8 +1,11 @@
 import React from 'react'
+import CreatePost from '../components/home/CreatePost'
 
 const Home = () => {
   return (
-    <section className='main'>home</section>
+    <section className='main'>
+      <CreatePost />
+    </section>
   )
 }
 
