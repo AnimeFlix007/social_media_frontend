@@ -11,6 +11,9 @@
   flex-direction: row;
   padding-left: 1rem;
 }
+.create-post-container > div:last-child{
+  justify-content: space-between;
+}
 
 @media screen and (max-width: 850px) {
   .create-post-container {
@@ -18,10 +21,10 @@
   }
 }
 
-.create-post-container > div:nth-child(2) {
+.create-post-container > div:last-child {
   margin-top: 1rem;
-  padding-bottom: 0.5rem;
-  padding-left: 3.5rem;
+  padding: 0 3rem;
+  padding-bottom: .75rem;
 }
 
 .create-post-container > div > textarea {
@@ -38,13 +41,18 @@
   padding-left: 2rem;
 }
 
-.create-post-container > div > .post-icons {
+.create-post-container > div:last-child > div > label > .post-icons,
+.create-post-container > div:last-child > div > .post-icons {
   font-size: 1.4rem;
   margin: 0 0.75rem;
   cursor: pointer;
 }
 
-.create-post-container > div > .post-icons:last-child {
+.create-post-container > div:last-child > div > .post-icons:last-child {
   font-size: 1.2rem;
   margin-left: 0.55rem;
+}
+
+.create-post-container > div:last-child > div {
+  margin-top: 20px;
 }
