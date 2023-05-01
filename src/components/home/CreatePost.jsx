@@ -11,7 +11,7 @@ const CreatePost = () => {
   const [images, setImages] = useState([]);
   const content = useRef();
   function onChangeImageHandler(e) {
-    setImages(e.target.files);
+    setImages(prev => [...prev, ...e.target.files]);
   }
   const createPostHandler = () => {
     dispatch(Create_Post({ content: content.current.value, images }))
@@ -34,14 +34,13 @@ const CreatePost = () => {
           ref={content}
         />
       </div>
-      <div>
+      <div className="preview-box">
         {Array.from(images).map((file) => {
           return (
             <span key={file.name + Date.now()}>
               <img
                 src={file ? URL.createObjectURL(file) : null}
                 alt="post"
-                style={{ width: "135px" }}
               />
             </span>
           );

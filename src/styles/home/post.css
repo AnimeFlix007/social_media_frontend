@@ -56,3 +56,20 @@
 .create-post-container > div:last-child > div {
   margin-top: 20px;
 }
+
+.preview-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+  flex-wrap: wrap;
+  margin-left: 2rem;
+}
+
+.preview-box > span{
+  margin: 0 5px;
+}
+
+.preview-box > span > img{
+  width: 135px;
+}
