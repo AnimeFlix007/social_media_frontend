@@ -12,6 +12,7 @@ const UserProfile = ({ profile }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { user } = useSelector((store) => store.auth);
+  const { images } = useSelector((store) => store.posts);
 
   const isFollowing = profile?.followers?.find((p) => p._id == user?.user?._id);
 
@@ -97,30 +98,9 @@ const UserProfile = ({ profile }) => {
           </nav>
 
           <div className="photos">
-            <img
-              src="https://m.media-amazon.com/images/I/71iTBfKZR4L._RI_.jpg"
-              alt="Photo"
-            />
-            <img
-              src="https://m.media-amazon.com/images/I/71iTBfKZR4L._RI_.jpg"
-              alt="Photo"
-            />
-            <img
-              src="https://m.media-amazon.com/images/I/71iTBfKZR4L._RI_.jpg"
-              alt="Photo"
-            />
-            <img
-              src="https://m.media-amazon.com/images/I/71iTBfKZR4L._RI_.jpg"
-              alt="Photo"
-            />
-            <img
-              src="https://m.media-amazon.com/images/I/71iTBfKZR4L._RI_.jpg"
-              alt="Photo"
-            />
-            <img
-              src="https://m.media-amazon.com/images/I/71iTBfKZR4L._RI_.jpg"
-              alt="Photo"
-            />
+            {images?.map((img) => (
+              <img src={img} alt="Photo" />
+            ))}
           </div>
         </div>
       </div>

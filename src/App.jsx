@@ -10,7 +10,7 @@ function App() {
   const { darkMode } = useSelector((store) => store.mode);
   return (
     <body className={darkMode ? "dark" : ""}>
-      <ThemeProvider theme={darkMode ? darkTheme :theme}>
+      <ThemeProvider theme={darkMode ? darkTheme : theme}>
         <CssBaseline />
         <div className="App">
           <ToastContainer />

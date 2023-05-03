@@ -6,6 +6,7 @@ import { options } from "../../utils/ToastOptions";
 
 const initialState = {
   posts: [],
+  images: [],
   loading: false,
 };
 
@@ -31,6 +32,23 @@ export const Create_Post = createAsyncThunk(
   }
 );
 
+export const getAllImages = createAsyncThunk(
+  "posts/getAllImages",
+  async (payload, { rejectWithValue, fulfillWithValue, getState }) => {
+    const token = getState()?.auth?.user?.access_token;
+    try {
+      const res = await axios.get(`${BaseUrl}api/posts/allimages`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      return fulfillWithValue(res.data);
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
 const posts = createSlice({
   name: "posts",
   initialState,
@@ -44,6 +62,17 @@ const posts = createSlice({
       toast.success(action?.payload?.message, options);
     },
     [Create_Post.rejected]: (state, action) => {
+      state.loading = false;
+      toast.error(action?.payload?.message, options);
+    },
+    [getAllImages.pending]: (state, action) => {
+      state.loading = true;
+    },
+    [getAllImages.fulfilled]: (state, action) => {
+      state.loading = false;
+      state.images = action.payload.images
+    },
+    [getAllImages.rejected]: (state, action) => {
       state.loading = false;
       toast.error(action?.payload?.message, options);
     },
