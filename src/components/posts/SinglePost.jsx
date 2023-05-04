@@ -1,33 +1,44 @@
-import React from "react";
-import "../../styles/post/singlepost.css"
+import React, { useState } from "react";
+import "../../styles/post/singlepost.css";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
-const SinglePost = () => {
+const SinglePost = ({ post }) => {
+  const { user } = useSelector((store) => store.auth);
+  const navigate = useNavigate();
+  const [like, setLike] = useState(false);
   return (
-    <div className="card">
+    <div className="card" onClick={() => navigate(`/discover/${post?._id}`)}>
       <div className="top">
         <div className="user-details">
           <div className="user-profile_img">
-            <img src="https://studiojakemedia.files.wordpress.com/2019/11/erza-scarlet-fairy-tail.png?w=723&h=404" alt="" className="cover" />
+            <img
+              src={post?.user?.avatar}
+              alt={post?.user?.username}
+              className="cover"
+            />
           </div>
           <h3>
-            Devjit Bose <br /> <span>Jharkhand, India</span>
+            {post?.user?.fullname || post?.user?.username} <br />{" "}
+            <span>{post?.user?.role}</span>
           </h3>
         </div>
-        <div>
+        <div className="dot">
           <i className="bx bx-dots-vertical-rounded"></i>
         </div>
       </div>
       <div className="imageBx">
-        <img
-          src="https://img.etimg.com/thumb/width-640,height-480,imgsize-67262,resizemode-1,msid-92073673/magazines/panache/after-25-years-beloved-japanese-manga-one-piece-heads-into-final-chapter/one-piece.jpg"
-          alt="OnePiece"
-        />
+        <img src={post?.images?.[0]} alt={post?.content} className="cover" />
       </div>
-      <div className="action-btns">
+      <div className="action-btns" onClick={(e) => e.stopPropagation()}>
         <div className="left">
-          <i class="bx bx-heart"></i>
-          {false && <i class="bx bxs-heart"></i>}
-          <i class="bx bxs-chat"></i>
+          {!like && <i onClick={() => setLike((prev) => !prev)} class="bx bx-heart"></i>}
+          {like && <i
+            onClick={() => setLike((prev) => !prev)}
+            style={{ color: "red" }}
+            class="bx bxs-heart"
+          ></i>}
+          <i class="bx bx-message-rounded"></i>
           <i class="bx bx-share-alt"></i>
         </div>
         <div className="right">
@@ -36,17 +47,22 @@ const SinglePost = () => {
       </div>
       <h4 className="likes">3,657 Likes</h4>
       <h4 className="message">
-        <b>Devjit Bose</b> One Piece is a great show <span>#onepiece</span>
+        <b>{post?.user?.fullname || post?.user?.username}</b> {post?.content}{" "}
+        <span>#onepiece</span>
         <span>#anime</span>
       </h4>
       <h4 className="comments">View all 342 comments</h4>
-      <div className="add-comment">
+      <div onClick={(e) => e.stopPropagation()} className="add-comment">
         <div className="user-img">
-            <img src="https://studiojakemedia.files.wordpress.com/2019/11/erza-scarlet-fairy-tail.png?w=723&h=404" alt="" />
+          <img
+            className="cover"
+            src={user?.user?.avatar}
+            alt={user?.user?.username}
+          />
         </div>
-        <input type="text" placeholder="Add a comment" />
+        <input className="input-text" type="text" placeholder="Add a comment" />
       </div>
-      <h5>4 hours ago</h5>
+      <h5 className="post-time">4 hours ago</h5>
     </div>
   );
 };

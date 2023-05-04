@@ -1,36 +1,153 @@
 .card {
-    position: relative;
-    width: 360px;
-    height: 400px;
-    box-shadow: 15px 15px 15px rgba(0, 0, 0, .15);
-    padding: 20px;
+  position: relative;
+  /* width: 360px; */
+  /* height: 400px; */
+  box-shadow: 15px 15px 15px rgba(0, 0, 0, 0.15);
+  padding: 20px;
+  margin-bottom: 1rem;
+  border-radius: 10px;
+  background-color: white;
+  cursor: pointer;
+  transition: all .3s ease-in-out;
+}
+.card:hover {
+    /* transform: scale(1.05); */
 }
 
 .card .top {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
-.card .top .user-details{
-    display: flex;
-    align-items: center;
+.card .top .user-details {
+  display: flex;
+  align-items: center;
 }
 
-.card .top .user-details .user-profile_img{
-    position: relative;
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    overflow: hidden;
-    margin-right: 8px;
+.card .top .user-details .user-profile_img {
+  position: relative;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  overflow: hidden;
+  margin-right: 8px;
 }
 
-.card .top .user-details .user-profile_img .cover{
-    position: absolute;
-    top: 0%;
-    left: 0%;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+.cover {
+  position: absolute;
+  top: 0%;
+  left: 0%;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.card .top .user-details h3 {
+  font-size: 16px;
+  color: #4d4d4f;
+  font-weight: 500;
+  line-height: 1em;
+}
+.card .top .user-details h3 > span {
+  font-size: 0.75rem;
+}
+
+.dot {
+  /* transform: scale(0.6); */
+  cursor: pointer;
+  margin-top: 5px;
+}
+
+.imageBx {
+  position: relative;
+  width: 100%;
+  height: 320px;
+  margin: 10px 0 15px;
+}
+
+.action-btns {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.action-btns i {
+  cursor: pointer;
+  font-size: 24px;
+}
+
+.action-btns > .left > i {
+  margin-right: 8px;
+}
+
+.likes {
+  font-weight: 500;
+  margin-top: 8px;
+  font-size: 16px;
+  color: #4d4d4f;
+}
+
+.likes {
+  font-weight: 500;
+  margin-top: 8px;
+  font-size: 16px;
+  color: #4d4d4f;
+}
+
+.message {
+  font-weight: 400;
+  margin-top: 8px;
+  color: #777;
+  line-height: 1.5em;
+}
+
+.message > b {
+  color: #262626;
+}
+
+.message > span {
+  color: var(--primary-color);
+  cursor: pointer;
+}
+
+.comments {
+  margin-top: 10px;
+  font-weight: 400;
+  color: #999;
+}
+
+.add-comment {
+  display: flex;
+  align-items: center;
+  margin-top: 8px;
+}
+
+.add-comment > .user-img{
+  position: relative;
+  min-width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  overflow: hidden;
+  margin-right: 8px;
+}
+
+.input-text {
+  width: 100%;
+  outline: none;
+  border: none;
+  font-weight: 400;
+  color: #252525;
+  background-color: inherit;
+}
+
+.input-text::placeholder {
+  color: #777;
+}
+
+.post-time {
+  margin-top: 10px;
+  font-weight: 500;
+  color: #777;
 }

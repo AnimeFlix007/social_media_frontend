@@ -10,6 +10,7 @@ import Layout from "../layout/Layout";
 import SearchedUsers from "../pages/SearchedUsers";
 import EditProfile from "../pages/profile/EditProfile";
 import Discover from "../pages/Discover";
+import PostDetail from "../pages/PostDetail";
 
 const Router = () => {
   const { user } = useSelector((store) => store.auth);
@@ -51,6 +52,18 @@ const Router = () => {
           user?.access_token ? (
             <Layout>
               <Discover />
+            </Layout>
+          ) : (
+            <Navigate to={"/auth"} replace />
+          )
+        }
+      />
+      <Route
+        path="/discover/:id"
+        element={
+          user?.access_token ? (
+            <Layout>
+              <PostDetail />
             </Layout>
           ) : (
             <Navigate to={"/auth"} replace />

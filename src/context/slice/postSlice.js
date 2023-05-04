@@ -49,6 +49,23 @@ export const getAllImages = createAsyncThunk(
   }
 );
 
+export const Posts = createAsyncThunk(
+  "posts/getAllPosts",
+  async (payload, { rejectWithValue, fulfillWithValue, getState }) => {
+    const token = getState()?.auth?.user?.access_token;
+    try {
+      const res = await axios.get(`${BaseUrl}api/posts/`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      return fulfillWithValue(res.data);
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
 const posts = createSlice({
   name: "posts",
   initialState,
@@ -73,6 +90,17 @@ const posts = createSlice({
       state.images = action.payload.images
     },
     [getAllImages.rejected]: (state, action) => {
+      state.loading = false;
+      toast.error(action?.payload?.message, options);
+    },
+    [Posts.pending]: (state, action) => {
+      state.loading = true;
+    },
+    [Posts.fulfilled]: (state, action) => {
+      state.loading = false;
+      state.posts = action.payload.posts
+    },
+    [Posts.rejected]: (state, action) => {
       state.loading = false;
       toast.error(action?.payload?.message, options);
     },

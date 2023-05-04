@@ -97,11 +97,11 @@ const UserProfile = ({ profile }) => {
             )}
           </nav>
 
-          <div className="photos">
-            {images?.map((img) => (
+          {value===1 && <div className="photos">
+            {images?.slice(0,6)?.map((img) => (
               <img src={img} alt="Photo" />
             ))}
-          </div>
+          </div>}
         </div>
       </div>
     </div>
