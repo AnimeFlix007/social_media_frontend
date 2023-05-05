@@ -11,7 +11,7 @@ import { getAllImages } from "../../context/slice/postSlice";
 const ProfileDetail = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
-  const { invalid_user_profile, user_profile, loading, followed } = useSelector(
+  const { invalid_user_profile, user_profile, loading, followed, follow_loading } = useSelector(
     (store) => store.users
   );
 
@@ -19,9 +19,9 @@ const ProfileDetail = () => {
     dispatch(userProfile({ id }));
   }, [id, dispatch, followed]);
 
-  useEffect(()=>{
-    dispatch(getAllImages())
-  }, [dispatch])
+  useEffect(() => {
+    dispatch(getAllImages());
+  }, [dispatch]);
 
   return (
     <div className="main">
@@ -37,7 +37,9 @@ const ProfileDetail = () => {
           <button>View Your Profile</button>
         </div>
       )}
-      {!loading && user_profile && !invalid_user_profile && <UserProfile profile={user_profile} />}
+      {!loading && user_profile && !invalid_user_profile && (
+        <UserProfile profile={user_profile} loading={follow_loading} />
+      )}
     </div>
   );
 };

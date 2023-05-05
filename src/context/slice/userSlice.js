@@ -10,6 +10,7 @@ const initialState = {
   user_profile: {},
   invalid_user_profile: false,
   loading: false,
+  follow_loading: false,
   followed: false
 };
 
@@ -131,21 +132,31 @@ const users = createSlice({
       state.loading = false;
       toast.error(action?.payload?.message, options);
     },
+    [followUser.pending]: (state, action) => {
+      state.follow_loading = true
+    },
     [followUser.fulfilled]: (state, action) => {
+      state.follow_loading = false
       state.followed = Math.random()
       toast.success(action?.payload?.message, options);
     },
     [followUser.rejected]: (state, action) => {
+      state.follow_loading = false
       toast.error(
         action?.payload?.message || "Something went wrong!!",
         options
       );
     },
+    [unfollowUser.pending]: (state, action) => {
+      state.follow_loading = true
+    },
     [unfollowUser.fulfilled]: (state, action) => {
+      state.follow_loading = false
       state.followed = Math.random()
       toast.success(action?.payload?.message, options);
     },
     [unfollowUser.rejected]: (state, action) => {
+      state.follow_loading = false
       toast.error(
         action?.payload?.message || "Something went wrong!!",
         options

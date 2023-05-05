@@ -1,37 +1,31 @@
-.card {
+.post {
   position: relative;
-  /* width: 360px; */
-  /* height: 400px; */
-  box-shadow: 15px 15px 15px rgba(0, 0, 0, 0.15);
   padding: 20px;
-  margin-bottom: 1rem;
   border-radius: 10px;
-  background-color: white;
-  cursor: pointer;
-  transition: all .3s ease-in-out;
-}
-.card:hover {
-    /* transform: scale(1.05); */
+  /* background-color: white; */
+  transition: all 0.3s ease-in-out;
 }
 
-.card .top {
+.post .top {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  margin-bottom: 1.8rem;
 }
 
-.card .top .user-details {
+.post .top .user-details {
   display: flex;
   align-items: center;
 }
 
-.card .top .user-details .user-profile_img {
+.post .top .user-details .user-profile_img {
   position: relative;
-  width: 36px;
-  height: 36px;
+  width: 56px;
+  height: 56px;
   border-radius: 50%;
   overflow: hidden;
   margin-right: 8px;
+  margin-left: 10px;
 }
 
 .cover {
@@ -43,14 +37,15 @@
   object-fit: cover;
 }
 
-.card .top .user-details h3 {
-  font-size: 16px;
+.post .top .user-details h3 {
+  font-size: 21px;
   color: #4d4d4f;
   font-weight: 500;
   line-height: 1em;
+  margin-left: 10px;
 }
-.card .top .user-details h3 > span {
-  font-size: 0.75rem;
+.post .top .user-details h3 > span {
+  font-size: 0.95rem;
 }
 
 .dot {
@@ -66,20 +61,22 @@
   margin: 10px 0 15px;
 }
 
-.action-btns {
+.post .action-btns {
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
+  padding: 0% 1rem;
+  padding-left: 0;
 }
 
-.action-btns i {
+.post .action-btns i {
   cursor: pointer;
-  font-size: 24px;
+  font-size: 34px;
 }
 
 .action-btns > .left > i {
-  margin-right: 8px;
+  margin-right: 15px;
 }
 
 .likes {
@@ -91,7 +88,7 @@
 
 #like-animation:hover {
   transform: scale(1.1);
-  transition: .1s ease-in-out;
+  transition: 0.1s ease-in-out;
   color: rgb(197, 25, 25);
   fill: rgb(197, 25, 25);
 }
@@ -124,7 +121,7 @@
   margin-top: 8px;
 }
 
-.add-comment > .user-img{
+.add-comment > .user-img {
   position: relative;
   min-width: 30px;
   height: 30px;
@@ -150,4 +147,29 @@
   margin-top: 10px;
   font-weight: 500;
   color: #777;
+}
+
+
+.carousel-item {
+  object-fit: cover;
+  padding: 10px;
+}
+
+.single-carousel-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+}
+
+.carousel-img {
+  border-radius: 10px;
+  margin-bottom: 5px;
+  width: 100%;
+  height: 100%;
+  box-shadow: 0px 0px 5px black;
+}
+
+.post .content {
+  font-size: 2rem;
 }

@@ -7,6 +7,7 @@ import { options } from "../../utils/ToastOptions";
 const initialState = {
   posts: [],
   images: [],
+  post: {},
   loading: false,
 };
 
@@ -66,6 +67,23 @@ export const Posts = createAsyncThunk(
   }
 );
 
+export const SinglePost = createAsyncThunk(
+  "posts/SinglePost",
+  async (payload, { rejectWithValue, fulfillWithValue, getState }) => {
+    const token = getState()?.auth?.user?.access_token;
+    try {
+      const res = await axios.get(`${BaseUrl}api/posts/${payload.id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      return fulfillWithValue(res.data);
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
 const posts = createSlice({
   name: "posts",
   initialState,
@@ -101,6 +119,17 @@ const posts = createSlice({
       state.posts = action.payload.posts
     },
     [Posts.rejected]: (state, action) => {
+      state.loading = false;
+      toast.error(action?.payload?.message, options);
+    },
+    [SinglePost.pending]: (state, action) => {
+      state.loading = true;
+    },
+    [SinglePost.fulfilled]: (state, action) => {
+      state.loading = false;
+      state.post = action.payload.post
+    },
+    [SinglePost.rejected]: (state, action) => {
       state.loading = false;
       toast.error(action?.payload?.message, options);
     },

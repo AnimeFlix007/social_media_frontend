@@ -28,8 +28,7 @@ const CreatePost = () => {
         <textarea
           type="text"
           placeholder={
-            "Something on your Mind, " + user?.user?.fullname ||
-            user?.user?.username
+            "Something on your Mind, " + (user?.user?.fullname || user?.user?.username)
           }
           ref={content}
         />

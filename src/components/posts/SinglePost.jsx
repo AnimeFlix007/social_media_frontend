@@ -32,12 +32,21 @@ const SinglePost = ({ post }) => {
       </div>
       <div className="action-btns" onClick={(e) => e.stopPropagation()}>
         <div className="left">
-          {!like && <i onClick={() => setLike((prev) => !prev)} class="bx bx-heart"></i>}
-          {like && <i
-            onClick={() => setLike((prev) => !prev)}
-            style={{ color: "red" }}
-            class="bx bxs-heart"
-          ></i>}
+          {!like && (
+            <i
+              onClick={() => setLike((prev) => !prev)}
+              id="like-animation"
+              class="bx bx-heart"
+            ></i>
+          )}
+          {like && (
+            <i
+              onClick={() => setLike((prev) => !prev)}
+              style={{ color: "red" }}
+              class="bx bxs-heart"
+              id="like-animation2"
+            ></i>
+          )}
           <i class="bx bx-message-rounded"></i>
           <i class="bx bx-share-alt"></i>
         </div>

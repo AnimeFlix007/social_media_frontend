@@ -180,16 +180,16 @@ body.dark .sidebar li > a .text.active {
   border-radius: 6px;
   cursor: pointer;
 }
-.menu-bar .bottom-content > .logout{
+.menu-bar .bottom-content > .logout {
   cursor: pointer;
   transition: var(--tran-03);
   border-radius: 6px;
 }
-.menu-bar .bottom-content > .logout:hover{
+.menu-bar .bottom-content > .logout:hover {
   background-color: #ff1919;
 }
 .menu-bar .bottom-content > .logout:hover > i,
-.menu-bar .bottom-content > .logout:hover > span{
+.menu-bar .bottom-content > .logout:hover > span {
   color: var(--sidebar-color);
 }
 
@@ -244,5 +244,17 @@ body.dark .switch::before {
   width: calc(100% - 78px);
 }
 body.dark .main {
-  color: var(--text-color);
+  color: white;
+}
+
+body.dark .p {
+  color: var(--sidebar-color);
+}
+
+body.dark .h1,
+body.dark .h2,
+body.dark .h3,
+body.dark .h4,
+body.dark .h5 {
+  color: var(--sidebar-color);
 }

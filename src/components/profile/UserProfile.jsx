@@ -1,13 +1,13 @@
 import React from "react";
 import "../../styles/profile/profile.css";
-import { Tab, Tabs } from "@mui/material";
+import { CircularProgress, Tab, Tabs } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { followUser, unfollowUser } from "../../context/slice/userSlice";
 import FollowersDrawer from "./FollowersDrawer";
 import FollowingDrawer from "./FollowingDrawer";
 
-const UserProfile = ({ profile }) => {
+const UserProfile = ({ profile, loading }) => {
   const [value, setValue] = React.useState(1);
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -73,35 +73,52 @@ const UserProfile = ({ profile }) => {
               <Tab value={2} label="Posts" />
               <Tab value={3} label="Friends" />
             </Tabs>
-            {profile._id === user?.user?._id ? (
-              <button
-                className="primary-btn"
-                onClick={navigateToEditProfileHandler}
-              >
-                Edit
-              </button>
-            ) : isFollowing ? (
-              <button
-                onClick={() => unfollowUserHandler(profile._id)}
-                className="danger-btn"
-              >
-                Unfollow
+            {loading && isFollowing ? (
+              <button className="danger-btn">
+                <CircularProgress style={{ color: "white" }} size={"1rem"} />
               </button>
             ) : (
-              <button
-                onClick={() => followUserHandler(profile._id)}
-                className="primary-btn"
-              >
-                Follow
-              </button>
+              loading && (
+                <button className="primary-btn">
+                  <CircularProgress style={{ color: "white" }} size={"1rem"} />
+                </button>
+              )
+            )}
+            {!loading && (
+              <>
+                {profile._id === user?.user?._id ? (
+                  <button
+                    className="primary-btn"
+                    onClick={navigateToEditProfileHandler}
+                  >
+                    Edit
+                  </button>
+                ) : isFollowing ? (
+                  <button
+                    onClick={() => unfollowUserHandler(profile._id)}
+                    className="danger-btn"
+                  >
+                    Unfollow
+                  </button>
+                ) : (
+                  <button
+                    onClick={() => followUserHandler(profile._id)}
+                    className="primary-btn"
+                  >
+                    Follow
+                  </button>
+                )}
+              </>
             )}
           </nav>
 
-          {value===1 && <div className="photos">
-            {images?.slice(0,6)?.map((img) => (
-              <img src={img} alt="Photo" />
-            ))}
-          </div>}
+          {value === 1 && (
+            <div className="photos">
+              {images?.slice(0, 6)?.map((img) => (
+                <img src={img} alt="Photo" />
+              ))}
+            </div>
+          )}
         </div>
       </div>
     </div>
