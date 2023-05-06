@@ -6,7 +6,7 @@ import BadRequestEmpty from "../../assets/BadRequestEmpty.avif";
 import "../../styles/profile/error-profile.css";
 import Loading from "../../components/global/Loading";
 import UserProfile from "../../components/profile/UserProfile";
-import { getAllImages } from "../../context/slice/postSlice";
+import { getAllImages, getAllUserPosts } from "../../context/slice/postSlice";
 
 const ProfileDetail = () => {
   const { id } = useParams();
@@ -21,6 +21,7 @@ const ProfileDetail = () => {
 
   useEffect(() => {
     dispatch(getAllImages());
+    dispatch(getAllUserPosts());
   }, [dispatch]);
 
   return (

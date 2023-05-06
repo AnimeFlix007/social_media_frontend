@@ -23,7 +23,7 @@ const PostDetail = () => {
   const { follow_loading, followed } = useSelector((store) => store.users);
   const { post, loading } = useSelector((store) => store.posts);
   const [isFollowing, setFollowing] = useState(false);
-    const [like, setLike] = useState(false);
+  const [like, setLike] = useState(false);
 
   function followUserHandler(id) {
     dispatch(followUser({ followId: id }));
@@ -62,18 +62,22 @@ const PostDetail = () => {
             <span>{post?.user?.role}</span>
           </h3>
         </div>
-        {follow_loading && isFollowing ? (
+        {user?.user?._id == post?.user?._id && (
+          <button className="primary-btn">Edit</button>
+        )}
+        {user?.user?._id != post?.user?._id && follow_loading && isFollowing ? (
           <button className="danger-btn">
             <CircularProgress style={{ color: "white" }} size={"1rem"} />
           </button>
         ) : (
+          user?.user?._id != post?.user?._id &&
           follow_loading && (
             <button className="primary-btn">
               <CircularProgress style={{ color: "white" }} size={"1rem"} />
             </button>
           )
         )}
-        {!follow_loading && (
+        {!follow_loading && user?.user?._id != post?.user?._id && (
           <>
             {isFollowing ? (
               <button

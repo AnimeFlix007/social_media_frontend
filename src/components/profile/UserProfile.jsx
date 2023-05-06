@@ -6,13 +6,16 @@ import { useNavigate } from "react-router-dom";
 import { followUser, unfollowUser } from "../../context/slice/userSlice";
 import FollowersDrawer from "./FollowersDrawer";
 import FollowingDrawer from "./FollowingDrawer";
+import SinglePost from "../posts/SinglePost";
 
 const UserProfile = ({ profile, loading }) => {
   const [value, setValue] = React.useState(1);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { user } = useSelector((store) => store.auth);
-  const { images } = useSelector((store) => store.posts);
+  const { images, user_posts, user_likes } = useSelector(
+    (store) => store.posts
+  );
 
   const isFollowing = profile?.followers?.find((p) => p._id == user?.user?._id);
 
@@ -116,6 +119,13 @@ const UserProfile = ({ profile, loading }) => {
             <div className="photos">
               {images?.slice(0, 6)?.map((img) => (
                 <img src={img} alt="Photo" />
+              ))}
+            </div>
+          )}
+          {value === 2 && (
+            <div className="post_container">
+              {user_posts?.slice(0,3)?.map((post, i) => (
+                <SinglePost key={post._id} post={post} likes={user_likes[i]} />
               ))}
             </div>
           )}
