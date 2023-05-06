@@ -11,18 +11,19 @@ import { getAllImages, getAllUserPosts } from "../../context/slice/postSlice";
 const ProfileDetail = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
-  const { invalid_user_profile, user_profile, loading, followed, follow_loading } = useSelector(
-    (store) => store.users
-  );
+  const {
+    invalid_user_profile,
+    user_profile,
+    loading,
+    followed,
+    follow_loading,
+  } = useSelector((store) => store.users);
 
   useEffect(() => {
     dispatch(userProfile({ id }));
+    dispatch(getAllImages({ id }));
+    dispatch(getAllUserPosts({ id }));
   }, [id, dispatch, followed]);
-
-  useEffect(() => {
-    dispatch(getAllImages());
-    dispatch(getAllUserPosts());
-  }, [dispatch]);
 
   return (
     <div className="main">

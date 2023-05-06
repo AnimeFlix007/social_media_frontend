@@ -13,7 +13,7 @@ const UserProfile = ({ profile, loading }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { user } = useSelector((store) => store.auth);
-  const { images, user_posts, user_likes } = useSelector(
+  const { images, user_posts, user_likes, loading: postLoading } = useSelector(
     (store) => store.posts
   );
 
@@ -117,17 +117,26 @@ const UserProfile = ({ profile, loading }) => {
 
           {value === 1 && (
             <div className="photos">
-              {images?.slice(0, 6)?.map((img) => (
+              {!loading && images?.slice(0, 6)?.map((img) => (
                 <img src={img} alt="Photo" />
               ))}
             </div>
           )}
           {value === 2 && (
-            <div className="post_container">
-              {user_posts?.slice(0,3)?.map((post, i) => (
-                <SinglePost key={post._id} post={post} likes={user_likes[i]} />
-              ))}
-            </div>
+            <>
+              <div className="post_container">
+                {!postLoading && user_posts?.slice(0, 2)?.map((post, i) => (
+                  <SinglePost
+                    key={post._id}
+                    post={post}
+                    likes={user_likes[i]}
+                  />
+                ))}
+              </div>
+              <div style={{ display: "flex", alignItems: "center", justifyContent: "center" }}> 
+                <button style={{ marginTop: "0%" }} className="primary-btn">View More</button>
+              </div>
+            </>
           )}
         </div>
       </div>

@@ -41,7 +41,7 @@ export const getAllImages = createAsyncThunk(
   async (payload, { rejectWithValue, fulfillWithValue, getState }) => {
     const token = getState()?.auth?.user?.access_token;
     try {
-      const res = await axios.get(`${BaseUrl}api/posts/allimages`, {
+      const res = await axios.get(`${BaseUrl}api/posts/allimages/${payload.id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -58,7 +58,7 @@ export const getAllUserPosts = createAsyncThunk(
   async (payload, { rejectWithValue, fulfillWithValue, getState }) => {
     const token = getState()?.auth?.user?.access_token;
     try {
-      const res = await axios.get(`${BaseUrl}api/posts/your-posts`, {
+      const res = await axios.get(`${BaseUrl}api/posts/your-posts/${payload.id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
