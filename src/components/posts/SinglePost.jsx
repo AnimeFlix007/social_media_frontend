@@ -4,6 +4,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { LikePost } from "../../context/slice/postSlice";
 import { unwrapResult } from "@reduxjs/toolkit";
+import { toast } from "react-toastify";
+import { options } from "../../utils/ToastOptions";
 
 const SinglePost = ({ post, likes }) => {
   const { user } = useSelector((store) => store.auth);
@@ -17,6 +19,10 @@ const SinglePost = ({ post, likes }) => {
       .then(unwrapResult)
       .then((obj) => {
         obj.liked ? setLike(true) : setLike(false);
+      })
+      .catch((obj) => {
+        setLike(like);
+        toast.error("Internal Server Error", options)
       });
   };
 
