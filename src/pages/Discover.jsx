@@ -7,7 +7,7 @@ import Loading from "../components/global/Loading";
 
 const Discover = () => {
   const dispatch = useDispatch();
-  const { posts, loading } = useSelector((store) => store.posts);
+  const { posts, loading,likes } = useSelector((store) => store.posts);
   useEffect(() => {
     dispatch(Posts());
   }, [dispatch]);
@@ -17,7 +17,7 @@ const Discover = () => {
         {loading && <Loading />}
         {!loading &&
           posts.length > 0 &&
-          posts?.map((post) => <SinglePost post={post} />)}
+          posts?.map((post, i) => <SinglePost key={post._id} post={post} likes={likes[i]} />)}
       </div>
     </div>
   );

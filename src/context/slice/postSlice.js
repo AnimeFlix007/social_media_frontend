@@ -6,6 +6,7 @@ import { options } from "../../utils/ToastOptions";
 
 const initialState = {
   posts: [],
+  likes: [],
   images: [],
   post: {},
   loading: false,
@@ -84,6 +85,28 @@ export const SinglePost = createAsyncThunk(
   }
 );
 
+export const LikePost = createAsyncThunk(
+  "posts/LikePost",
+  async (payload, { rejectWithValue, fulfillWithValue, getState }) => {
+    const token = getState()?.auth?.user?.access_token;
+    console.log(token);
+    try {
+      const res = await axios.patch(
+        `${BaseUrl}api/posts/like/${payload.id}`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      return fulfillWithValue(res.data);
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
 const posts = createSlice({
   name: "posts",
   initialState,
@@ -105,7 +128,7 @@ const posts = createSlice({
     },
     [getAllImages.fulfilled]: (state, action) => {
       state.loading = false;
-      state.images = action.payload.images
+      state.images = action.payload.images;
     },
     [getAllImages.rejected]: (state, action) => {
       state.loading = false;
@@ -116,7 +139,8 @@ const posts = createSlice({
     },
     [Posts.fulfilled]: (state, action) => {
       state.loading = false;
-      state.posts = action.payload.posts
+      state.posts = action.payload.posts;
+      state.likes = action.payload.likes;
     },
     [Posts.rejected]: (state, action) => {
       state.loading = false;
@@ -127,10 +151,17 @@ const posts = createSlice({
     },
     [SinglePost.fulfilled]: (state, action) => {
       state.loading = false;
-      state.post = action.payload.post
+      state.post = action.payload.post;
     },
     [SinglePost.rejected]: (state, action) => {
       state.loading = false;
+      toast.error(action?.payload?.message, options);
+    },
+    [LikePost.pending]: (state, action) => {},
+    [LikePost.fulfilled]: (state, action) => {
+      toast.info(action?.payload?.message, options);
+    },
+    [LikePost.rejected]: (state, action) => {
       toast.error(action?.payload?.message, options);
     },
   },

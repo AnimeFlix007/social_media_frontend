@@ -1,12 +1,29 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../../styles/post/singlepost.css";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { LikePost } from "../../context/slice/postSlice";
+import { unwrapResult } from "@reduxjs/toolkit";
 
-const SinglePost = ({ post }) => {
+const SinglePost = ({ post, likes }) => {
   const { user } = useSelector((store) => store.auth);
   const navigate = useNavigate();
   const [like, setLike] = useState(false);
+  const dispatch = useDispatch();
+
+  const likehandler = () => {
+    setLike((prev) => !prev);
+    dispatch(LikePost({ id: post._id }))
+      .then(unwrapResult)
+      .then((obj) => {
+        obj.liked ? setLike(true) : setLike(false);
+      });
+  };
+
+  useEffect(() => {
+    setLike(likes);
+  }, [likes]);
+
   return (
     <div className="card" onClick={() => navigate(`/discover/${post?._id}`)}>
       <div className="top">
@@ -34,14 +51,14 @@ const SinglePost = ({ post }) => {
         <div className="left">
           {!like && (
             <i
-              onClick={() => setLike((prev) => !prev)}
+              onClick={likehandler}
               id="like-animation"
               class="bx bx-heart"
             ></i>
           )}
           {like && (
             <i
-              onClick={() => setLike((prev) => !prev)}
+              onClick={likehandler}
               style={{ color: "red" }}
               class="bx bxs-heart"
               id="like-animation2"
