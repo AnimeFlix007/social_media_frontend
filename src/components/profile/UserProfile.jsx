@@ -13,9 +13,12 @@ const UserProfile = ({ profile, loading }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { user } = useSelector((store) => store.auth);
-  const { images, user_posts, user_likes, loading: postLoading } = useSelector(
-    (store) => store.posts
-  );
+  const {
+    images,
+    user_posts,
+    user_likes,
+    loading: postLoading,
+  } = useSelector((store) => store.posts);
 
   const isFollowing = profile?.followers?.find((p) => p._id == user?.user?._id);
 
@@ -59,9 +62,28 @@ const UserProfile = ({ profile, loading }) => {
             <p>{profile?.story}</p>
 
             <ul>
-              <i className="fab fa-twitter"></i>
-              <i className="fab fa-instagram"></i>
-              <i className="fab fa-youtube"></i>
+              <a
+                target="_blank"
+                rel="noreferrer"
+                href={
+                  profile?.instagram
+                    ? "https://www.instagram.com/" + profile?.instagram
+                    : "https://www.instagram.com"
+                }
+              >
+                <i className="fab fa-instagram"></i>
+              </a>
+              <a
+                target="_blank"
+                rel="noreferrer"
+                href={
+                  profile?.website
+                    ? "https://" + profile?.website : "https://www.google.com"
+                }
+                style={{ marginLeft: "1rem" }}
+              >
+                <i className="fab fa-linkedin"></i>
+              </a>
             </ul>
           </div>
         </div>
@@ -117,24 +139,36 @@ const UserProfile = ({ profile, loading }) => {
 
           {value === 1 && (
             <div className="photos">
-              {!loading && images?.slice(0, 6)?.map((img) => (
-                <img src={img} alt="Photo" />
-              ))}
+              {!loading &&
+                images
+                  ?.slice(0, 6)
+                  ?.map((img) => <img src={img} alt="Photo" />)}
             </div>
           )}
           {value === 2 && (
             <>
               <div className="post_container">
-                {!postLoading && user_posts?.slice(0, 2)?.map((post, i) => (
-                  <SinglePost
-                    key={post._id}
-                    post={post}
-                    likes={user_likes[i]}
-                  />
-                ))}
+                {!postLoading &&
+                  user_posts
+                    ?.slice(0, 2)
+                    ?.map((post, i) => (
+                      <SinglePost
+                        key={post._id}
+                        post={post}
+                        likes={user_likes[i]}
+                      />
+                    ))}
               </div>
-              <div style={{ display: "flex", alignItems: "center", justifyContent: "center" }}> 
-                <button style={{ marginTop: "0%" }} className="primary-btn">View More</button>
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <button style={{ marginTop: "0%" }} className="primary-btn">
+                  View More
+                </button>
               </div>
             </>
           )}

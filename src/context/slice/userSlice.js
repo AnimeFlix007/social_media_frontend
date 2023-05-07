@@ -91,6 +91,21 @@ export const suggestedUsers = createAsyncThunk(
   }
 );
 
+export const savePost = createAsyncThunk(
+  "users/savePost",
+  async (payload, { rejectWithValue, fulfillWithValue, getState }) => {
+    const token = getState()?.auth?.user?.access_token;
+    try {
+      const res = await axios.get(`${BaseUrl}api/users/save_post/${payload.postId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      return fulfillWithValue(res.data);
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
 const users = createSlice({
   name: "users",
   initialState,
@@ -157,6 +172,17 @@ const users = createSlice({
     },
     [unfollowUser.rejected]: (state, action) => {
       state.follow_loading = false
+      toast.error(
+        action?.payload?.message || "Something went wrong!!",
+        options
+      );
+    },
+    [savePost.pending]: (state, action) => {
+    },
+    [savePost.fulfilled]: (state, action) => {
+      toast.success(action?.payload?.message, options);
+    },
+    [savePost.rejected]: (state, action) => {
       toast.error(
         action?.payload?.message || "Something went wrong!!",
         options

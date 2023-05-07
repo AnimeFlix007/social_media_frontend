@@ -8,6 +8,8 @@ const initialState = {
   posts: [],
   user_posts: [],
   user_likes: [],
+  recommended_posts: [],
+  recommended_likes: [],
   likes: [],
   images: [],
   post: {},
@@ -126,6 +128,28 @@ export const LikePost = createAsyncThunk(
   }
 );
 
+export const recommendedPosts =  createAsyncThunk(
+  "posts/recommendedPosts",
+  async (payload, { rejectWithValue, fulfillWithValue, getState }) => {
+    const token = getState()?.auth?.user?.access_token;
+    console.log(token);
+    try {
+      const res = await axios.get(
+        `${BaseUrl}api/posts/recommended`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      return fulfillWithValue(res.data);
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
+
 const posts = createSlice({
   name: "posts",
   initialState,
@@ -174,6 +198,18 @@ const posts = createSlice({
       state.likes = action.payload.likes;
     },
     [Posts.rejected]: (state, action) => {
+      state.loading = false;
+      toast.error(action?.payload?.message, options);
+    },
+    [recommendedPosts.pending]: (state, action) => {
+      state.loading = true;
+    },
+    [recommendedPosts.fulfilled]: (state, action) => {
+      state.loading = false;
+      state.recommended_posts = action.payload.posts;
+      state.recommended_likes = action.payload.likes;
+    },
+    [recommendedPosts.rejected]: (state, action) => {
       state.loading = false;
       toast.error(action?.payload?.message, options);
     },

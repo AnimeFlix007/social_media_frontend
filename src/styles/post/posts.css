@@ -8,8 +8,12 @@
   margin-top: 0%;
 }
 
-/* @media screen and (max-width: 1000px) {
-  .post_container {
+.grid3 {
+  grid-template-columns: repeat(2, minmax(320px, 1fr));
+}
+
+/* @media screen and (max-width: 1300px) {
+  .grid3 {
     grid-template-columns: repeat(2, minmax(320px, 1fr));
   }
 } */

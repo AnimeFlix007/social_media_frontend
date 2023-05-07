@@ -133,8 +133,8 @@
 .header__wrapper .cols__container .content ul li {
   display: flex;
 }
-.header__wrapper .cols__container .content ul i {
-  font-size: 1.3rem;
+.header__wrapper .cols__container .content ul a i {
+  font-size: 1.63rem;
 }
 .header__wrapper .cols__container .right__col nav {
   display: flex;

@@ -11,12 +11,13 @@ import {
   ListItemText,
   Typography,
 } from "@mui/material";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { unfollowUser } from "../../context/slice/userSlice";
 import { useNavigate } from "react-router-dom";
 
 export default function FollowingDrawer({ profile }) {
   const navigate = useNavigate();
+  const { user: loggedInUser } = useSelector((store) => store.auth);
   const [state, setState] = React.useState({
     right: false,
   });
@@ -58,16 +59,18 @@ export default function FollowingDrawer({ profile }) {
               key={user._id}
               onClick={() => navigate(`/profile/${user._id}`)}
               secondaryAction={
-                <Button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    dispatch(unfollowUser({ unfollowId: user._id }));
-                  }}
-                  color="error"
-                  variant="contained"
-                >
-                  UnFollow
-                </Button>
+                loggedInUser?.user?._id == profile._id && (
+                  <Button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      dispatch(unfollowUser({ unfollowId: user._id }));
+                    }}
+                    color="error"
+                    variant="contained"
+                  >
+                    UnFollow
+                  </Button>
+                )
               }
             >
               <ListItemButton>
@@ -75,6 +78,7 @@ export default function FollowingDrawer({ profile }) {
                   <Avatar alt={user.username} src={user.avatar} />
                 </ListItemAvatar>
                 <ListItemText primary={user.fullname} secondary={user.role} />
+                <ListItemText primary={user.followers.length} secondary="Followers" />
               </ListItemButton>
             </ListItem>
           );
