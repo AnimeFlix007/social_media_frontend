@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import CreatePost from "../components/home/CreatePost";
-import Loading from "../components/global/Loading";
 import SinglePost from "../components/posts/SinglePost";
 import { useDispatch, useSelector } from "react-redux";
 import { recommendedPosts } from "../context/slice/postSlice";
