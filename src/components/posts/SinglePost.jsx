@@ -59,22 +59,22 @@ const SinglePost = ({ post, likes }) => {
             <i
               onClick={likehandler}
               id="like-animation"
-              class="bx bx-heart"
+              className="bx bx-heart"
             ></i>
           )}
           {like && (
             <i
               onClick={likehandler}
               style={{ color: "red" }}
-              class="bx bxs-heart"
+              className="bx bxs-heart"
               id="like-animation2"
             ></i>
           )}
-          <i class="bx bx-message-rounded"></i>
-          <i class="bx bx-share-alt"></i>
+          <i className="bx bx-message-rounded"></i>
+          <i className="bx bx-share-alt"></i>
         </div>
         <div className="right">
-          <i class="bx bx-bookmark"></i>
+          <i className="bx bx-bookmark"></i>
         </div>
       </div>
       <h4 className="likes">3,657 Likes</h4>
