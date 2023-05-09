@@ -7,12 +7,14 @@ import { unwrapResult } from "@reduxjs/toolkit";
 import { toast } from "react-toastify";
 import { options } from "../../utils/ToastOptions";
 import { savePost } from "../../context/slice/userSlice";
+import timeAgo from "../../utils/DateConverter";
 
 const SinglePost = ({ post, likes, saved }) => {
   const { user } = useSelector((store) => store.auth);
   const navigate = useNavigate();
   const [like, setLike] = useState(false);
   const [save, setSave] = useState(false);
+  const [count, setCount] = useState(0);
   const dispatch = useDispatch();
 
   const likehandler = () => {
@@ -20,7 +22,13 @@ const SinglePost = ({ post, likes, saved }) => {
     dispatch(LikePost({ id: post._id }))
       .then(unwrapResult)
       .then((obj) => {
-        obj.liked ? setLike(true) : setLike(false);
+        if(obj.liked){
+          setLike(true)
+          setCount(true)
+        } else {
+          setLike(false);
+          setCount(false);
+        }
       })
       .catch((obj) => {
         setLike(like);
@@ -40,6 +48,16 @@ const SinglePost = ({ post, likes, saved }) => {
         toast.error("Internal Server Error", options);
       });
   };
+
+  function showLikes() {
+    if (count === true) {
+      return post?.likes?.length + 1;
+    } else if (count === false) {
+      return post?.likes?.length - 1;
+    } else {
+      return post?.likes?.length;
+    }
+  }
 
   useEffect(() => {
     setLike(likes);
@@ -101,7 +119,7 @@ const SinglePost = ({ post, likes, saved }) => {
           )}
         </div>
       </div>
-      <h4 className="likes">3,657 Likes</h4>
+      <h4 className="likes">{showLikes()} Likes</h4>
       <h4 className="message">
         <b>{post?.user?.fullname || post?.user?.username}</b> {post?.content}{" "}
         <span>#onepiece</span>
@@ -118,7 +136,7 @@ const SinglePost = ({ post, likes, saved }) => {
         </div>
         <input className="input-text" type="text" placeholder="Add a comment" />
       </div>
-      <h5 className="post-time">4 hours ago</h5>
+      <h5 className="post-time">{timeAgo(post.createdAt)}</h5>
     </div>
   );
 };
