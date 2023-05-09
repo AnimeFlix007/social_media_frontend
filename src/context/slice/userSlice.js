@@ -11,6 +11,7 @@ const initialState = {
   invalid_user_profile: false,
   loading: false,
   follow_loading: false,
+  loader: false,
   followed: false,
 };
 
@@ -141,14 +142,14 @@ const users = createSlice({
       toast.error(action?.payload?.message, options);
     },
     [suggestedUsers.pending]: (state, action) => {
-      // state.loading = true;
+      state.loader = true;
     },
     [suggestedUsers.fulfilled]: (state, action) => {
-      // state.loading = false;
+      state.loader = false;
       state.suggested_users = action.payload.users;
     },
     [suggestedUsers.rejected]: (state, action) => {
-      // state.loading = false;
+      state.loader = false;
       toast.error(action?.payload?.message, options);
     },
     [followUser.pending]: (state, action) => {

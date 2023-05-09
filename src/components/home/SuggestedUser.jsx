@@ -8,7 +8,7 @@ import {
   ListItemButton,
   ListItemText,
 } from "@mui/material";
-import { followUser } from "../../context/slice/userSlice";
+import { followUser, suggestedUsers } from "../../context/slice/userSlice";
 import { recommendedPosts } from "../../context/slice/postSlice";
 import { useDispatch } from "react-redux";
 import { unwrapResult } from "@reduxjs/toolkit";
@@ -29,10 +29,16 @@ const SuggestedUser = ({ user }) => {
               dispatch(followUser({ followId: user._id }))
                 .then(unwrapResult)
                 .then(() => {
-                    setLoading(false);
+                  setLoading(false);
                 })
                 .then(() => {
-                    dispatch(recommendedPosts());
+                  dispatch(recommendedPosts())
+                    .then(unwrapResult)
+                    .then((obj) => {
+                      if (obj.posts.length === 0) {
+                        dispatch(suggestedUsers());
+                      }
+                    });
                 });
             }}
             color="primary"
