@@ -95,6 +95,18 @@ const Router = () => {
         }
       />
       <Route
+        path="/user-posts/:userId"
+        element={
+          user?.access_token ? (
+            <Layout>
+              <ProfileDetail />
+            </Layout>
+          ) : (
+            <Navigate to={"/auth"} replace />
+          )
+        }
+      />
+      <Route
         path="/profile/:id"
         element={
           user?.access_token ? (

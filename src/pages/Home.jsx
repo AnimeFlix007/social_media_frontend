@@ -10,6 +10,7 @@ const Home = () => {
   const {
     recommended_posts: posts,
     recommended_likes: likes,
+    recommended_saved: saved,
     loading,
   } = useSelector((store) => store.posts);
 
@@ -29,7 +30,7 @@ const Home = () => {
         {!loading &&
           posts.length > 0 &&
           posts?.map((post, i) => (
-            <SinglePost key={post._id} post={post} likes={likes[i]} />
+            <SinglePost key={post._id} post={post} likes={likes[i]} saved={saved?.[i]}/>
           ))}
       </div>
     </section>

@@ -7,7 +7,7 @@ import PostSkeleton from "../components/global/PostSkeleton";
 
 const Discover = () => {
   const dispatch = useDispatch();
-  const { posts, loading, likes } = useSelector((store) => store.posts);
+  const { posts, loading, likes, saved } = useSelector((store) => store.posts);
   useEffect(() => {
     dispatch(Posts());
   }, [dispatch]);
@@ -29,7 +29,7 @@ const Discover = () => {
         {!loading &&
           posts.length > 0 &&
           posts?.map((post, i) => (
-            <SinglePost key={post._id} post={post} likes={likes[i]} />
+            <SinglePost key={post._id} post={post} likes={likes[i]} saved={saved[i]} />
           ))}
       </div>
     </div>

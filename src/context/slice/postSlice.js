@@ -10,7 +10,9 @@ const initialState = {
   user_likes: [],
   recommended_posts: [],
   recommended_likes: [],
+  recommended_saved: [],
   likes: [],
+  saved: [],
   images: [],
   post: {},
   loading: false,
@@ -196,6 +198,7 @@ const posts = createSlice({
       state.loading = false;
       state.posts = action.payload.posts;
       state.likes = action.payload.likes;
+      state.saved = action.payload.saved;
     },
     [Posts.rejected]: (state, action) => {
       state.loading = false;
@@ -208,6 +211,7 @@ const posts = createSlice({
       state.loading = false;
       state.recommended_posts = action.payload.posts;
       state.recommended_likes = action.payload.likes;
+      state.recommended_saved = action.payload.saved;
     },
     [recommendedPosts.rejected]: (state, action) => {
       state.loading = false;

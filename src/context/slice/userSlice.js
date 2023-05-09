@@ -11,7 +11,7 @@ const initialState = {
   invalid_user_profile: false,
   loading: false,
   follow_loading: false,
-  followed: false
+  followed: false,
 };
 
 export const SearchedUsers = createAsyncThunk(
@@ -96,9 +96,13 @@ export const savePost = createAsyncThunk(
   async (payload, { rejectWithValue, fulfillWithValue, getState }) => {
     const token = getState()?.auth?.user?.access_token;
     try {
-      const res = await axios.get(`${BaseUrl}api/users/save_post/${payload.postId}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const res = await axios.patch(
+        `${BaseUrl}api/users/save_post/${payload.postId}`,
+        {},
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
       return fulfillWithValue(res.data);
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -137,48 +141,47 @@ const users = createSlice({
       toast.error(action?.payload?.message, options);
     },
     [suggestedUsers.pending]: (state, action) => {
-      state.loading = true;
+      // state.loading = true;
     },
     [suggestedUsers.fulfilled]: (state, action) => {
-      state.loading = false;
+      // state.loading = false;
       state.suggested_users = action.payload.users;
     },
     [suggestedUsers.rejected]: (state, action) => {
-      state.loading = false;
+      // state.loading = false;
       toast.error(action?.payload?.message, options);
     },
     [followUser.pending]: (state, action) => {
-      state.follow_loading = true
+      state.follow_loading = true;
     },
     [followUser.fulfilled]: (state, action) => {
-      state.follow_loading = false
-      state.followed = Math.random()
+      state.follow_loading = false;
+      state.followed = Math.random();
       toast.success(action?.payload?.message, options);
     },
     [followUser.rejected]: (state, action) => {
-      state.follow_loading = false
+      state.follow_loading = false;
       toast.error(
         action?.payload?.message || "Something went wrong!!",
         options
       );
     },
     [unfollowUser.pending]: (state, action) => {
-      state.follow_loading = true
+      state.follow_loading = true;
     },
     [unfollowUser.fulfilled]: (state, action) => {
-      state.follow_loading = false
-      state.followed = Math.random()
+      state.follow_loading = false;
+      state.followed = Math.random();
       toast.success(action?.payload?.message, options);
     },
     [unfollowUser.rejected]: (state, action) => {
-      state.follow_loading = false
+      state.follow_loading = false;
       toast.error(
         action?.payload?.message || "Something went wrong!!",
         options
       );
     },
-    [savePost.pending]: (state, action) => {
-    },
+    [savePost.pending]: (state, action) => {},
     [savePost.fulfilled]: (state, action) => {
       toast.success(action?.payload?.message, options);
     },

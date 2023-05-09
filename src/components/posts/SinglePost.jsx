@@ -6,11 +6,13 @@ import { LikePost } from "../../context/slice/postSlice";
 import { unwrapResult } from "@reduxjs/toolkit";
 import { toast } from "react-toastify";
 import { options } from "../../utils/ToastOptions";
+import { savePost } from "../../context/slice/userSlice";
 
-const SinglePost = ({ post, likes }) => {
+const SinglePost = ({ post, likes, saved }) => {
   const { user } = useSelector((store) => store.auth);
   const navigate = useNavigate();
   const [like, setLike] = useState(false);
+  const [save, setSave] = useState(false);
   const dispatch = useDispatch();
 
   const likehandler = () => {
@@ -22,13 +24,30 @@ const SinglePost = ({ post, likes }) => {
       })
       .catch((obj) => {
         setLike(like);
-        toast.error("Internal Server Error", options)
+        toast.error("Internal Server Error", options);
+      });
+  };
+
+  const savePostHandler = () => {
+    setSave((prev) => !prev);
+    dispatch(savePost({ postId: post._id }))
+      .then(unwrapResult)
+      .then((obj) => {
+        obj.saved ? setSave(true) : setSave(false);
+      })
+      .catch((obj) => {
+        setSave(save);
+        toast.error("Internal Server Error", options);
       });
   };
 
   useEffect(() => {
     setLike(likes);
   }, [likes]);
+
+  useEffect(() => {
+    setSave(saved);
+  }, [saved]);
 
   return (
     <div className="card" onClick={() => navigate(`/discover/${post?._id}`)}>
@@ -74,7 +93,12 @@ const SinglePost = ({ post, likes }) => {
           <i className="bx bx-share-alt"></i>
         </div>
         <div className="right">
-          <i className="bx bx-bookmark"></i>
+          {!save && (
+            <i onClick={savePostHandler} className="bx bx-bookmark"></i>
+          )}
+          {save && (
+            <i onClick={savePostHandler} className="bx bxs-bookmark"></i>
+          )}
         </div>
       </div>
       <h4 className="likes">3,657 Likes</h4>
