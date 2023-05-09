@@ -55,7 +55,7 @@ const UserProfile = ({ profile, loading }) => {
             <FollowersDrawer profile={profile} />
             <FollowingDrawer profile={profile} />
             <li>
-              <span>200,543</span>Attraction
+              <span>200,543</span>Lkes
             </li>
           </ul>
           <div className="content">
