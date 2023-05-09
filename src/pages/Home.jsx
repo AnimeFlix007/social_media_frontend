@@ -26,7 +26,6 @@ const Home = () => {
     dispatch(recommendedPosts())
       .then(unwrapResult)
       .then((obj) => {
-        console.log(obj);
         if (obj.posts.length === 0) {
           dispatch(suggestedUsers());
         }

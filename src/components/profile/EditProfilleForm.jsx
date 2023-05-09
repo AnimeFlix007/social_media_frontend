@@ -7,6 +7,7 @@ import { useFormik } from "formik";
 import * as Yup from "Yup";
 import { editProfile } from "../../context/slice/authSlice";
 import { useNavigate } from "react-router-dom";
+import { unwrapResult } from "@reduxjs/toolkit";
 
 const editProfileSchema = Yup.object({
   fullname: Yup.string().max(25).trim().required("FullName is Required"),
@@ -52,7 +53,11 @@ const EditProfilleForm = () => {
             avatar,
             bg_image: bgImage,
           })
-        );
+        )
+          .then(unwrapResult)
+          .then(() => {
+            navigate(`/profile/${user.user._id}`);
+          });
       },
     });
 
@@ -249,7 +254,9 @@ const EditProfilleForm = () => {
           <MenuItem value={"Influencer"}>Student</MenuItem>
           <MenuItem value={"UI/UX Designer"}>UI/UX Designer</MenuItem>
           <MenuItem value={"Frontend Developer"}>Frontend Developer</MenuItem>
-          <MenuItem value={"FullStack MERN Developer"}>FullStack MERN Developer</MenuItem>
+          <MenuItem value={"FullStack MERN Developer"}>
+            FullStack MERN Developer
+          </MenuItem>
           <MenuItem value={"Backend Developer"}>Backend Developer</MenuItem>
         </TextField>
       </div>

@@ -7,6 +7,8 @@ import { followUser, unfollowUser } from "../../context/slice/userSlice";
 import FollowersDrawer from "./FollowersDrawer";
 import FollowingDrawer from "./FollowingDrawer";
 import SinglePost from "../posts/SinglePost";
+import NoImages from "../../assets/nodata/NoImages.avif";
+import NoPosts from "../../assets/nodata/NoPosts.avif";
 
 const UserProfile = ({ profile, loading }) => {
   const [value, setValue] = React.useState(1);
@@ -48,7 +50,7 @@ const UserProfile = ({ profile, loading }) => {
           </div>
           {profile?.fullname && <h2>{profile?.fullname}</h2>}
           <h3>@{profile?.username}</h3>
-          <p>{profile?.role}</p>
+          <p style={{ marginTop: "1rem" }}>{profile?.role}</p>
           <p>{profile?.email}</p>
 
           <ul className="about">
@@ -78,7 +80,8 @@ const UserProfile = ({ profile, loading }) => {
                 rel="noreferrer"
                 href={
                   profile?.website
-                    ? "https://" + profile?.website : "https://www.google.com"
+                    ? "https://" + profile?.website
+                    : "https://www.google.com"
                 }
                 style={{ marginLeft: "1rem" }}
               >
@@ -138,12 +141,26 @@ const UserProfile = ({ profile, loading }) => {
           </nav>
 
           {value === 1 && (
-            <div className="photos">
-              {!loading &&
-                images
-                  ?.slice(0, 6)
-                  ?.map((img) => <img src={img} alt="Photo" />)}
-            </div>
+            <>
+              <div className="photos">
+                {!loading &&
+                  images.length > 0 &&
+                  images
+                    ?.slice(0, 6)
+                    ?.map((img) => <img src={img} alt="Photo" />)}
+              </div>
+              {!loading && images.length === 0 && (
+                <div
+                  style={{
+                    display: "flex",
+                    width: "100%",
+                    justifyContent: "center",
+                  }}
+                >
+                  <img src={NoImages} alt="NoImages" style={{ width: "50%" }} />
+                </div>
+              )}
+            </>
           )}
           {value === 2 && (
             <>
@@ -159,17 +176,30 @@ const UserProfile = ({ profile, loading }) => {
                       />
                     ))}
               </div>
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
-                <button style={{ marginTop: "0%" }} className="primary-btn">
-                  View More
-                </button>
-              </div>
+              {user_posts.length === 0 && (
+                <div
+                  style={{
+                    display: "flex",
+                    width: "100%",
+                    justifyContent: "center",
+                  }}
+                >
+                  <img src={NoPosts} alt="NoPosts" style={{ width: "50%" }} />
+                </div>
+              )}
+              {user_posts.length > 2 && (
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  <button style={{ marginTop: "0%" }} className="primary-btn">
+                    View More
+                  </button>
+                </div>
+              )}
             </>
           )}
         </div>
