@@ -16,6 +16,7 @@ const initialState = {
   images: [],
   post: {},
   loading: false,
+  creating: false,
 };
 
 export const Create_Post = createAsyncThunk(
@@ -158,14 +159,14 @@ const posts = createSlice({
   reducers: {},
   extraReducers: {
     [Create_Post.pending]: (state, action) => {
-      state.loading = true;
+      state.creating = true;
     },
     [Create_Post.fulfilled]: (state, action) => {
-      state.loading = false;
+      state.creating = false;
       toast.success(action?.payload?.message, options);
     },
     [Create_Post.rejected]: (state, action) => {
-      state.loading = false;
+      state.creating = false;
       toast.error(action?.payload?.message, options);
     },
     [getAllImages.pending]: (state, action) => {

@@ -1,24 +1,30 @@
-import { Avatar } from "@mui/material";
+import { Avatar, CircularProgress } from "@mui/material";
 import React, { useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import "../../styles/home/post.css";
 import { Create_Post, recommendedPosts } from "../../context/slice/postSlice";
 import { unwrapResult } from "@reduxjs/toolkit";
+import { toast } from "react-toastify";
+import { options } from "../../utils/ToastOptions";
 
 const CreatePost = () => {
   const { user } = useSelector((store) => store.auth);
+  const { creating: loading } = useSelector((store) => store.posts);
   const dispatch = useDispatch();
   const [images, setImages] = useState([]);
   const content = useRef();
   function onChangeImageHandler(e) {
-    setImages(prev => [...prev, ...e.target.files]);
+    setImages((prev) => [...prev, ...e.target.files]);
   }
   const createPostHandler = () => {
+    if (content.current.value.length === 0) {
+      toast.warn("Please write something about your post !!", options);
+    }
     dispatch(Create_Post({ content: content.current.value, images }))
       .then(unwrapResult)
       .then(() => {
         setImages([]);
-        dispatch(recommendedPosts())
+        dispatch(recommendedPosts());
         content.current.value = "";
       });
   };
@@ -29,7 +35,8 @@ const CreatePost = () => {
         <textarea
           type="text"
           placeholder={
-            "Something on your Mind, " + (user?.user?.fullname || user?.user?.username)
+            "Something on your Mind, " +
+            (user?.user?.fullname || user?.user?.username)
           }
           ref={content}
         />
@@ -38,10 +45,7 @@ const CreatePost = () => {
         {Array.from(images).map((file) => {
           return (
             <span key={file.name + Date.now()}>
-              <img
-                src={file ? URL.createObjectURL(file) : null}
-                alt="post"
-              />
+              <img src={file ? URL.createObjectURL(file) : null} alt="post" />
             </span>
           );
         })}
@@ -62,9 +66,15 @@ const CreatePost = () => {
           <i className="bx bxs-video post-icons"></i>
           <i className="post-icons">&#128516;</i>
         </div>
-        <button onClick={createPostHandler} className="primary-btn">
-          Post
-        </button>
+        {!loading ? (
+          <button onClick={createPostHandler} className="primary-btn">
+            Post
+          </button>
+        ) : (
+          <button className="primary-btn">
+            <CircularProgress style={{ color: "white" }} size={"1rem"} />
+          </button>
+        )}
       </div>
     </div>
   );
