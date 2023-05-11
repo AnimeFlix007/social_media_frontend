@@ -88,7 +88,7 @@
 
 .reply small {
   color: var(--primary-color);
-  font-size: .8rem;
+  font-size: 0.8rem;
   margin: 0% 10px;
 }
 
@@ -96,4 +96,29 @@
   color: green;
   cursor: pointer;
   text-decoration: underline;
+}
+
+.comments-heading {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 0;
+}
+
+.comments-heading h5 {
+  font-size: 1.15rem;
+}
+
+.noComments {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: column;
+}
+
+.noComments img{
+  width: 300px;
+  border-radius: 20px;
 }

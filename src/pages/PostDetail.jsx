@@ -23,7 +23,7 @@ const PostDetail = () => {
   const dispatch = useDispatch();
   const { user } = useSelector((store) => store.auth);
   const { follow_loading, followed } = useSelector((store) => store.users);
-  const { comments } = useSelector((store) => store.comments);
+  const { comments, loading: commentsLoading } = useSelector((store) => store.comments);
   const { post, loading } = useSelector((store) => store.posts);
   const [isFollowing, setFollowing] = useState(false);
   const [like, setLike] = useState(false);
@@ -156,7 +156,7 @@ const PostDetail = () => {
         </div>
       </div>
       <div className="content">{post?.content}</div>
-      <Comments comments={comments} />
+      <Comments comments={comments} loading={commentsLoading} />
     </div>
   );
 };
