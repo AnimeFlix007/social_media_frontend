@@ -229,6 +229,7 @@ body.dark .switch::before {
   transition: var(--tran-05);
   padding: 2rem 1.5rem;
   height: max-content;
+  min-height: 100vh;
 }
 .main .text {
   font-size: 30px;
@@ -240,7 +241,6 @@ body.dark .switch::before {
 .sidebar.close ~ .main {
   left: 78px;
   min-height: 100vh;
-  height: auto;
   width: calc(100% - 78px);
 }
 body.dark .main {

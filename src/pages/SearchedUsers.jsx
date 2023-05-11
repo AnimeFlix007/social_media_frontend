@@ -5,7 +5,6 @@ import { useDebounce } from "use-debounce";
 import { useDispatch, useSelector } from "react-redux";
 import {
   SearchedUsers as getSearchedUsers,
-  suggestedUsers,
 } from "../context/slice/userSlice";
 import { Avatar } from "@mui/material";
 import ListItemButton from "@mui/material/ListItemButton";
@@ -14,11 +13,12 @@ import ListItemAvatar from "@mui/material/ListItemAvatar";
 import Loading from "../components/global/Loading";
 import NoSearchedUsers from "../assets/NoSearchedUsers.avif";
 import { useNavigate } from "react-router-dom";
+import Loader from "../components/global/Loader";
 
 const SearchedUsers = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { users, loading, suggested_users } = useSelector(
+  const { users, loading } = useSelector(
     (store) => store.users
   );
   const [searchedUsers, setSearchedUsers] = useState("");
@@ -31,18 +31,12 @@ const SearchedUsers = () => {
       dispatch(getSearchedUsers({ username: searchedUsers }));
     }
   }, [debouncedValue, dispatch]);
-  useEffect(() => {
-    dispatch(suggestedUsers());
-  }, []);
   function navigateHandler(id) {
     navigate(`/profile/${id}`);
   }
-  if(loading) {
-    return <Loading />;
-  }
 
   return (
-    <section className="main">
+    <section style={{ position: "static", width: "100%" }} className="main">
       <div className="search-component">
         <div className="search-box">
           <i className="bx bx-search-alt"></i>
@@ -56,6 +50,7 @@ const SearchedUsers = () => {
           />
         </div>
         <div className="searched-users">
+          {loading && <Loader />}
           {!loading && users?.length === 0 && (
             <div className="no-searched-users">
               <img src={NoSearchedUsers} alt="NoSearchedUsers" />
@@ -92,30 +87,6 @@ const SearchedUsers = () => {
               );
             })}
         </div>
-      </div>
-      <h3>Suggested User</h3>
-      <div className="suggested-users">
-        {!loading &&
-          suggested_users &&
-          suggested_users?.map((user) => {
-            return (
-              <div className="" key={user._id}>
-                <ListItemButton onClick={() => navigateHandler(user._id)}>
-                  <ListItemAvatar>
-                    <Avatar
-                      src={user?.avatar}
-                      alt={user?.username}
-                      sx={{ width: 56, height: 56, mr: 2 }}
-                    />
-                  </ListItemAvatar>
-                  <ListItemText
-                    primary={user?.fullname}
-                    secondary={"@" + user?.username}
-                  />
-                </ListItemButton>
-              </div>
-            );
-          })}
       </div>
     </section>
   );

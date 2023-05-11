@@ -27,7 +27,7 @@ const Home = () => {
       .then(unwrapResult)
       .then((obj) => {
         if (obj.posts.length === 0) {
-          dispatch(suggestedUsers());
+          dispatch(suggestedUsers({ num: 5 }));
         }
       });
   }, [dispatch]);

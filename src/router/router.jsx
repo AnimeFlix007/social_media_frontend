@@ -35,18 +35,6 @@ const Router = () => {
         }
       />
       <Route
-        path="/search"
-        element={
-          user?.access_token ? (
-            <Layout>
-              <SearchedUsers />
-            </Layout>
-          ) : (
-            <Navigate to={"/auth"} replace />
-          )
-        }
-      />
-      <Route
         path="/discover"
         element={
           user?.access_token ? (

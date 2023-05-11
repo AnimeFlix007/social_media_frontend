@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { togglemode } from "../../context/slice/modeSlice";
 import { authLogout } from "../../context/slice/authSlice";
 import { Link, useLocation } from "react-router-dom";
+import SearchDrawer from "./SearchDrawer";
 
 const Sidebar = () => {
   const [showSidebar, setShowSidebar] = useState(false);
@@ -13,6 +14,13 @@ const Sidebar = () => {
 
   const { darkMode } = useSelector((store) => store.mode);
   const { user } = useSelector((store) => store.auth);
+
+  const [state, setState] = React.useState({
+    right: false,
+  });
+  const toggleDrawer = (anchor, open) => (event) => {
+    setState({ ...state, right: open });
+  };
   return (
     <nav className={showSidebar ? "sidebar open" : "sidebar close"}>
       <header>
@@ -50,8 +58,9 @@ const Sidebar = () => {
               </Link>
             </li>
             <li className="nav-link">
-              <Link
-                to="/search"
+              <a
+                onClick={toggleDrawer("right", true)}
+                href="#"
                 className={pathname === "/search" ? "active" : ""}
               >
                 <i
@@ -70,8 +79,10 @@ const Sidebar = () => {
                 >
                   Search
                 </span>
-              </Link>
+              </a>
             </li>
+
+            <SearchDrawer state={state} toggleDrawer={toggleDrawer} />
 
             <li className="nav-link">
               <Link

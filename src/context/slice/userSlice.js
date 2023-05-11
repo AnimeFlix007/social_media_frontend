@@ -82,9 +82,12 @@ export const suggestedUsers = createAsyncThunk(
   async (payload, { rejectWithValue, fulfillWithValue, getState }) => {
     const token = getState()?.auth?.user?.access_token;
     try {
-      const res = await axios.get(`${BaseUrl}api/users/suggested_users`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const res = await axios.get(
+        `${BaseUrl}api/users/suggested_users?num=${payload.num}`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
       return fulfillWithValue(res.data);
     } catch (error) {
       return rejectWithValue(error.response.data);
