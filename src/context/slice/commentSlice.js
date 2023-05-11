@@ -26,6 +26,22 @@ export const AddComment = createAsyncThunk(
   }
 );
 
+export const getPostComments = createAsyncThunk(
+  "users/getPostComments",
+  async (payload, { rejectWithValue, fulfillWithValue, getState }) => {
+    const token = getState()?.auth?.user?.access_token;
+    try {
+      const res = await axios.get(
+        `${BaseUrl}api/comments/${payload.postId}`,
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      return fulfillWithValue(res.data);
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
 const comments = createSlice({
   name: "comments",
   initialState,
@@ -39,6 +55,18 @@ const comments = createSlice({
       toast.info(action?.payload?.message, options);
     },
     [AddComment.rejected]: (state, action) => {
+      state.loading = false;
+      toast.error(action?.payload?.message, options);
+    },
+    [getPostComments.pending]: (state, action) => {
+      state.loading = true;
+    },
+    [getPostComments.fulfilled]: (state, action) => {
+      state.loading = false;
+      state.comments = action?.payload.comments;
+      toast.info(action?.payload?.message, options);
+    },
+    [getPostComments.rejected]: (state, action) => {
       state.loading = false;
       toast.error(action?.payload?.message, options);
     },

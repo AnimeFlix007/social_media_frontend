@@ -9,6 +9,8 @@ import { followUser, unfollowUser } from "../context/slice/userSlice";
 import { unwrapResult } from "@reduxjs/toolkit";
 import AliceCarousel from "react-alice-carousel";
 import "react-alice-carousel/lib/alice-carousel.css";
+import Comments from "../components/posts/Comments";
+import { getPostComments } from "../context/slice/commentSlice";
 
 const responsive = {
   0: { items: 1 },
@@ -21,6 +23,7 @@ const PostDetail = () => {
   const dispatch = useDispatch();
   const { user } = useSelector((store) => store.auth);
   const { follow_loading, followed } = useSelector((store) => store.users);
+  const { comments } = useSelector((store) => store.comments);
   const { post, loading } = useSelector((store) => store.posts);
   const [isFollowing, setFollowing] = useState(false);
   const [like, setLike] = useState(false);
@@ -39,6 +42,9 @@ const PostDetail = () => {
         setFollowing(
           obj?.post?.user?.followers?.find((p) => p == user?.user?._id)
         );
+      })
+      .then(() => {
+        dispatch(getPostComments({ postId: id }));
       });
   }, [dispatch, id, followed]);
 
@@ -150,6 +156,7 @@ const PostDetail = () => {
         </div>
       </div>
       <div className="content">{post?.content}</div>
+      <Comments comments={comments} />
     </div>
   );
 };

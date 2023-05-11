@@ -1,0 +1,99 @@
+.card-top {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.card-content {
+  display: flex;
+  align-items: center;
+}
+
+.card-content img {
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+}
+
+.card-content span {
+  font-weight: 600;
+  font-size: 1.2rem;
+  margin-left: 10px;
+}
+
+.card-content small {
+  margin-left: 10px;
+}
+
+.card-content small:first-child {
+  color: var(--primary-color);
+}
+
+.card-bottom {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: row;
+  margin-top: 10px;
+  padding: 3px 15px;
+}
+
+.dots {
+  height: 4px;
+  width: 4px;
+  margin-bottom: 2px;
+  background-color: #bbb;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.badge {
+  padding: 7px;
+  padding-right: 9px;
+  padding-left: 16px;
+  box-shadow: 5px 6px 6px 2px #e9ecef;
+}
+
+.user-img {
+  margin-top: 4px;
+}
+
+.check-icon {
+  font-size: 17px;
+  color: #c3bfbf;
+  top: 1px;
+  position: relative;
+  margin-left: 3px;
+}
+
+.form-check-input {
+  margin-top: 6px;
+  margin-left: -24px !important;
+  cursor: pointer;
+}
+
+.form-check-input:focus {
+  box-shadow: none;
+}
+
+.icons i {
+  margin-left: 18px;
+}
+
+.reply {
+  margin-left: 2rem;
+}
+
+.reply small {
+  color: var(--primary-color);
+  font-size: .8rem;
+  margin: 0% 10px;
+}
+
+.reply small:hover {
+  color: green;
+  cursor: pointer;
+  text-decoration: underline;
+}
