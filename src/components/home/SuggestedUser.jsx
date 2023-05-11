@@ -18,6 +18,7 @@ const SuggestedUser = ({ user }) => {
   const dispatch = useDispatch();
   return (
     <ListItem
+      sx={{ px: 0 }}
       key={user._id}
       onClick={() => navigate(`/profile/${user._id}`)}
       secondaryAction={

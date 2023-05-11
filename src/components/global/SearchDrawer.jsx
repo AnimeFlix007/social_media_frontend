@@ -9,7 +9,7 @@ export default function SearchDrawer({state, toggleDrawer}) {
       sx={{ width: anchor === 'top' || anchor === 'bottom' ? 'auto' : "30vw" }}
       role="presentation"
     >
-      <SearchedUsers />
+      <SearchedUsers toggleDrawer={toggleDrawer} />
     </Box>
   );
 

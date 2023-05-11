@@ -79,7 +79,7 @@ export const Posts = createAsyncThunk(
   async (payload, { rejectWithValue, fulfillWithValue, getState }) => {
     const token = getState()?.auth?.user?.access_token;
     try {
-      const res = await axios.get(`${BaseUrl}api/posts/`, {
+      const res = await axios.get(`${BaseUrl}api/posts/?page:${payload.page}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

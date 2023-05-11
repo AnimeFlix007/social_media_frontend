@@ -10,12 +10,11 @@ import { Avatar } from "@mui/material";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
 import ListItemAvatar from "@mui/material/ListItemAvatar";
-import Loading from "../components/global/Loading";
 import NoSearchedUsers from "../assets/NoSearchedUsers.avif";
 import { useNavigate } from "react-router-dom";
 import Loader from "../components/global/Loader";
 
-const SearchedUsers = () => {
+const SearchedUsers = ({toggleDrawer}) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { users, loading } = useSelector(
@@ -69,7 +68,7 @@ const SearchedUsers = () => {
             users &&
             users?.map((user) => {
               return (
-                <div className="" key={user._id}>
+                <div onClick={toggleDrawer("right", false)} className="" key={user._id}>
                   <ListItemButton onClick={() => navigateHandler(user._id)}>
                     <ListItemAvatar>
                       <Avatar

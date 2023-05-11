@@ -1,10 +1,12 @@
 import React from "react";
 import timeAgo from "../../utils/DateConverter";
 import "../../styles/post/comments.css";
-import NoComments from "../../assets/nodata/NoComments.avif"
+import NoComments from "../../assets/nodata/NoComments.avif";
+import TurnedOff from "../../assets/nodata/TurnedOff.avif";
 import { Switch } from "@mui/material";
+import Loading from "../global/Loading";
 
-const Comments = ({ comments, loading }) => {
+const Comments = ({ comments, loading, deleteCommentHandler }) => {
   const label = { inputProps: { "aria-label": "Switch demo" } };
   const [checked, setChecked] = React.useState(true);
 
@@ -14,7 +16,7 @@ const Comments = ({ comments, loading }) => {
   return (
     <div class="container mt-5">
       <div className="comments-heading">
-        <h5>Latest Comments(6)</h5>
+        <h5>Latest Comments({comments?.length})</h5>
 
         <div class="buttons">
           <span class="badge">
@@ -28,6 +30,8 @@ const Comments = ({ comments, loading }) => {
           </span>
         </div>
       </div>
+
+      {loading && <Loading />}
 
       {!loading &&
         checked &&
@@ -50,7 +54,9 @@ const Comments = ({ comments, loading }) => {
                 <div class="reply">
                   <small>Edit</small>
                   <span class="dots"></span>
-                  <small>Remove</small>
+                  <small onClick={() => deleteCommentHandler(comment._id)}>
+                    Remove
+                  </small>
                   <span class="dots"></span>
                   <small>Reply</small>
                 </div>
@@ -64,10 +70,21 @@ const Comments = ({ comments, loading }) => {
           );
         })}
 
+      {!loading && !checked && (
+        <div className="noComments">
+          <img src={TurnedOff} alt="TurnedOff" />
+          <p style={{ fontSize: "1.2rem" }} className="text">
+            You've turned off Comments Section!!
+          </p>
+        </div>
+      )}
+
       {!loading && comments.length === 0 && (
         <div className="noComments">
           <img src={NoComments} alt="NoComments" />
-          <p style={{ fontSize: "1.2rem" }} className="text">Be The First one to comment!!</p>
+          <p style={{ fontSize: "1.2rem" }} className="text">
+            Be The First one to comment!!
+          </p>
         </div>
       )}
     </div>

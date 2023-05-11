@@ -10,7 +10,7 @@ import { unwrapResult } from "@reduxjs/toolkit";
 import AliceCarousel from "react-alice-carousel";
 import "react-alice-carousel/lib/alice-carousel.css";
 import Comments from "../components/posts/Comments";
-import { getPostComments } from "../context/slice/commentSlice";
+import { deleteComment, getPostComments } from "../context/slice/commentSlice";
 
 const responsive = {
   0: { items: 1 },
@@ -23,7 +23,9 @@ const PostDetail = () => {
   const dispatch = useDispatch();
   const { user } = useSelector((store) => store.auth);
   const { follow_loading, followed } = useSelector((store) => store.users);
-  const { comments, loading: commentsLoading } = useSelector((store) => store.comments);
+  const { comments, loading: commentsLoading } = useSelector(
+    (store) => store.comments
+  );
   const { post, loading } = useSelector((store) => store.posts);
   const [isFollowing, setFollowing] = useState(false);
   const [like, setLike] = useState(false);
@@ -35,6 +37,15 @@ const PostDetail = () => {
     dispatch(unfollowUser({ unfollowId: id }));
   }
   const handleDragStart = (e) => e.preventDefault();
+
+  const deleteCommentHandler = (commentId) => {
+    dispatch(deleteComment({ commentId }))
+      .then(unwrapResult)
+      .then(() => {
+        dispatch(getPostComments({ postId: id }));
+      });
+  };
+
   useEffect(() => {
     dispatch(SinglePost({ id }))
       .then(unwrapResult)
@@ -156,7 +167,11 @@ const PostDetail = () => {
         </div>
       </div>
       <div className="content">{post?.content}</div>
-      <Comments comments={comments} loading={commentsLoading} />
+      <Comments
+        comments={comments}
+        loading={commentsLoading}
+        deleteCommentHandler={deleteCommentHandler}
+      />
     </div>
   );
 };

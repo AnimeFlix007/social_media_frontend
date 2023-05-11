@@ -16,7 +16,7 @@ export const AddComment = createAsyncThunk(
     try {
       const res = await axios.post(
         `${BaseUrl}api/comments/${payload.postId}`,
-        { payload },
+        { content: payload.content },
         { headers: { Authorization: `Bearer ${token}` } }
       );
       return fulfillWithValue(res.data);
@@ -33,6 +33,22 @@ export const getPostComments = createAsyncThunk(
     try {
       const res = await axios.get(
         `${BaseUrl}api/comments/${payload.postId}`,
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      return fulfillWithValue(res.data);
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
+export const deleteComment = createAsyncThunk(
+  "users/deleteComment",
+  async (payload, { rejectWithValue, fulfillWithValue, getState }) => {
+    const token = getState()?.auth?.user?.access_token;
+    try {
+      const res = await axios.delete(
+        `${BaseUrl}api/comments/${payload.commentId}`,
         { headers: { Authorization: `Bearer ${token}` } }
       );
       return fulfillWithValue(res.data);
@@ -67,6 +83,17 @@ const comments = createSlice({
       toast.info(action?.payload?.message, options);
     },
     [getPostComments.rejected]: (state, action) => {
+      state.loading = false;
+      toast.error(action?.payload?.message, options);
+    },
+    [deleteComment.pending]: (state, action) => {
+      state.loading = true;
+    },
+    [deleteComment.fulfilled]: (state, action) => {
+      state.loading = false;
+      toast.info(action?.payload?.message, options);
+    },
+    [deleteComment.rejected]: (state, action) => {
       state.loading = false;
       toast.error(action?.payload?.message, options);
     },
