@@ -1,7 +1,5 @@
 .card {
   position: relative;
-  /* width: 360px; */
-  /* height: 400px; */
   box-shadow: 15px 15px 15px rgba(0, 0, 0, 0.15);
   padding: 20px;
   margin-bottom: 1rem;
@@ -9,9 +7,6 @@
   background-color: white;
   cursor: pointer;
   transition: all .3s ease-in-out;
-}
-.card:hover {
-    /* transform: scale(1.05); */
 }
 
 .card .top {
@@ -131,6 +126,12 @@
   border-radius: 50%;
   overflow: hidden;
   margin-right: 8px;
+}
+
+.add-comment i{
+  font-size: 1.5rem;
+  margin-bottom: .5rem;
+  color: var(--primary-color-main);
 }
 
 .input-text {

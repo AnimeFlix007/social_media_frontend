@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import "../../styles/post/singlepost.css";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -8,6 +8,7 @@ import { toast } from "react-toastify";
 import { options } from "../../utils/ToastOptions";
 import { savePost } from "../../context/slice/userSlice";
 import timeAgo from "../../utils/DateConverter";
+import { AddComment } from "../../context/slice/commentSlice";
 
 const SinglePost = ({ post, likes, saved }) => {
   const { user } = useSelector((store) => store.auth);
@@ -16,15 +17,16 @@ const SinglePost = ({ post, likes, saved }) => {
   const [save, setSave] = useState(false);
   const [count, setCount] = useState(0);
   const dispatch = useDispatch();
+  const comment = useRef();
 
   const likehandler = () => {
     setLike((prev) => !prev);
     dispatch(LikePost({ id: post._id }))
       .then(unwrapResult)
       .then((obj) => {
-        if(obj.liked){
-          setLike(true)
-          setCount(true)
+        if (obj.liked) {
+          setLike(true);
+          setCount(true);
         } else {
           setLike(false);
           setCount(false);
@@ -56,6 +58,25 @@ const SinglePost = ({ post, likes, saved }) => {
       return post?.likes?.length - 1;
     } else {
       return post?.likes?.length;
+    }
+  }
+
+  function naviagteKeyHandler(event) {
+    if (event.key === "Enter") {
+      if (comment.current.value.length === 0) {
+        toast.warn("You cannot send empty comments ", options);
+      }
+      dispatch(AddComment({ postId: post._id, content: comment.current.value }));
+      comment.current.value = "";
+    }
+  }
+
+  function addCommentHandler() {
+    if (comment.current.value.length === 0) {
+      toast.warn("You cannot send empty comments ", options);
+    } else {
+      dispatch(AddComment({ postId: post._id, content: comment.current.value }));
+      comment.current.value = "";
     }
   }
 
@@ -134,7 +155,14 @@ const SinglePost = ({ post, likes, saved }) => {
             alt={user?.user?.username}
           />
         </div>
-        <input className="input-text" type="text" placeholder="Add a comment" />
+        <input
+          onKeyDown={naviagteKeyHandler}
+          ref={comment}
+          className="input-text"
+          type="text"
+          placeholder="Add a comment"
+        />
+        <i onClick={addCommentHandler} class="bx bx-send"></i>
       </div>
       <h5 className="post-time">{timeAgo(post.createdAt)}</h5>
     </div>

@@ -27,7 +27,6 @@ export const Create_Post = createAsyncThunk(
       let formdata = new FormData();
       formdata.append("content", payload.content);
       Array.from(payload.images).map((item) => formdata.append("images", item));
-      console.log(formdata);
       const res = await axios.post(`${BaseUrl}api/posts/`, formdata, {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -135,7 +134,6 @@ export const recommendedPosts =  createAsyncThunk(
   "posts/recommendedPosts",
   async (payload, { rejectWithValue, fulfillWithValue, getState }) => {
     const token = getState()?.auth?.user?.access_token;
-    console.log(token);
     try {
       const res = await axios.get(
         `${BaseUrl}api/posts/recommended`,
