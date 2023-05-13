@@ -271,7 +271,7 @@ const PostDetail = () => {
           className="add-comment"
           placeholder="Enter Comment..."
         />
-        <i onClick={addCommentHandler} class="bx bx-send"></i>
+        <i onClick={addCommentHandler} className="bx bx-send"></i>
       </div>
       <Comments
         comments={comments}

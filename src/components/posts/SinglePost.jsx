@@ -163,7 +163,7 @@ const SinglePost = ({ post, likes, saved }) => {
           type="text"
           placeholder="Add a comment"
         />
-        <i onClick={addCommentHandler} class="bx bx-send"></i>
+        <i onClick={addCommentHandler} className="bx bx-send"></i>
       </div>
       <h5 className="post-time">{timeAgo(post.createdAt)}</h5>
     </div>

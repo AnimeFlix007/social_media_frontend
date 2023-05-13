@@ -14,12 +14,12 @@ const Comments = ({ comments, loading, deleteCommentHandler }) => {
     setChecked(event.target.checked);
   };
   return (
-    <div class="container mt-5">
+    <div className="container mt-5">
       <div className="comments-heading">
         <h5>Latest Comments({comments?.length})</h5>
 
-        <div class="buttons">
-          <span class="badge">
+        <div className="buttons">
+          <span className="badge">
             <span>Comments {checked ? "ON" : "OFF"}</span>
             <Switch
               checked={checked}
@@ -37,7 +37,7 @@ const Comments = ({ comments, loading, deleteCommentHandler }) => {
         checked &&
         comments?.map((comment) => {
           return (
-            <div key={comment._id} class="card" style={{ cursor: "default" }}>
+            <div key={comment._id} className="card" style={{ cursor: "default" }}>
               <div className="card-top">
                 <div className="card-content">
                   <img src={comment.user.avatar} />
@@ -50,20 +50,20 @@ const Comments = ({ comments, loading, deleteCommentHandler }) => {
                 <small>{timeAgo(comment.createdAt)}</small>
               </div>
 
-              <div class="card-bottom">
-                <div class="reply">
+              <div className="card-bottom">
+                <div className="reply">
                   <small>Edit</small>
-                  <span class="dots"></span>
+                  <span className="dots"></span>
                   <small onClick={() => deleteCommentHandler(comment._id)}>
                     Remove
                   </small>
-                  <span class="dots"></span>
+                  <span className="dots"></span>
                   <small>Reply</small>
                 </div>
 
-                <div class="icons">
-                  <i class="fa fa-heart icon"></i>
-                  <i class="fa fa-check-circle-o icon"></i>
+                <div className="icons">
+                  <i className="fa fa-heart icon"></i>
+                  <i className="fa fa-check-circle-o icon"></i>
                 </div>
               </div>
             </div>

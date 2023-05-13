@@ -42,3 +42,13 @@
 .danger-btn:hover {
   background: var(--error-color-main);
 }
+
+.suggested-users-box {
+  width: 50%;
+}
+
+@media screen and (max-width: 850px) {
+  .suggested-users-box {
+    width: 100%;
+  }
+}
