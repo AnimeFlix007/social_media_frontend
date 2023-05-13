@@ -16,19 +16,22 @@ const Discover = () => {
     const scrollFromTop = document.documentElement.scrollTop;
 
     if (windowHeight + scrollFromTop + 1 >= heightOfApp) {
-      console.log("api call");
       setPage((prev) => prev + 1);
     }
   }
 
   useEffect(() => {
     dispatch(Posts({ page }));
+  }, []);
+
+  useEffect(() => {
+    !loading && console.log("api call", page);
   }, [page]);
 
-  // useEffect(() => {
-  //   window.addEventListener("scroll", handleScroll);
-  //   return () =>window.removeEventListener("scroll", handleScroll);
-  // }, []);
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+    return () =>window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   return (
     <div className="main">

@@ -173,3 +173,35 @@
 .post .content {
   font-size: 2rem;
 }
+
+#post-comment-box {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  position: relative;
+}
+
+#post-comment-box i{
+  font-size: 1.5rem;
+  margin-bottom: .5rem;
+  color: var(--primary-color-main);
+  position: absolute;
+  top: 40%;
+  right: 1%;
+  cursor: pointer;
+}
+
+#post-comment-box .add-comment {
+  height: 50px;
+  width: 100%;
+  outline: none;
+  border: none;
+  background-color: var(--primary-color-light);
+  color: var(--text-color);
+  border-radius: 6px;
+  font-size: 17px;
+  font-weight: 500;
+  transition: var(--tran-05);
+  margin-left: 1rem;
+  padding-left: 1rem;
+}

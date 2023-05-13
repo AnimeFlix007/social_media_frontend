@@ -65,9 +65,10 @@ const SinglePost = ({ post, likes, saved }) => {
     if (event.key === "Enter") {
       if (comment.current.value.length === 0) {
         toast.warn("You cannot send empty comments ", options);
+      } else {
+        dispatch(AddComment({ postId: post._id, content: comment.current.value }));
+        comment.current.value = "";
       }
-      dispatch(AddComment({ postId: post._id, content: comment.current.value }));
-      comment.current.value = "";
     }
   }
 

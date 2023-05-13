@@ -1,16 +1,27 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { SinglePost } from "../context/slice/postSlice";
+import { LikePost, SinglePost } from "../context/slice/postSlice";
 import Loading from "../components/global/Loading";
 import "../styles/post/post-detail.css";
-import { CircularProgress } from "@mui/material";
-import { followUser, unfollowUser } from "../context/slice/userSlice";
+import { Avatar, CircularProgress } from "@mui/material";
+import {
+  followUser,
+  savePost,
+  unfollowUser,
+  userProfile,
+} from "../context/slice/userSlice";
 import { unwrapResult } from "@reduxjs/toolkit";
 import AliceCarousel from "react-alice-carousel";
 import "react-alice-carousel/lib/alice-carousel.css";
 import Comments from "../components/posts/Comments";
-import { deleteComment, getPostComments } from "../context/slice/commentSlice";
+import {
+  AddComment,
+  deleteComment,
+  getPostComments,
+} from "../context/slice/commentSlice";
+import { toast } from "react-toastify";
+import { options } from "../utils/ToastOptions";
 
 const responsive = {
   0: { items: 1 },
@@ -29,6 +40,9 @@ const PostDetail = () => {
   const { post, loading } = useSelector((store) => store.posts);
   const [isFollowing, setFollowing] = useState(false);
   const [like, setLike] = useState(false);
+  const [count, setCount] = useState(0);
+  const [save, setSaved] = useState(false);
+  const comment = useRef();
 
   function followUserHandler(id) {
     dispatch(followUser({ followId: id }));
@@ -46,6 +60,66 @@ const PostDetail = () => {
       });
   };
 
+  const likehandler = () => {
+    setLike((prev) => !prev);
+    dispatch(LikePost({ id: post._id }))
+      .then(unwrapResult)
+      .then((obj) => {
+        if (obj.liked) {
+          setLike(true);
+          setCount(true);
+        } else {
+          setLike(false);
+          setCount(false);
+        }
+      })
+      .catch((obj) => {
+        setLike(like);
+        toast.error("Internal Server Error", options);
+      });
+  };
+
+  const savePostHandler = () => {
+    setSaved((prev) => !prev);
+    dispatch(savePost({ postId: post._id }))
+      .then(unwrapResult)
+      .then((obj) => {
+        obj.saved ? setSaved(true) : setSaved(false);
+      })
+      .catch((obj) => {
+        setSaved(save);
+        toast.error("Internal Server Error", options);
+      });
+  };
+
+  function addCommentHandler() {
+    if (comment.current.value.length === 0) {
+      toast.warn("You cannot send empty comments ", options);
+    } else {
+      dispatch(AddComment({ postId: post._id, content: comment.current.value }))
+        .then(unwrapResult)
+        .then(() => {
+          dispatch(getPostComments({ postId: id }));
+        });
+      comment.current.value = "";
+    }
+  }
+
+  function addCommentKeyHandler(event) {
+    if (event.key === "Enter") {
+      if (comment.current.value.length === 0) {
+        toast.warn("You cannot send empty comments ", options);
+      } else {
+        dispatch(AddComment({ postId: post._id, content: comment.current.value }))
+        .then(unwrapResult)
+        .then(() => {
+          dispatch(getPostComments({ postId: id }));
+        });
+        comment.current.value = "";
+      }
+    }
+  }
+
   useEffect(() => {
     dispatch(SinglePost({ id }))
       .then(unwrapResult)
@@ -53,11 +127,28 @@ const PostDetail = () => {
         setFollowing(
           obj?.post?.user?.followers?.find((p) => p == user?.user?._id)
         );
+        setLike(
+          obj?.post?.likes?.find(
+            (userX) => userX?.toString() === user.user._id.toString()
+          )
+            ? true
+            : false
+        );
       })
       .then(() => {
         dispatch(getPostComments({ postId: id }));
       });
   }, [dispatch, id, followed]);
+
+  useEffect(() => {
+    dispatch(userProfile({ id: user?.user?._id }))
+      .then(unwrapResult)
+      .then((obj) => {
+        setSaved(
+          obj.saved.find((post) => post.toString() === id) ? true : false
+        );
+      });
+  }, []);
 
   if (loading) {
     return <Loading />;
@@ -146,14 +237,14 @@ const PostDetail = () => {
         <div className="left">
           {!like && (
             <i
-              onClick={() => setLike((prev) => !prev)}
+              onClick={likehandler}
               id="like-animation"
               className="bx bx-heart"
             ></i>
           )}
           {like && (
             <i
-              onClick={() => setLike((prev) => !prev)}
+              onClick={likehandler}
               style={{ color: "red" }}
               className="bx bxs-heart"
               id="like-animation2"
@@ -163,10 +254,25 @@ const PostDetail = () => {
           <i className="bx bx-share-alt"></i>
         </div>
         <div className="right">
-          <i className="bx bx-bookmark"></i>
+          {!save && (
+            <i onClick={savePostHandler} className="bx bx-bookmark"></i>
+          )}
+          {save && (
+            <i onClick={savePostHandler} className="bx bxs-bookmark"></i>
+          )}
         </div>
       </div>
       <div className="content">{post?.content}</div>
+      <div id="post-comment-box">
+        <Avatar sx={{ mt: 1 }} src={user.user.avatar} />
+        <input
+          onKeyDown={addCommentKeyHandler}
+          ref={comment}
+          className="add-comment"
+          placeholder="Enter Comment..."
+        />
+        <i onClick={addCommentHandler} class="bx bx-send"></i>
+      </div>
       <Comments
         comments={comments}
         loading={commentsLoading}
