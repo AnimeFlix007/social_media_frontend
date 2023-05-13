@@ -42,7 +42,7 @@ const Home = () => {
       <div id="home">
         <div>
           <CreatePost />
-          <RecommendedHomePosts />
+          {posts.length === 0 && <RecommendedHomePosts />}
         </div>
         <div style={{ paddingLeft: "2rem", position: "sticky" }}>
           {!loading && posts.length === 0 && users && (
@@ -79,7 +79,7 @@ const Home = () => {
         </div>
       </div>
 
-      {/* OK */}
+      {/* POSTS */}
       <div style={{ marginTop: "2rem" }} className="post_container grid3">
         {loading && (
           <React.Fragment>

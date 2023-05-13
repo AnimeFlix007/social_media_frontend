@@ -57,7 +57,7 @@ const SinglePost = ({ post, likes, saved }) => {
     } else if (count === false) {
       return post?.likes?.length - 1;
     } else {
-      return post?.likes?.length;
+      return post?.likes?.length || 0;
     }
   }
 
@@ -91,7 +91,7 @@ const SinglePost = ({ post, likes, saved }) => {
 
   return (
     <div className="card" onClick={() => navigate(`/discover/${post?._id}`)}>
-      <div className="top">
+      <div className="top" onClick={(e) => e.stopPropagation()}>
         <div className="user-details">
           <div className="user-profile_img">
             <img
@@ -100,7 +100,7 @@ const SinglePost = ({ post, likes, saved }) => {
               className="cover"
             />
           </div>
-          <h3>
+          <h3 onClick={() => navigate(`/profile/${post?.user?._id}`)}>
             {post?.user?.fullname || post?.user?.username} <br />{" "}
             <span>{post?.user?.role}</span>
           </h3>
