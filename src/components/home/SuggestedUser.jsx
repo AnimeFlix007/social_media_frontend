@@ -9,7 +9,7 @@ import {
   ListItemText,
 } from "@mui/material";
 import { followUser, suggestedUsers } from "../../context/slice/userSlice";
-import { recommendedPosts } from "../../context/slice/postSlice";
+import { ExplorePosts } from "../../context/slice/postSlice";
 import { useDispatch } from "react-redux";
 import { unwrapResult } from "@reduxjs/toolkit";
 
@@ -33,7 +33,7 @@ const SuggestedUser = ({ user }) => {
                   setLoading(false);
                 })
                 .then(() => {
-                  dispatch(recommendedPosts())
+                  dispatch(ExplorePosts())
                     .then(unwrapResult)
                     .then((obj) => {
                       if (obj.posts.length === 0) {

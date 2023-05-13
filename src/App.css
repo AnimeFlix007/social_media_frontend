@@ -44,11 +44,15 @@
 }
 
 .suggested-users-box {
-  width: 50%;
+  width: 100%;
 }
 
 @media screen and (max-width: 850px) {
   .suggested-users-box {
     width: 100%;
   }
+}
+
+.grid1 {
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
 }

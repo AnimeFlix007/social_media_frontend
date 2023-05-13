@@ -2,7 +2,7 @@ import { Avatar, CircularProgress } from "@mui/material";
 import React, { useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import "../../styles/home/post.css";
-import { Create_Post, recommendedPosts } from "../../context/slice/postSlice";
+import { Create_Post, ExplorePosts } from "../../context/slice/postSlice";
 import { unwrapResult } from "@reduxjs/toolkit";
 import { toast } from "react-toastify";
 import { options } from "../../utils/ToastOptions";
@@ -24,7 +24,7 @@ const CreatePost = () => {
       .then(unwrapResult)
       .then(() => {
         setImages([]);
-        dispatch(recommendedPosts());
+        dispatch(ExplorePosts());
         content.current.value = "";
       });
   };

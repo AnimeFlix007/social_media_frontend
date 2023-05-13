@@ -8,6 +8,9 @@ const initialState = {
   posts: [],
   user_posts: [],
   user_likes: [],
+  explore_posts: [],
+  explore_likes: [],
+  explore_saved: [],
   recommended_posts: [],
   recommended_likes: [],
   recommended_saved: [],
@@ -130,8 +133,28 @@ export const LikePost = createAsyncThunk(
   }
 );
 
-export const recommendedPosts =  createAsyncThunk(
-  "posts/recommendedPosts",
+export const ExplorePosts =  createAsyncThunk(
+  "posts/ExplorePosts",
+  async (payload, { rejectWithValue, fulfillWithValue, getState }) => {
+    const token = getState()?.auth?.user?.access_token;
+    try {
+      const res = await axios.get(
+        `${BaseUrl}api/posts/explore`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      return fulfillWithValue(res.data);
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
+export const RecommendedPosts =  createAsyncThunk(
+  "posts/RecommendedPosts",
   async (payload, { rejectWithValue, fulfillWithValue, getState }) => {
     const token = getState()?.auth?.user?.access_token;
     try {
@@ -203,16 +226,29 @@ const posts = createSlice({
       state.loading = false;
       toast.error(action?.payload?.message, options);
     },
-    [recommendedPosts.pending]: (state, action) => {
+    [ExplorePosts.pending]: (state, action) => {
       state.loading = true;
     },
-    [recommendedPosts.fulfilled]: (state, action) => {
+    [ExplorePosts.fulfilled]: (state, action) => {
       state.loading = false;
-      state.recommended_posts = action.payload.posts;
+      state.explore_posts = action.payload.posts;
+      state.explore_likes = action.payload.likes;
+      state.explore_saved = action.payload.saved;
+    },
+    [ExplorePosts.rejected]: (state, action) => {
+      state.loading = false;
+      toast.error(action?.payload?.message, options);
+    },
+    [RecommendedPosts.pending]: (state, action) => {
+      state.loading = true;
+    },
+    [RecommendedPosts.fulfilled]: (state, action) => {
+      state.loading = false;
+      state.recommended_posts = action.payload.recommended;
       state.recommended_likes = action.payload.likes;
       state.recommended_saved = action.payload.saved;
     },
-    [recommendedPosts.rejected]: (state, action) => {
+    [RecommendedPosts.rejected]: (state, action) => {
       state.loading = false;
       toast.error(action?.payload?.message, options);
     },

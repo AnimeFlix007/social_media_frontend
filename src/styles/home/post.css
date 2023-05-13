@@ -1,6 +1,6 @@
 .create-post-container {
   background-color: var(--sidebar-color);
-  width: 50%;
+  width: 100%;
   border-radius: 10px;
 }
 

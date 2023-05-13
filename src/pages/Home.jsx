@@ -2,19 +2,21 @@ import React, { useEffect } from "react";
 import CreatePost from "../components/home/CreatePost";
 import SinglePost from "../components/posts/SinglePost";
 import { useDispatch, useSelector } from "react-redux";
-import { recommendedPosts } from "../context/slice/postSlice";
+import { ExplorePosts, RecommendedPosts } from "../context/slice/postSlice";
 import PostSkeleton from "../components/global/PostSkeleton";
 import { unwrapResult } from "@reduxjs/toolkit";
 import { suggestedUsers } from "../context/slice/userSlice";
 import { CircularProgress, List, Typography } from "@mui/material";
 import SuggestedUser from "../components/home/SuggestedUser";
+import RecommendedHomePosts from "../components/home/RecommendedPosts";
+import "../styles/home/home.css"
 
 const Home = () => {
   const dispatch = useDispatch();
   const {
-    recommended_posts: posts,
-    recommended_likes: likes,
-    recommended_saved: saved,
+    explore_posts: posts,
+    explore_likes: likes,
+    explore_saved: saved,
     loading,
   } = useSelector((store) => store.posts);
   const { suggested_users: users, loader } = useSelector(
@@ -22,7 +24,7 @@ const Home = () => {
   );
 
   useEffect(() => {
-    dispatch(recommendedPosts())
+    dispatch(ExplorePosts())
       .then(unwrapResult)
       .then((obj) => {
         if (obj.posts.length === 0) {
@@ -30,9 +32,54 @@ const Home = () => {
         }
       });
   }, [dispatch]);
+
+  useEffect(() => {
+    dispatch(RecommendedPosts());
+  }, [dispatch]);
+
   return (
     <section className="main">
-      <CreatePost />
+      <div id="home">
+        <div>
+          <CreatePost />
+          <RecommendedHomePosts />
+        </div>
+        <div style={{ paddingLeft: "2rem", position: "sticky" }}>
+          {!loading && posts.length === 0 && users && (
+            <div className="suggested-users-box">
+              <Typography
+                style={{
+                  fontSize: "1.33rem",
+                  padding: "5px 10px",
+                  width: "100%",
+                  fontWeight: "600",
+                  marginBottom: "10px",
+                }}
+              >
+                Suggested People
+              </Typography>
+              <List
+                sx={{
+                  width: "100%",
+                  bgcolor: "background.paper",
+                  display: "flex",
+                  justifyContent: "center",
+                  flexDirection: "column",
+                  alignItems: "center",
+                }}
+              >
+                {!loader &&
+                  users?.map((user) => (
+                    <SuggestedUser key={user?._id} user={user} />
+                  ))}
+                {loader && <CircularProgress color="primary" />}
+              </List>
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* OK */}
       <div style={{ marginTop: "2rem" }} className="post_container grid3">
         {loading && (
           <React.Fragment>
@@ -51,37 +98,6 @@ const Home = () => {
             />
           ))}
       </div>
-      {!loading && posts.length === 0 && users && (
-        <div className="suggested-users-box"> 
-          <Typography
-            style={{
-              fontSize: "1.33rem",
-              padding: "5px 10px",
-              width: "100%",
-              fontWeight: "600",
-              marginBottom: "10px",
-            }}
-          >
-            Suggested People
-          </Typography>
-          <List
-            sx={{
-              width: "100%",
-              bgcolor: "background.paper",
-              display: "flex",
-              justifyContent: "center",
-              flexDirection: "column",
-              alignItems: "center",
-            }}
-          >
-            {!loader &&
-              users?.map((user) => (
-                <SuggestedUser key={user?._id} user={user} />
-              ))}
-            {loader && <CircularProgress color="primary" />}
-          </List>
-        </div>
-      )}
     </section>
   );
 };
