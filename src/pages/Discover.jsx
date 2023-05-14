@@ -50,6 +50,7 @@ const Discover = () => {
           alignItems: "center",
           justifyContent: "center",
           flexDirection: "row",
+          marginBottom: "4.5rem"
         }}
       >
         <Button
