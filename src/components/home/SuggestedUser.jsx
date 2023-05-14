@@ -12,10 +12,12 @@ import { followUser, suggestedUsers } from "../../context/slice/userSlice";
 import { ExplorePosts } from "../../context/slice/postSlice";
 import { useDispatch } from "react-redux";
 import { unwrapResult } from "@reduxjs/toolkit";
+import { useNavigate } from "react-router-dom";
 
 const SuggestedUser = ({ user }) => {
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   return (
     <ListItem
       sx={{ px: 0 }}

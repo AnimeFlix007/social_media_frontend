@@ -80,7 +80,7 @@ const Home = () => {
       </div>
 
       {/* POSTS */}
-      <div style={{ marginTop: "2rem" }} className="post_container grid3">
+      <div style={{ marginTop: "2rem" }} className="home_posts_container">
         {loading && (
           <React.Fragment>
             <PostSkeleton />

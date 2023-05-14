@@ -63,8 +63,15 @@ const CreatePost = () => {
             type="file"
             onChange={onChangeImageHandler}
           />
-          <i className="bx bxs-video post-icons"></i>
-=        </div>
+          <i
+            onClick={() =>
+              toast.info(
+                "Sorry!! Currently we are working on uploading video as a post!!", options
+              )
+            }
+            className="bx bxs-video post-icons"
+          ></i>
+        </div>
         {!loading ? (
           <button onClick={createPostHandler} className="primary-btn">
             Post
