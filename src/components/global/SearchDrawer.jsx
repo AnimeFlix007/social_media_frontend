@@ -6,7 +6,7 @@ import SearchedUsers from '../../pages/SearchedUsers';
 export default function SearchDrawer({state, toggleDrawer}) {
   const list = (anchor) => (
     <Box
-      sx={{ width: anchor === 'top' || anchor === 'bottom' ? 'auto' : "30vw" }}
+      sx={{ width: "30vw" }}
       role="presentation"
     >
       <SearchedUsers toggleDrawer={toggleDrawer} />

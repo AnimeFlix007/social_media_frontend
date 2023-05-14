@@ -20,6 +20,7 @@ const UserProfile = ({ profile, loading }) => {
     user_posts,
     user_likes,
     loading: postLoading,
+    image_loading,
   } = useSelector((store) => store.posts);
 
   const isFollowing = profile?.followers?.find((p) => p._id == user?.user?._id);
@@ -143,13 +144,13 @@ const UserProfile = ({ profile, loading }) => {
           {value === 1 && (
             <>
               <div className="photos">
-                {!loading &&
+                {!image_loading &&
                   images.length > 0 &&
                   images
                     ?.slice(0, 6)
                     ?.map((img) => <img src={img} alt="Photo" />)}
               </div>
-              {!loading && images.length === 0 && (
+              {!image_loading && images.length === 0 && (
                 <div
                   style={{
                     display: "flex",

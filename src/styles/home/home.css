@@ -11,3 +11,23 @@
 #home > div:nth-child(2){
     width: 40%;
 }
+
+.suggested-users-container {
+    padding-left: 2rem;
+}
+
+@media screen and (max-width: 900px) {
+    #home {
+        width: 100%;
+        flex-direction: column;
+    }
+    #home > div:nth-child(1){
+        width: 100%;
+    }
+    #home > div:nth-child(2){
+        width: 100%;
+    }
+    .suggested-users-container {
+        padding-left: 0%;
+    }
+  }

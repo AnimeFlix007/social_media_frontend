@@ -6,6 +6,7 @@ import { options } from "../../utils/ToastOptions";
 
 const initialState = {
   posts: [],
+  results: 0,
   user_posts: [],
   user_likes: [],
   explore_posts: [],
@@ -19,6 +20,7 @@ const initialState = {
   images: [],
   post: {},
   loading: false,
+  image_loading: false,
   creating: false,
 };
 
@@ -82,7 +84,7 @@ export const Posts = createAsyncThunk(
   async (payload, { rejectWithValue, fulfillWithValue, getState }) => {
     const token = getState()?.auth?.user?.access_token;
     try {
-      const res = await axios.get(`${BaseUrl}api/posts/?page:${payload.page}`, {
+      const res = await axios.get(`${BaseUrl}api/posts/?page=${payload.page}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -191,14 +193,14 @@ const posts = createSlice({
       toast.error(action?.payload?.message, options);
     },
     [getAllImages.pending]: (state, action) => {
-      state.loading = true;
+      state.image_loading = true;
     },
     [getAllImages.fulfilled]: (state, action) => {
-      state.loading = false;
+      state.image_loading = false;
       state.images = action.payload.images;
     },
     [getAllImages.rejected]: (state, action) => {
-      state.loading = false;
+      state.image_loading = false;
       toast.error(action?.payload?.message, options);
     },
     [getAllUserPosts.pending]: (state, action) => {
@@ -218,6 +220,7 @@ const posts = createSlice({
     },
     [Posts.fulfilled]: (state, action) => {
       state.loading = false;
+      state.results = action.payload.results;
       state.posts = action.payload.posts;
       state.likes = action.payload.likes;
       state.saved = action.payload.saved;

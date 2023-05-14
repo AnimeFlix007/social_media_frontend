@@ -44,7 +44,7 @@ const Home = () => {
           <CreatePost />
           {posts.length === 0 && <RecommendedHomePosts />}
         </div>
-        <div style={{ paddingLeft: "2rem", position: "sticky" }}>
+        <div className="suggested-users-container">
           {!loading && posts.length === 0 && users && (
             <div className="suggested-users-box">
               <Typography
@@ -56,7 +56,7 @@ const Home = () => {
                   marginBottom: "10px",
                 }}
               >
-                Suggested People
+                Suggested People for you
               </Typography>
               <List
                 sx={{

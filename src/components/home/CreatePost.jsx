@@ -64,8 +64,7 @@ const CreatePost = () => {
             onChange={onChangeImageHandler}
           />
           <i className="bx bxs-video post-icons"></i>
-          <i className="post-icons">&#128516;</i>
-        </div>
+=        </div>
         {!loading ? (
           <button onClick={createPostHandler} className="primary-btn">
             Post

@@ -66,8 +66,8 @@ const Sidebar = () => {
                 <i
                   className={
                     pathname === "/search"
-                      ? "bx bx-search-alt icon active"
-                      : "bx bx-search-alt icon"
+                      ? "bx bx-search icon active"
+                      : "bx bx-search icon"
                   }
                 ></i>
                 <span

@@ -4,34 +4,18 @@ import SinglePost from "../components/posts/SinglePost";
 import { useDispatch, useSelector } from "react-redux";
 import { Posts } from "../context/slice/postSlice";
 import PostSkeleton from "../components/global/PostSkeleton";
+import { Button } from "@mui/material";
 
 const Discover = () => {
   const [page, setPage] = useState(1);
   const dispatch = useDispatch();
-  const { posts, loading, likes, saved } = useSelector((store) => store.posts);
-
-  function handleScroll() {
-    const heightOfApp = document.documentElement.scrollHeight;
-    const windowHeight = window.innerHeight;
-    const scrollFromTop = document.documentElement.scrollTop;
-
-    if (windowHeight + scrollFromTop + 1 >= heightOfApp) {
-      setPage((prev) => prev + 1);
-    }
-  }
+  const { posts, loading, likes, saved, results } = useSelector(
+    (store) => store.posts
+  );
 
   useEffect(() => {
     dispatch(Posts({ page }));
-  }, []);
-
-  useEffect(() => {
-    !loading && console.log("api call", page);
   }, [page]);
-
-  useEffect(() => {
-    window.addEventListener("scroll", handleScroll);
-    return () =>window.removeEventListener("scroll", handleScroll);
-  }, []);
 
   return (
     <div className="main">
@@ -58,6 +42,31 @@ const Discover = () => {
               saved={saved[i]}
             />
           ))}
+      </div>
+      <div
+        style={{
+          width: "100%",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          flexDirection: "row",
+        }}
+      >
+        <Button
+          disabled={page === 1 ? true : false}
+          onClick={() => setPage((prev) => prev - 1)}
+          variant="outlined"
+        >
+          Prev
+        </Button>
+        <Button
+          sx={{ ml: 2 }}
+          onClick={() => setPage((prev) => prev + 1)}
+          variant="contained"
+          disabled={Math.ceil(results / 8) === page}
+        >
+          Next
+        </Button>
       </div>
     </div>
   );

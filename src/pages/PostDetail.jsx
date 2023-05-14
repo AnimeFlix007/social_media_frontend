@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { LikePost, SinglePost } from "../context/slice/postSlice";
 import Loading from "../components/global/Loading";
 import "../styles/post/post-detail.css";
@@ -32,6 +32,7 @@ const responsive = {
 const PostDetail = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { user } = useSelector((store) => store.auth);
   const { follow_loading, followed } = useSelector((store) => store.users);
   const { comments, loading: commentsLoading } = useSelector(
@@ -165,7 +166,7 @@ const PostDetail = () => {
               className="cover"
             />
           </div>
-          <h3>
+          <h3 onClick={() => navigate(`/profile/${post?.user?._id}`)}>
             {post?.user?.fullname || post?.user?.username} <br />{" "}
             <span>{post?.user?.role}</span>
           </h3>
