@@ -10,13 +10,14 @@ import Layout from "../layout/Layout";
 import EditProfile from "../pages/profile/EditProfile";
 import Discover from "../pages/Discover";
 import PostDetail from "../pages/PostDetail";
+import axios from "axios";
 
 const Router = () => {
   const { user } = useSelector((store) => store.auth);
   const dispatch = useDispatch();
   useEffect(() => {
     const getCsrf = async () => {
-      await axiosInstance.get("/");
+      await axios.get("/")
     };
     getCsrf();
     if (user?.access_token) {
