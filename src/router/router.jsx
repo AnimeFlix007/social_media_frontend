@@ -5,7 +5,6 @@ import PageNotFound from "../components/PageNotFound";
 import Home from "../pages/Home";
 import ProfileDetail from "../pages/profile/ProfileDetail";
 import { useDispatch, useSelector } from "react-redux";
-import { authRefreshToken } from "../context/slice/authSlice";
 import Layout from "../layout/Layout";
 import EditProfile from "../pages/profile/EditProfile";
 import Discover from "../pages/Discover";
@@ -13,12 +12,6 @@ import PostDetail from "../pages/PostDetail";
 
 const Router = () => {
   const { user } = useSelector((store) => store.auth);
-  const dispatch = useDispatch();
-  useEffect(() => {
-    if (user?.access_token) {
-      dispatch(authRefreshToken());
-    }
-  }, [dispatch]);
   return (
     <Routes>
       <Route
