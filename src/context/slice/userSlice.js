@@ -22,7 +22,7 @@ export const SearchedUsers = createAsyncThunk(
     try {
       const res = await axios.get(
         `${BaseUrl}api/users/search?username=${payload.username}`,
-        { headers: { Authorization: `Bearer ${token}` } }
+        { headers: { Authorization: `Bearer ${token}` }, withCredentials: true }
       );
       return fulfillWithValue(res.data.users);
     } catch (error) {
@@ -38,6 +38,7 @@ export const userProfile = createAsyncThunk(
     try {
       const res = await axios.get(`${BaseUrl}api/users/${payload.id}`, {
         headers: { Authorization: `Bearer ${token}` },
+        withCredentials: true,
       });
       return fulfillWithValue(res.data.user);
     } catch (error) {
@@ -54,6 +55,7 @@ export const followUser = createAsyncThunk(
     try {
       const res = await axios.patch(`${BaseUrl}api/users/follow`, payload, {
         headers: { Authorization: `Bearer ${token}` },
+        withCredentials: true,
       });
       return fulfillWithValue(res.data);
     } catch (error) {
@@ -69,6 +71,7 @@ export const unfollowUser = createAsyncThunk(
     try {
       const res = await axios.patch(`${BaseUrl}api/users/unfollow`, payload, {
         headers: { Authorization: `Bearer ${token}` },
+        withCredentials: true,
       });
       return fulfillWithValue(res.data);
     } catch (error) {
@@ -86,6 +89,7 @@ export const suggestedUsers = createAsyncThunk(
         `${BaseUrl}api/users/suggested_users?num=${payload.num}`,
         {
           headers: { Authorization: `Bearer ${token}` },
+          withCredentials: true,
         }
       );
       return fulfillWithValue(res.data);
@@ -105,6 +109,7 @@ export const savePost = createAsyncThunk(
         {},
         {
           headers: { Authorization: `Bearer ${token}` },
+          withCredentials: true,
         }
       );
       return fulfillWithValue(res.data);

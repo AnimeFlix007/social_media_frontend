@@ -37,6 +37,7 @@ export const Create_Post = createAsyncThunk(
           Authorization: `Bearer ${token}`,
           "Content-Type": "multipart/form-data",
         },
+        withCredentials: true,
       });
       return fulfillWithValue(res.data);
     } catch (error) {
@@ -50,11 +51,15 @@ export const getAllImages = createAsyncThunk(
   async (payload, { rejectWithValue, fulfillWithValue, getState }) => {
     const token = getState()?.auth?.user?.access_token;
     try {
-      const res = await axios.get(`${BaseUrl}api/posts/allimages/${payload.id}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const res = await axios.get(
+        `${BaseUrl}api/posts/allimages/${payload.id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          withCredentials: true
+        }
+      );
       return fulfillWithValue(res.data);
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -67,11 +72,15 @@ export const getAllUserPosts = createAsyncThunk(
   async (payload, { rejectWithValue, fulfillWithValue, getState }) => {
     const token = getState()?.auth?.user?.access_token;
     try {
-      const res = await axios.get(`${BaseUrl}api/posts/your-posts/${payload.id}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const res = await axios.get(
+        `${BaseUrl}api/posts/your-posts/${payload.id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          withCredentials: true
+        }
+      );
       return fulfillWithValue(res.data);
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -88,6 +97,7 @@ export const Posts = createAsyncThunk(
         headers: {
           Authorization: `Bearer ${token}`,
         },
+        withCredentials: true
       });
       return fulfillWithValue(res.data);
     } catch (error) {
@@ -105,6 +115,7 @@ export const SinglePost = createAsyncThunk(
         headers: {
           Authorization: `Bearer ${token}`,
         },
+        withCredentials: true
       });
       return fulfillWithValue(res.data);
     } catch (error) {
@@ -126,6 +137,7 @@ export const LikePost = createAsyncThunk(
           headers: {
             Authorization: `Bearer ${token}`,
           },
+          withCredentials: true
         }
       );
       return fulfillWithValue(res.data);
@@ -135,19 +147,17 @@ export const LikePost = createAsyncThunk(
   }
 );
 
-export const ExplorePosts =  createAsyncThunk(
+export const ExplorePosts = createAsyncThunk(
   "posts/ExplorePosts",
   async (payload, { rejectWithValue, fulfillWithValue, getState }) => {
     const token = getState()?.auth?.user?.access_token;
     try {
-      const res = await axios.get(
-        `${BaseUrl}api/posts/explore`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const res = await axios.get(`${BaseUrl}api/posts/explore`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        withCredentials: true
+      });
       return fulfillWithValue(res.data);
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -155,26 +165,23 @@ export const ExplorePosts =  createAsyncThunk(
   }
 );
 
-export const RecommendedPosts =  createAsyncThunk(
+export const RecommendedPosts = createAsyncThunk(
   "posts/RecommendedPosts",
   async (payload, { rejectWithValue, fulfillWithValue, getState }) => {
     const token = getState()?.auth?.user?.access_token;
     try {
-      const res = await axios.get(
-        `${BaseUrl}api/posts/recommended`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const res = await axios.get(`${BaseUrl}api/posts/recommended`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        withCredentials: true
+      });
       return fulfillWithValue(res.data);
     } catch (error) {
       return rejectWithValue(error.response.data);
     }
   }
 );
-
 
 const posts = createSlice({
   name: "posts",

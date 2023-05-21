@@ -17,7 +17,7 @@ export const AddComment = createAsyncThunk(
       const res = await axios.post(
         `${BaseUrl}api/comments/${payload.postId}`,
         { content: payload.content },
-        { headers: { Authorization: `Bearer ${token}` } }
+        { headers: { Authorization: `Bearer ${token}` }, withCredentials: true }
       );
       return fulfillWithValue(res.data);
     } catch (error) {
@@ -33,7 +33,7 @@ export const getPostComments = createAsyncThunk(
     try {
       const res = await axios.get(
         `${BaseUrl}api/comments/${payload.postId}`,
-        { headers: { Authorization: `Bearer ${token}` } }
+        { headers: { Authorization: `Bearer ${token}` }, withCredentials: true }
       );
       return fulfillWithValue(res.data);
     } catch (error) {
@@ -49,7 +49,7 @@ export const deleteComment = createAsyncThunk(
     try {
       const res = await axios.delete(
         `${BaseUrl}api/comments/${payload.commentId}`,
-        { headers: { Authorization: `Bearer ${token}` } }
+        { headers: { Authorization: `Bearer ${token}` }, withCredentials: true }
       );
       return fulfillWithValue(res.data);
     } catch (error) {

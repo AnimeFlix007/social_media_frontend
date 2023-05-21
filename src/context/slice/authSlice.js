@@ -110,7 +110,7 @@ export const editProfile = createAsyncThunk(
       const res = await axios.patch(
         `${BaseUrl}api/users/${payload.id}`,
         payload,
-        { headers: { Authorization: `Bearer ${token}` } }
+        { headers: { Authorization: `Bearer ${token}` }, withCredentials: true }
       );
       const strData = JSON.parse(localStorage.getItem("vmediauser"));
       const data = {
