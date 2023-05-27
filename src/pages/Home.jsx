@@ -9,10 +9,17 @@ import { suggestedUsers } from "../context/slice/userSlice";
 import { CircularProgress, List, Typography } from "@mui/material";
 import SuggestedUser from "../components/home/SuggestedUser";
 import RecommendedHomePosts from "../components/home/RecommendedPosts";
-import "../styles/home/home.css"
+import "../styles/home/home.css";
+import TrendingNews from "../components/home/TrendingNews";
+import fetchNews from "../context/slice/fetchNews";
+import { useState } from "react";
+import { toast } from "react-toastify";
+import { options } from "../utils/ToastOptions";
 
 const Home = () => {
   const dispatch = useDispatch();
+  const [news, setNews] = useState([]);
+  const [newsLoading, setNewsLoading] = useState();
   const {
     explore_posts: posts,
     explore_likes: likes,
@@ -26,16 +33,31 @@ const Home = () => {
   useEffect(() => {
     dispatch(ExplorePosts())
       .then(unwrapResult)
-      .then((obj) => {
-        if (obj.posts.length === 0) {
-          dispatch(suggestedUsers({ num: 5 }));
-        }
+      .then(() => {
+        dispatch(suggestedUsers({ num: 5 }));
       });
   }, [dispatch]);
 
+  async function fetchTrendingNews() {
+    setNewsLoading((prev) => prev);
+    fetchNews()
+      .then((res) => {
+        setNews(res);
+      })
+      .catch((err) => {
+        toast.error(err.message, options);
+      })
+      .finally(() => {
+        setNewsLoading((prev) => prev);
+      });
+  }
+
   useEffect(() => {
     dispatch(RecommendedPosts());
+    news.length === 0 && fetchTrendingNews();
   }, [dispatch]);
+
+  console.log(news);
 
   return (
     <section className="main">
@@ -43,9 +65,44 @@ const Home = () => {
         <div>
           <CreatePost />
           {posts.length === 0 && <RecommendedHomePosts />}
+          {posts.length > 0 && (
+            <div style={{ marginTop: "2rem" }} className="home_posts_container">
+              {loading && (
+                <React.Fragment>
+                  <PostSkeleton />
+                  <PostSkeleton />
+                </React.Fragment>
+              )}
+              {!loading &&
+                posts.length > 0 &&
+                posts?.map((post, i) => (
+                  <SinglePost
+                    key={post._id}
+                    post={post}
+                    likes={likes[i]}
+                    saved={saved?.[i]}
+                  />
+                ))}
+            </div>
+          )}
         </div>
         <div className="suggested-users-container">
-          {!loading && posts.length === 0 && users && (
+          <Typography
+            style={{
+              fontSize: "1.33rem",
+              padding: "5px 10px",
+              width: "100%",
+              fontWeight: "600",
+              marginBottom: "10px",
+            }}
+          >
+            Top Trending News
+          </Typography>
+          {newsLoading && news.length === 0 && (
+            <CircularProgress color="primary" />
+          )}
+          {!newsLoading && news.length > 0 && <TrendingNews news={news.slice(0,6)} />}
+          {!loading && users && (
             <div className="suggested-users-box">
               <Typography
                 style={{
@@ -54,6 +111,7 @@ const Home = () => {
                   width: "100%",
                   fontWeight: "600",
                   marginBottom: "10px",
+                  marginTop: "1rem",
                 }}
               >
                 Suggested People for you
@@ -78,26 +136,7 @@ const Home = () => {
           )}
         </div>
       </div>
-
       {/* POSTS */}
-      <div style={{ marginTop: "2rem" }} className="home_posts_container">
-        {loading && (
-          <React.Fragment>
-            <PostSkeleton />
-            <PostSkeleton />
-          </React.Fragment>
-        )}
-        {!loading &&
-          posts.length > 0 &&
-          posts?.map((post, i) => (
-            <SinglePost
-              key={post._id}
-              post={post}
-              likes={likes[i]}
-              saved={saved?.[i]}
-            />
-          ))}
-      </div>
     </section>
   );
 };

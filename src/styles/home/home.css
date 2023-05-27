@@ -26,7 +26,7 @@
   margin-top: 0%;
 }
 
-@media screen and (max-width: 900px) {
+@media screen and (max-width: 1200px) {
   #home {
     width: 100%;
     flex-direction: column;

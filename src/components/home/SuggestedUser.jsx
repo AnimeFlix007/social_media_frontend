@@ -38,9 +38,7 @@ const SuggestedUser = ({ user }) => {
                   dispatch(ExplorePosts())
                     .then(unwrapResult)
                     .then((obj) => {
-                      if (obj.posts.length === 0) {
-                        dispatch(suggestedUsers());
-                      }
+                      dispatch(suggestedUsers());
                     });
                 });
             }}

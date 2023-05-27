@@ -11,7 +11,7 @@ const store = configureStore({
         mode: modeSlice,
         users: userSlice,
         posts: postSlice,
-        comments: commentSlice
+        comments: commentSlice,
     }
 })
 
