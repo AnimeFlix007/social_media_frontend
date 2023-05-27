@@ -4,13 +4,15 @@ import Logo from "../../assets/FairyTailLogo.png";
 import { useDispatch, useSelector } from "react-redux";
 import { togglemode } from "../../context/slice/modeSlice";
 import { authLogout } from "../../context/slice/authSlice";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import SearchDrawer from "./SearchDrawer";
+import { unwrapResult } from "@reduxjs/toolkit";
 
 const Sidebar = () => {
   const [showSidebar, setShowSidebar] = useState(false);
   const { pathname } = useLocation();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const { darkMode } = useSelector((store) => store.mode);
   const { user } = useSelector((store) => store.auth);
@@ -21,6 +23,15 @@ const Sidebar = () => {
   const toggleDrawer = (anchor, open) => (event) => {
     setState({ ...state, right: open });
   };
+
+  const logouthandler = () => {
+    dispatch(authLogout())
+      .then(unwrapResult)
+      .then(() => {
+        navigate("/");
+      });
+  };
+
   return (
     <nav className={showSidebar ? "sidebar open" : "sidebar close"}>
       <header>
@@ -144,7 +155,7 @@ const Sidebar = () => {
         </div>
 
         <div className="bottom-content">
-          <li onClick={() => dispatch(authLogout())} className="logout">
+          <li onClick={logouthandler} className="logout">
             <i className="bx bx-log-out icon"></i>
             <span className="text nav-text">Logout</span>
           </li>

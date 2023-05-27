@@ -85,17 +85,10 @@ export const authRefreshToken = createAsyncThunk(
 
 export const authLogout = createAsyncThunk(
   "auth/logout",
-  async (
-    payload = {},
-    { getState, rejectWithValue, dispatch, fulfillWithValue }
-  ) => {
+  async (payload, { rejectWithValue, fulfillWithValue }) => {
     try {
-      const res = await axios.post(`${BaseUrl}api/auth/logout`, payload, {
-        headers: { "Content-Type": "application/json" },
-        withCredentials: true,
-      });
       localStorage.removeItem("vmediauser");
-      return fulfillWithValue(res.data);
+      return fulfillWithValue({ message: "Logged Out Successfully" });
     } catch (error) {
       return rejectWithValue(error.response.data);
     }

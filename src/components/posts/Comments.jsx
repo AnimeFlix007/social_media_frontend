@@ -79,7 +79,7 @@ const Comments = ({ comments, loading, deleteCommentHandler }) => {
         </div>
       )}
 
-      {!loading && comments.length === 0 && (
+      {!loading && comments.length === 0 && checked && (
         <div className="noComments">
           <img src={NoComments} alt="NoComments" />
           <p style={{ fontSize: "1.2rem" }} className="text">
