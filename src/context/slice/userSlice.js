@@ -40,7 +40,7 @@ export const userProfile = createAsyncThunk(
         headers: { Authorization: `Bearer ${token}` },
         withCredentials: true,
       });
-      return fulfillWithValue(res.data.user);
+      return fulfillWithValue(res.data);
     } catch (error) {
       return rejectWithValue(error.response.data);
     }
@@ -119,6 +119,26 @@ export const savePost = createAsyncThunk(
   }
 );
 
+export const CloseFriend = createAsyncThunk(
+  "users/CloseFriend",
+  async (payload, { rejectWithValue, fulfillWithValue, getState }) => {
+    const token = getState()?.auth?.user?.access_token;
+    try {
+      const res = await axios.patch(
+        `${BaseUrl}api/users/close_friend/${payload.friendId}`,
+        {},
+        {
+          headers: { Authorization: `Bearer ${token}` },
+          withCredentials: true,
+        }
+      );
+      return fulfillWithValue(res.data);
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
 const users = createSlice({
   name: "users",
   initialState,
@@ -142,7 +162,7 @@ const users = createSlice({
     [userProfile.fulfilled]: (state, action) => {
       state.loading = false;
       state.invalid_user_profile = false;
-      state.user_profile = action.payload;
+      state.user_profile = action.payload.user;
     },
     [userProfile.rejected]: (state, action) => {
       state.loading = false;
@@ -195,6 +215,16 @@ const users = createSlice({
       toast.success(action?.payload?.message, options);
     },
     [savePost.rejected]: (state, action) => {
+      toast.error(
+        action?.payload?.message || "Something went wrong!!",
+        options
+      );
+    },
+    [CloseFriend.pending]: (state, action) => {},
+    [CloseFriend.fulfilled]: (state, action) => {
+      toast.success(action?.payload?.message, options);
+    },
+    [CloseFriend.rejected]: (state, action) => {
       toast.error(
         action?.payload?.message || "Something went wrong!!",
         options

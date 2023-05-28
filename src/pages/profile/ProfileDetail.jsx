@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { userProfile } from "../../context/slice/userSlice";
@@ -6,10 +6,15 @@ import BadRequestEmpty from "../../assets/BadRequestEmpty.avif";
 import "../../styles/profile/error-profile.css";
 import Loading from "../../components/global/Loading";
 import UserProfile from "../../components/profile/UserProfile";
-import { getAllImages, getAllUserPosts, savedPosts } from "../../context/slice/postSlice";
+import {
+  getAllImages,
+  getAllUserPosts,
+  savedPosts,
+} from "../../context/slice/postSlice";
 
 const ProfileDetail = () => {
   const { id } = useParams();
+  const [isCloseFriend, setIsCloseFriend] = useState(false);
   const dispatch = useDispatch();
   const {
     invalid_user_profile,
@@ -20,7 +25,7 @@ const ProfileDetail = () => {
   } = useSelector((store) => store.users);
 
   useEffect(() => {
-    dispatch(userProfile({ id }));
+    dispatch(userProfile({ id }))
     dispatch(getAllImages({ id }));
     dispatch(getAllUserPosts({ id }));
     dispatch(savedPosts());
@@ -41,7 +46,12 @@ const ProfileDetail = () => {
         </div>
       )}
       {!loading && user_profile && !invalid_user_profile && (
-        <UserProfile profile={user_profile} loading={follow_loading} />
+        <UserProfile
+          profile={user_profile}
+          loading={follow_loading}
+          isCloseFriend={isCloseFriend}
+          setIsCloseFriend={setIsCloseFriend}
+        />
       )}
     </div>
   );

@@ -72,6 +72,13 @@
   font-weight: 600;
   font-size: 22px;
   margin-bottom: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.header__wrapper .cols__container .left__col h2 i {
+  color: rgb(12, 165, 12);
+  cursor: pointer;
 }
 .header__wrapper .cols__container .left__col > h3 {
   margin-top: 60px;

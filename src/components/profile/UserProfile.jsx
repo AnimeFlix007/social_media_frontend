@@ -1,16 +1,21 @@
-import React from "react";
+import React, { useState } from "react";
 import "../../styles/profile/profile.css";
 import { CircularProgress, Tab, Tabs } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { followUser, unfollowUser } from "../../context/slice/userSlice";
+import {
+  CloseFriend,
+  followUser,
+  unfollowUser,
+} from "../../context/slice/userSlice";
 import FollowersDrawer from "./FollowersDrawer";
 import FollowingDrawer from "./FollowingDrawer";
 import SinglePost from "../posts/SinglePost";
 import NoImages from "../../assets/nodata/NoImages.avif";
 import NoPosts from "../../assets/nodata/NoPosts.avif";
+import { unwrapResult } from "@reduxjs/toolkit";
 
-const UserProfile = ({ profile, loading }) => {
+const UserProfile = ({ profile, loading, isCloseFriend, setIsCloseFriend }) => {
   const [value, setValue] = React.useState(1);
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -42,6 +47,17 @@ const UserProfile = ({ profile, loading }) => {
   function unfollowUserHandler(id) {
     dispatch(unfollowUser({ unfollowId: id }));
   }
+
+  function closeFriendsHandler() {
+    dispatch(CloseFriend({ friendId: profile._id }))
+      .then(unwrapResult)
+      .then((obj) => {
+        setIsCloseFriend(prev => !prev)
+      });
+  }
+
+  console.log(isCloseFriend);
+
   return (
     <div className="header__wrapper">
       <header>
@@ -53,7 +69,26 @@ const UserProfile = ({ profile, loading }) => {
             <img src={profile?.avatar} alt={profile?.username} />
             <span></span>
           </div>
-          {profile?.fullname && <h2>{profile?.fullname}</h2>}
+          {profile?.fullname && (
+            <h2>
+              {profile?.fullname}
+              {user.user._id != profile?._id && (
+                <>
+                  {!isCloseFriend ? (
+                    <i
+                      onClick={closeFriendsHandler}
+                      className="bx bx-star icon"
+                    ></i>
+                  ) : (
+                    <i
+                      onClick={closeFriendsHandler}
+                      className="bx bxs-star icon"
+                    ></i>
+                  )}
+                </>
+              )}
+            </h2>
+          )}
           <h3>@{profile?.username}</h3>
           <p style={{ marginTop: "1rem" }}>{profile?.role}</p>
           <p>{profile?.email}</p>
@@ -66,7 +101,10 @@ const UserProfile = ({ profile, loading }) => {
             </li>
             <li>
               <span>
-                {user_posts?.reduce((acc, post) => acc + post.likes.length, 0) || 0}
+                {user_posts?.reduce(
+                  (acc, post) => acc + post.likes.length,
+                  0
+                ) || 0}
               </span>
               Lkes
             </li>
@@ -159,7 +197,7 @@ const UserProfile = ({ profile, loading }) => {
                   images.length > 0 &&
                   images
                     ?.slice(0, 6)
-                    ?.map((img) => <img src={img} alt="Photo" />)}
+                    ?.map((img) => <img key={img} src={img} alt="Photo" />)}
               </div>
               {!image_loading && images.length === 0 && (
                 <div
