@@ -21,6 +21,10 @@ const UserProfile = ({ profile, loading }) => {
     user_likes,
     loading: postLoading,
     image_loading,
+    savedPostsloading,
+    saved_posts,
+    saved_posts_likes,
+    saved_posts_saved,
   } = useSelector((store) => store.posts);
 
   const isFollowing = profile?.followers?.find((p) => p._id == user?.user?._id);
@@ -106,7 +110,8 @@ const UserProfile = ({ profile, loading }) => {
             >
               <Tab value={1} label="Photos" />
               <Tab value={2} label="Posts" />
-              <Tab value={3} label="Friends" />
+              <Tab value={3} label="Close Friends" />
+              <Tab value={4} label="Saved" />
             </Tabs>
             {loading && isFollowing ? (
               <button className="danger-btn">
@@ -195,6 +200,69 @@ const UserProfile = ({ profile, loading }) => {
                 </div>
               )}
               {user_posts.length > 2 && (
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  <button style={{ marginTop: "0%" }} className="primary-btn">
+                    View More
+                  </button>
+                </div>
+              )}
+            </>
+          )}
+          {value === 3 && (
+            <>
+              <div className="photos">
+                {!image_loading &&
+                  images.length > 0 &&
+                  images
+                    ?.slice(0, 6)
+                    ?.map((img) => <img src={img} alt="Photo" />)}
+              </div>
+              {!image_loading && images.length === 0 && (
+                <div
+                  style={{
+                    display: "flex",
+                    width: "100%",
+                    justifyContent: "center",
+                  }}
+                >
+                  <img src={NoImages} alt="NoImages" style={{ width: "50%" }} />
+                </div>
+              )}
+            </>
+          )}
+          {value === 4 && (
+            <>
+              <div className="post_container">
+                {!savedPostsloading &&
+                  saved_posts
+                    ?.slice(0, 2)
+                    ?.map((post, i) => (
+                      <SinglePost
+                        key={post._id}
+                        post={post}
+                        likes={saved_posts_likes[i]}
+                        saved={saved_posts_saved[i]}
+                      />
+                    ))}
+              </div>
+              {saved_posts.length === 0 && (
+                <div
+                  style={{
+                    display: "flex",
+                    width: "100%",
+                    justifyContent: "center",
+                  }}
+                >
+                  <img src={NoPosts} alt="NoPosts" style={{ width: "50%" }} />
+                </div>
+              )}
+              {saved_posts.length > 2 && (
                 <div
                   style={{
                     display: "flex",

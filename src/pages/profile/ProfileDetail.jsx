@@ -6,7 +6,7 @@ import BadRequestEmpty from "../../assets/BadRequestEmpty.avif";
 import "../../styles/profile/error-profile.css";
 import Loading from "../../components/global/Loading";
 import UserProfile from "../../components/profile/UserProfile";
-import { getAllImages, getAllUserPosts } from "../../context/slice/postSlice";
+import { getAllImages, getAllUserPosts, savedPosts } from "../../context/slice/postSlice";
 
 const ProfileDetail = () => {
   const { id } = useParams();
@@ -23,6 +23,7 @@ const ProfileDetail = () => {
     dispatch(userProfile({ id }));
     dispatch(getAllImages({ id }));
     dispatch(getAllUserPosts({ id }));
+    dispatch(savedPosts());
   }, [id, dispatch, followed]);
 
   return (

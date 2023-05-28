@@ -5,18 +5,31 @@ import { toast } from "react-toastify";
 import { options } from "../../utils/ToastOptions";
 
 const initialState = {
+  //total posts
   posts: [],
+  likes: [],
+  saved: [],
   results: 0,
+
+  // user posts
   user_posts: [],
   user_likes: [],
+
+  // explore posts
   explore_posts: [],
   explore_likes: [],
   explore_saved: [],
+
+  //recommended posts
   recommended_posts: [],
   recommended_likes: [],
   recommended_saved: [],
-  likes: [],
-  saved: [],
+
+  //saved posts
+  savedPostsloading: false,
+  saved_posts: [],
+  saved_posts_likes: [],
+  saved_posts_saved: [],
   images: [],
   post: {},
   loading: false,
@@ -183,6 +196,24 @@ export const RecommendedPosts = createAsyncThunk(
   }
 );
 
+export const savedPosts = createAsyncThunk(
+  "posts/savedPosts",
+  async (payload, { rejectWithValue, fulfillWithValue, getState }) => {
+    const token = getState()?.auth?.user?.access_token;
+    try {
+      const res = await axios.get(`${BaseUrl}api/users/save_post`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        withCredentials: true
+      });
+      return fulfillWithValue(res.data);
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
 const posts = createSlice({
   name: "posts",
   initialState,
@@ -278,6 +309,19 @@ const posts = createSlice({
       toast.info(action?.payload?.message, options);
     },
     [LikePost.rejected]: (state, action) => {
+      toast.error(action?.payload?.message, options);
+    },
+    [savedPosts.pending]: (state, action) => {
+      state.savedPostsloading = true;
+    },
+    [savedPosts.fulfilled]: (state, action) => {
+      state.savedPostsloading = false;
+      state.saved_posts = action.payload.savedPosts;
+      state.saved_posts_likes = action.payload.likes;
+      state.saved_posts_saved = action.payload.saved;
+    },
+    [savedPosts.rejected]: (state, action) => {
+      state.savedPostsloading = false;
       toast.error(action?.payload?.message, options);
     },
   },
