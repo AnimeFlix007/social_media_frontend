@@ -58,7 +58,13 @@ const UserProfile = ({ profile, loading }) => {
             <FollowersDrawer profile={profile} />
             <FollowingDrawer profile={profile} />
             <li>
-              <span>200,543</span>Lkes
+              <span>{user_posts?.length || 0}</span>Posts
+            </li>
+            <li>
+              <span>
+                {user_posts?.reduce((acc, post) => acc + post.likes.length, 0) || 0}
+              </span>
+              Lkes
             </li>
           </ul>
           <div className="content">
