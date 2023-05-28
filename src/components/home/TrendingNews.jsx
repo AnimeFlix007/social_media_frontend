@@ -16,6 +16,7 @@ export default function TrendingNews({ news }) {
             target="_blank"
             rel="noopener"
             alignItems="flex-start"
+            key={news.publishedAt}
           >
             <ListItemAvatar>
               <Avatar alt={news.source.name} src={news.urlToImage} />

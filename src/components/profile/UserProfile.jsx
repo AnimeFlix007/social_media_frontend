@@ -14,6 +14,7 @@ import SinglePost from "../posts/SinglePost";
 import NoImages from "../../assets/nodata/NoImages.avif";
 import NoPosts from "../../assets/nodata/NoPosts.avif";
 import { unwrapResult } from "@reduxjs/toolkit";
+import { loggedInUserProfile } from "../../context/slice/authSlice";
 
 const UserProfile = ({ profile, loading, isCloseFriend, setIsCloseFriend }) => {
   const [value, setValue] = React.useState(1);
@@ -49,14 +50,14 @@ const UserProfile = ({ profile, loading, isCloseFriend, setIsCloseFriend }) => {
   }
 
   function closeFriendsHandler() {
+    setIsCloseFriend((prev) => !prev);
     dispatch(CloseFriend({ friendId: profile._id }))
       .then(unwrapResult)
-      .then((obj) => {
-        setIsCloseFriend(prev => !prev)
+      .then((obj) => {})
+      .catch(() => {
+        setIsCloseFriend(isCloseFriend);
       });
   }
-
-  console.log(isCloseFriend);
 
   return (
     <div className="header__wrapper">

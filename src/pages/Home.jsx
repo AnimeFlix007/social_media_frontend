@@ -57,8 +57,6 @@ const Home = () => {
     news.length === 0 && fetchTrendingNews();
   }, [dispatch]);
 
-  console.log(news);
-
   return (
     <section className="main">
       <div id="home">

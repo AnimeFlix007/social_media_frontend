@@ -9,9 +9,14 @@ import Layout from "../layout/Layout";
 import EditProfile from "../pages/profile/EditProfile";
 import Discover from "../pages/Discover";
 import PostDetail from "../pages/PostDetail";
+import { loggedInUserProfile } from "../context/slice/authSlice";
 
 const Router = () => {
   const { user } = useSelector((store) => store.auth);
+  const dispatch = useDispatch()
+  useEffect(() => {
+    dispatch(loggedInUserProfile());
+  }, []);
   return (
     <Routes>
       <Route

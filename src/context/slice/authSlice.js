@@ -10,6 +10,7 @@ const userLoggedIn = localStorage.getItem("vmediauser")
 
 const initialState = {
   user: userLoggedIn,
+  userDetails: {},
   loading: false,
 };
 
@@ -118,6 +119,22 @@ export const editProfile = createAsyncThunk(
   }
 );
 
+export const loggedInUserProfile = createAsyncThunk(
+  "users/loggedInUserProfile",
+  async (payload, { rejectWithValue, fulfillWithValue, getState }) => {
+    const token = getState()?.auth?.user?.access_token;
+    try {
+      const res = await axios.get(`${BaseUrl}api/users/profile`, {
+        headers: { Authorization: `Bearer ${token}` },
+        withCredentials: true,
+      });
+      return fulfillWithValue(res.data);
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
 const authSlice = createSlice({
   name: "auth",
   initialState,
@@ -177,6 +194,17 @@ const authSlice = createSlice({
       toast.success("Profile Updated Successfully", options);
     },
     [editProfile.rejected]: (state, action) => {
+      state.loading = false;
+      toast.error(action?.payload?.message, options);
+    },
+    [loggedInUserProfile.pending]: (state, action) => {
+      state.loading = true;
+    },
+    [loggedInUserProfile.fulfilled]: (state, action) => {
+      state.loading = false;
+      state.userDetails = action.payload.user
+    },
+    [loggedInUserProfile.rejected]: (state, action) => {
       state.loading = false;
       toast.error(action?.payload?.message, options);
     },

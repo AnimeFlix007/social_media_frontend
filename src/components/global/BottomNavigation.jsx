@@ -29,7 +29,7 @@ const BottomNavigation = () => {
         <li>
           <a onClick={toggleDrawer("right", true)} href="#">
             <span className="icon">
-              <i class="bx bx-search"></i>
+              <i className="bx bx-search"></i>
             </span>
             <span className="text">Search</span>
           </a>
@@ -37,7 +37,7 @@ const BottomNavigation = () => {
         <li className={pathname === "/discover" ? "active" : ""}>
           <Link to="/discover">
             <span className="icon">
-              <i class="bx bx-compass"></i>
+              <i className="bx bx-compass"></i>
             </span>
             <span className="text">Explore</span>
           </Link>
@@ -53,7 +53,7 @@ const BottomNavigation = () => {
             to="#"
           >
             <span className="icon">
-              <i class="bx bx-message-square"></i>
+              <i className="bx bx-message-square"></i>
             </span>
             <span className="text">Message</span>
           </Link>
@@ -63,7 +63,7 @@ const BottomNavigation = () => {
         >
           <Link to={"/profile/" + user?.user?._id}>
             <span className="icon">
-              <i class="bx bx-user"></i>
+              <i className="bx bx-user"></i>
             </span>
             <span className="text">Profile</span>
           </Link>

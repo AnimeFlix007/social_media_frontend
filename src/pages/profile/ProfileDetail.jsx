@@ -11,11 +11,15 @@ import {
   getAllUserPosts,
   savedPosts,
 } from "../../context/slice/postSlice";
+import { unwrapResult } from "@reduxjs/toolkit";
+import { loggedInUserProfile } from "../../context/slice/authSlice";
 
 const ProfileDetail = () => {
   const { id } = useParams();
   const [isCloseFriend, setIsCloseFriend] = useState(false);
+  const [loadPg, setLoadPg] = useState(false);
   const dispatch = useDispatch();
+  const { userDetails } = useSelector((store) => store.auth);
   const {
     invalid_user_profile,
     user_profile,
@@ -25,7 +29,21 @@ const ProfileDetail = () => {
   } = useSelector((store) => store.users);
 
   useEffect(() => {
+    setLoadPg(prev => !prev)
     dispatch(userProfile({ id }))
+      .then(unwrapResult)
+      .then((obj) => {
+        dispatch(loggedInUserProfile())
+          .then(unwrapResult)
+          .then(() => {
+            setIsCloseFriend(
+              userDetails?.close_friends?.find(
+                (friend) => friend._id == obj.user._id
+              )
+            );
+            setLoadPg(prev => !prev)
+          });
+      });
     dispatch(getAllImages({ id }));
     dispatch(getAllUserPosts({ id }));
     dispatch(savedPosts());
@@ -33,7 +51,7 @@ const ProfileDetail = () => {
 
   return (
     <div className="main">
-      {loading && <Loading />}
+      {(loading||loadPg) && <Loading />}
       {!loading && invalid_user_profile && (
         <div className="bad-request-empty">
           <h1>404: The Profile you are looking for isn’t here</h1>
