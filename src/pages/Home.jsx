@@ -15,6 +15,7 @@ import fetchNews from "../context/slice/fetchNews";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import { options } from "../utils/ToastOptions";
+import NoSuggestedInfluencers from "../assets/nodata/NoSuggestedUsers.avif";
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -99,7 +100,9 @@ const Home = () => {
           {newsLoading && news.length === 0 && (
             <CircularProgress color="primary" />
           )}
-          {!newsLoading && news.length > 0 && <TrendingNews news={news.slice(0,6)} />}
+          {!newsLoading && news.length > 0 && (
+            <TrendingNews news={news.slice(0, 6)} />
+          )}
           {!loading && users && (
             <div className="suggested-users-box">
               <Typography
@@ -125,9 +128,20 @@ const Home = () => {
                 }}
               >
                 {!loader &&
+                  users.length > 0 &&
                   users?.map((user) => (
                     <SuggestedUser key={user?._id} user={user} />
                   ))}
+                {!loader && users.length === 0 && (
+                  <div style={{ display: "flex", alignItems: "center", flexDirection: "column" }}>
+                    <img
+                      src={NoSuggestedInfluencers}
+                      alt="NoSuggestedInfluencers"
+                      style={{ width: "300px" }}
+                    />
+                    <p className="text" style={{ fontSize: "1rem" }}>No Suggested Influencers</p>
+                  </div>
+                )}
                 {loader && <CircularProgress color="primary" />}
               </List>
             </div>

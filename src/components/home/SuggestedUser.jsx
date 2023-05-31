@@ -32,14 +32,13 @@ const SuggestedUser = ({ user }) => {
               dispatch(followUser({ followId: user._id }))
                 .then(unwrapResult)
                 .then(() => {
-                  setLoading(false);
+                  dispatch(ExplorePosts());
                 })
                 .then(() => {
-                  dispatch(ExplorePosts())
-                    .then(unwrapResult)
-                    .then((obj) => {
-                      dispatch(suggestedUsers());
-                    });
+                  dispatch(suggestedUsers());
+                })
+                .then(() => {
+                  setLoading(false);
                 });
             }}
             color="primary"

@@ -7,6 +7,7 @@ import { options } from "../../utils/ToastOptions";
 const initialState = {
   users: [],
   suggested_users: [],
+  close_friends: [],
   user_profile: {},
   invalid_user_profile: false,
   loading: false,
@@ -139,6 +140,25 @@ export const CloseFriend = createAsyncThunk(
   }
 );
 
+export const getUserCloseFriends = createAsyncThunk(
+  "users/getUserCloseFriends",
+  async (payload, { rejectWithValue, fulfillWithValue, getState }) => {
+    const token = getState()?.auth?.user?.access_token;
+    try {
+      const res = await axios.get(
+        `${BaseUrl}api/users/close_friend/${payload.userId}`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+          withCredentials: true,
+        }
+      );
+      return fulfillWithValue(res.data);
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
 const users = createSlice({
   name: "users",
   initialState,
@@ -225,6 +245,21 @@ const users = createSlice({
       toast.success(action?.payload?.message, options);
     },
     [CloseFriend.rejected]: (state, action) => {
+      toast.error(
+        action?.payload?.message || "Something went wrong!!",
+        options
+      );
+    },
+    [getUserCloseFriends.pending]: (state, action) => {
+      state.loading = true;
+    },
+    [getUserCloseFriends.fulfilled]: (state, action) => {
+      state.loading = false
+      state.close_friends = action.payload.close_friends
+      toast.success(action?.payload?.message, options);
+    },
+    [getUserCloseFriends.rejected]: (state, action) => {
+      state.loading = false
       toast.error(
         action?.payload?.message || "Something went wrong!!",
         options

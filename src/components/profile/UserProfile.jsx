@@ -1,6 +1,17 @@
-import React, { useState } from "react";
+import React from "react";
 import "../../styles/profile/profile.css";
-import { CircularProgress, Tab, Tabs } from "@mui/material";
+import {
+  Avatar,
+  Button,
+  CircularProgress,
+  List,
+  ListItem,
+  ListItemAvatar,
+  ListItemButton,
+  ListItemText,
+  Tab,
+  Tabs,
+} from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import {
@@ -14,7 +25,6 @@ import SinglePost from "../posts/SinglePost";
 import NoImages from "../../assets/nodata/NoImages.avif";
 import NoPosts from "../../assets/nodata/NoPosts.avif";
 import { unwrapResult } from "@reduxjs/toolkit";
-import { loggedInUserProfile } from "../../context/slice/authSlice";
 
 const UserProfile = ({ profile, loading, isCloseFriend, setIsCloseFriend }) => {
   const [value, setValue] = React.useState(1);
@@ -32,6 +42,9 @@ const UserProfile = ({ profile, loading, isCloseFriend, setIsCloseFriend }) => {
     saved_posts_likes,
     saved_posts_saved,
   } = useSelector((store) => store.posts);
+  const { loading: cf_loading, close_friends } = useSelector(
+    (store) => store.users
+  );
 
   const isFollowing = profile?.followers?.find((p) => p._id == user?.user?._id);
 
@@ -53,7 +66,6 @@ const UserProfile = ({ profile, loading, isCloseFriend, setIsCloseFriend }) => {
     setIsCloseFriend((prev) => !prev);
     dispatch(CloseFriend({ friendId: profile._id }))
       .then(unwrapResult)
-      .then((obj) => {})
       .catch(() => {
         setIsCloseFriend(isCloseFriend);
       });
@@ -196,9 +208,7 @@ const UserProfile = ({ profile, loading, isCloseFriend, setIsCloseFriend }) => {
               <div className="photos">
                 {!image_loading &&
                   images.length > 0 &&
-                  images
-                    ?.slice(0, 6)
-                    ?.map((img) => <img key={img} src={img} alt="Photo" />)}
+                  images?.map((img) => <img key={img} src={img} alt="Photo" />)}
               </div>
               {!image_loading && images.length === 0 && (
                 <div
@@ -217,15 +227,13 @@ const UserProfile = ({ profile, loading, isCloseFriend, setIsCloseFriend }) => {
             <>
               <div className="post_container">
                 {!postLoading &&
-                  user_posts
-                    ?.slice(0, 2)
-                    ?.map((post, i) => (
-                      <SinglePost
-                        key={post._id}
-                        post={post}
-                        likes={user_likes[i]}
-                      />
-                    ))}
+                  user_posts?.map((post, i) => (
+                    <SinglePost
+                      key={post._id}
+                      post={post}
+                      likes={user_likes[i]}
+                    />
+                  ))}
               </div>
               {user_posts.length === 0 && (
                 <div
@@ -238,30 +246,50 @@ const UserProfile = ({ profile, loading, isCloseFriend, setIsCloseFriend }) => {
                   <img src={NoPosts} alt="NoPosts" style={{ width: "50%" }} />
                 </div>
               )}
-              {user_posts.length > 2 && (
-                <div
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                  }}
-                >
-                  <button style={{ marginTop: "0%" }} className="primary-btn">
-                    View More
-                  </button>
-                </div>
-              )}
             </>
           )}
           {value === 3 && (
             <>
-              <div className="photos">
-                {!image_loading &&
-                  images.length > 0 &&
-                  images
-                    ?.slice(0, 6)
-                    ?.map((img) => <img src={img} alt="Photo" />)}
-              </div>
+              <List sx={{ width: "100%", bgcolor: "background.paper" }}>
+                {close_friends?.map((user) => {
+                  return (
+                    <ListItem
+                      key={user._id}
+                      onClick={() => navigate(`/profile/${user._id}`)}
+                      secondaryAction={
+                        <Button
+                          target="_blank"
+                          rel="noreferrer"
+                          href={
+                            user?.instagram
+                              ? "https://www.instagram.com/" +
+                              user?.instagram
+                              : "https://www.instagram.com"
+                          }
+                          startIcon={<i class='bx bxl-instagram'></i>}
+                        >
+                          View
+                        </Button>
+                      }
+                      sx={{ pl: 0, pr: 0 }}
+                    >
+                      <ListItemButton>
+                        <ListItemAvatar>
+                          <Avatar alt={user.username} src={user.avatar} />
+                        </ListItemAvatar>
+                        <ListItemText
+                          primary={user.fullname}
+                          secondary={user.role}
+                        />
+                        <ListItemText
+                          primary={user.followers.length}
+                          secondary="Followers"
+                        />
+                      </ListItemButton>
+                    </ListItem>
+                  );
+                })}
+              </List>
               {!image_loading && images.length === 0 && (
                 <div
                   style={{
@@ -279,16 +307,14 @@ const UserProfile = ({ profile, loading, isCloseFriend, setIsCloseFriend }) => {
             <>
               <div className="post_container">
                 {!savedPostsloading &&
-                  saved_posts
-                    ?.slice(0, 2)
-                    ?.map((post, i) => (
-                      <SinglePost
-                        key={post._id}
-                        post={post}
-                        likes={saved_posts_likes[i]}
-                        saved={saved_posts_saved[i]}
-                      />
-                    ))}
+                  saved_posts?.map((post, i) => (
+                    <SinglePost
+                      key={post._id}
+                      post={post}
+                      likes={saved_posts_likes[i]}
+                      saved={saved_posts_saved[i]}
+                    />
+                  ))}
               </div>
               {saved_posts.length === 0 && (
                 <div
@@ -299,19 +325,6 @@ const UserProfile = ({ profile, loading, isCloseFriend, setIsCloseFriend }) => {
                   }}
                 >
                   <img src={NoPosts} alt="NoPosts" style={{ width: "50%" }} />
-                </div>
-              )}
-              {saved_posts.length > 2 && (
-                <div
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                  }}
-                >
-                  <button style={{ marginTop: "0%" }} className="primary-btn">
-                    View More
-                  </button>
                 </div>
               )}
             </>

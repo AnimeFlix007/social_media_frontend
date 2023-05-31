@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { userProfile } from "../../context/slice/userSlice";
+import { getUserCloseFriends, userProfile } from "../../context/slice/userSlice";
 import BadRequestEmpty from "../../assets/BadRequestEmpty.avif";
 import "../../styles/profile/error-profile.css";
 import Loading from "../../components/global/Loading";
@@ -29,29 +29,30 @@ const ProfileDetail = () => {
   } = useSelector((store) => store.users);
 
   useEffect(() => {
-    setLoadPg(prev => !prev)
+    setLoadPg((prev) => !prev);
     dispatch(userProfile({ id }))
       .then(unwrapResult)
-      .then((obj) => {
-        dispatch(loggedInUserProfile())
-          .then(unwrapResult)
-          .then(() => {
-            setIsCloseFriend(
-              userDetails?.close_friends?.find(
-                (friend) => friend._id == obj.user._id
-              )
-            );
-            setLoadPg(prev => !prev)
-          });
+      .then(() => {
+        dispatch(loggedInUserProfile());
+        setLoadPg((prev) => !prev);
       });
     dispatch(getAllImages({ id }));
     dispatch(getAllUserPosts({ id }));
     dispatch(savedPosts());
+    dispatch(getUserCloseFriends({ userId: id }));
   }, [id, dispatch, followed]);
+
+  useEffect(() => {
+    setIsCloseFriend(
+      userDetails?.close_friends?.find(
+        (friend) => friend._id === user_profile._id
+      )
+    );
+  }, [userDetails?.close_friends, user_profile?._id]);
 
   return (
     <div className="main">
-      {(loading||loadPg) && <Loading />}
+      {(loading || loadPg) && <Loading />}
       {!loading && invalid_user_profile && (
         <div className="bad-request-empty">
           <h1>404: The Profile you are looking for isn’t here</h1>

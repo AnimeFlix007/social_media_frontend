@@ -15,8 +15,8 @@ const Router = () => {
   const { user } = useSelector((store) => store.auth);
   const dispatch = useDispatch()
   useEffect(() => {
-    dispatch(loggedInUserProfile());
-  }, []);
+    user?.user?._id && dispatch(loggedInUserProfile());
+  }, [user?.user?._id]);
   return (
     <Routes>
       <Route

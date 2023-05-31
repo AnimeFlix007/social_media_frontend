@@ -150,7 +150,7 @@ const authSlice = createSlice({
     },
     [authLogin.rejected]: (state, action) => {
       state.loading = false;
-      toast.error(action?.payload?.message, options);
+      toast.error(action?.payload?.message || "Internal Server Error", options);
     },
     [authRegister.pending]: (state, action) => {
       state.loading = true;
@@ -161,7 +161,7 @@ const authSlice = createSlice({
     },
     [authRegister.rejected]: (state, action) => {
       state.loading = false;
-      toast.error(action?.payload?.message, options);
+      toast.error(action?.payload?.message || "Internal Server Error", options);
     },
     [authRefreshToken.pending]: (state, action) => {
       // state.loading = true;

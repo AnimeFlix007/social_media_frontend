@@ -52,8 +52,8 @@ const Login = () => {
         <i
           className={
             Boolean(errors.login_email && touched.login_email)
-              ? "fas fa-user error-input"
-              : "fas fa-user"
+              ? "bx bx-envelope error-input"
+              : "bx bx-envelope"
           }
         ></i>
         <input
@@ -89,8 +89,8 @@ const Login = () => {
         <i
           className={
             Boolean(errors.login_password && touched.login_password)
-              ? "fas fa-lock error-input"
-              : "fas fa-lock"
+              ? "bx bx-lock error-input"
+              : "bx bx-lock"
           }
         ></i>
         <input
@@ -117,16 +117,16 @@ const Login = () => {
       <p className="social-text">Or Sign in with social platforms</p>
       <div className="social-media">
         <a href="#" className="social-icon">
-          <i className="fab fa-facebook-f"></i>
+          <i className="fa fa-facebook-f"></i>
         </a>
         <a href="#" className="social-icon">
-          <i className="fab fa-twitter"></i>
+          <i className="fa fa-twitter"></i>
         </a>
         <a href="#" className="social-icon">
-          <i className="fab fa-google"></i>
+          <i className="fa fa-google"></i>
         </a>
         <a href="#" className="social-icon">
-          <i className="fab fa-linkedin-in"></i>
+          <i className="fa fa-linkedin-in"></i>
         </a>
       </div>
     </form>
