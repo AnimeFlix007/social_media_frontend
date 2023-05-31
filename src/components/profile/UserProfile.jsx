@@ -250,47 +250,50 @@ const UserProfile = ({ profile, loading, isCloseFriend, setIsCloseFriend }) => {
           )}
           {value === 3 && (
             <>
-              <List sx={{ width: "100%", bgcolor: "background.paper" }}>
-                {close_friends?.map((user) => {
-                  return (
-                    <ListItem
-                      key={user._id}
-                      onClick={() => navigate(`/profile/${user._id}`)}
-                      secondaryAction={
-                        <Button
-                          target="_blank"
-                          rel="noreferrer"
-                          href={
-                            user?.instagram
-                              ? "https://www.instagram.com/" +
+              {cf_loading && <CircularProgress />}
+              {!cf_loading && close_friends.length > 0 && (
+                <List sx={{ width: "100%", bgcolor: "background.paper" }}>
+                  {close_friends?.map((user) => {
+                    return (
+                      <ListItem
+                        key={user._id}
+                        onClick={() => navigate(`/profile/${user._id}`)}
+                        secondaryAction={
+                          <Button
+                            target="_blank"
+                            rel="noreferrer"
+                            href={
                               user?.instagram
-                              : "https://www.instagram.com"
-                          }
-                          startIcon={<i class='bx bxl-instagram'></i>}
-                        >
-                          View
-                        </Button>
-                      }
-                      sx={{ pl: 0, pr: 0 }}
-                    >
-                      <ListItemButton>
-                        <ListItemAvatar>
-                          <Avatar alt={user.username} src={user.avatar} />
-                        </ListItemAvatar>
-                        <ListItemText
-                          primary={user.fullname}
-                          secondary={user.role}
-                        />
-                        <ListItemText
-                          primary={user.followers.length}
-                          secondary="Followers"
-                        />
-                      </ListItemButton>
-                    </ListItem>
-                  );
-                })}
-              </List>
-              {!image_loading && images.length === 0 && (
+                                ? "https://www.instagram.com/" + user?.instagram
+                                : "https://www.instagram.com"
+                            }
+                            startIcon={<i class="bx bxl-instagram"></i>}
+                            onClick={(e) => e.stopPropagation()}
+                          >
+                            View
+                          </Button>
+                        }
+                        sx={{ pl: 0, pr: 0 }}
+                      >
+                        <ListItemButton>
+                          <ListItemAvatar>
+                            <Avatar alt={user.username} src={user.avatar} />
+                          </ListItemAvatar>
+                          <ListItemText
+                            primary={user.fullname}
+                            secondary={user.role}
+                          />
+                          <ListItemText
+                            primary={user.followers.length}
+                            secondary="Followers"
+                          />
+                        </ListItemButton>
+                      </ListItem>
+                    );
+                  })}
+                </List>
+              )}
+              {!cf_loading && close_friends.length === 0 && (
                 <div
                   style={{
                     display: "flex",
