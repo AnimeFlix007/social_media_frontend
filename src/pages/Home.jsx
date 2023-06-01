@@ -16,6 +16,7 @@ import { useState } from "react";
 import { toast } from "react-toastify";
 import { options } from "../utils/ToastOptions";
 import NoSuggestedInfluencers from "../assets/nodata/NoSuggestedUsers.avif";
+import { topNews } from "../__mocks__/TopNews";
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -55,7 +56,7 @@ const Home = () => {
 
   useEffect(() => {
     dispatch(RecommendedPosts());
-    news.length === 0 && fetchTrendingNews();
+    // news.length === 0 && fetchTrendingNews();
   }, [dispatch]);
 
   return (
@@ -100,8 +101,8 @@ const Home = () => {
           {newsLoading && news.length === 0 && (
             <CircularProgress color="primary" />
           )}
-          {!newsLoading && news.length > 0 && (
-            <TrendingNews news={news.slice(0, 6)} />
+          {!newsLoading && topNews.length > 0 && (
+            <TrendingNews news={topNews.slice(0, 6)} />
           )}
           {!loading && users && (
             <div className="suggested-users-box">
