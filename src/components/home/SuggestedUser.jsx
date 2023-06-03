@@ -32,10 +32,10 @@ const SuggestedUser = ({ user }) => {
               dispatch(followUser({ followId: user._id }))
                 .then(unwrapResult)
                 .then(() => {
-                  dispatch(ExplorePosts());
+                  return dispatch(ExplorePosts());
                 })
                 .then(() => {
-                  dispatch(suggestedUsers());
+                  return dispatch(suggestedUsers({ num: 4 }));
                 })
                 .then(() => {
                   setLoading(false);
