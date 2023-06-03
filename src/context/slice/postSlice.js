@@ -42,13 +42,9 @@ export const Create_Post = createAsyncThunk(
   async (payload, { rejectWithValue, fulfillWithValue, getState }) => {
     const token = getState()?.auth?.user?.access_token;
     try {
-      let formdata = new FormData();
-      formdata.append("content", payload.content);
-      Array.from(payload.images).map((item) => formdata.append("images", item));
-      const res = await axios.post(`${BaseUrl}api/posts/`, formdata, {
+      const res = await axios.post(`${BaseUrl}api/posts/`, payload, {
         headers: {
           Authorization: `Bearer ${token}`,
-          "Content-Type": "multipart/form-data",
         },
         withCredentials: true,
       });

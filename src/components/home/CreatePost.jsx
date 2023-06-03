@@ -16,11 +16,24 @@ const CreatePost = () => {
   function onChangeImageHandler(e) {
     setImages((prev) => [...prev, ...e.target.files]);
   }
-  const createPostHandler = () => {
+  function toBase64(file) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = (error) => reject(error);
+    });
+  }
+  const createPostHandler = async () => {
     if (content.current.value.length === 0) {
       toast.warn("Please write something about your post !!", options);
     }
-    dispatch(Create_Post({ content: content.current.value, images }))
+    const filePathsPromises = [];
+    images.forEach((file) => {
+      filePathsPromises.push(toBase64(file));
+    });
+    const filePaths = await Promise.all(filePathsPromises);
+    dispatch(Create_Post({ content: content.current.value, images: filePaths }))
       .then(unwrapResult)
       .then(() => {
         setImages([]);
@@ -66,7 +79,8 @@ const CreatePost = () => {
           <i
             onClick={() =>
               toast.info(
-                "Sorry!! Currently we are working on uploading video as a post!!", options
+                "Sorry!! Currently we are working on uploading video as a post!!",
+                options
               )
             }
             className="bx bxs-video post-icons"
