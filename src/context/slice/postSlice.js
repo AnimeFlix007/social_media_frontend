@@ -66,7 +66,7 @@ export const getAllImages = createAsyncThunk(
           headers: {
             Authorization: `Bearer ${token}`,
           },
-          withCredentials: true
+          withCredentials: true,
         }
       );
       return fulfillWithValue(res.data);
@@ -87,7 +87,7 @@ export const getAllUserPosts = createAsyncThunk(
           headers: {
             Authorization: `Bearer ${token}`,
           },
-          withCredentials: true
+          withCredentials: true,
         }
       );
       return fulfillWithValue(res.data);
@@ -105,8 +105,11 @@ export const Posts = createAsyncThunk(
       const res = await axios.get(`${BaseUrl}api/posts/?page=${payload.page}`, {
         headers: {
           Authorization: `Bearer ${token}`,
+          "Access-Control-Allow-Origin": "*",
+          Accept: "application/json",
+          "Content-Type": "application/json",
         },
-        withCredentials: true
+        withCredentials: true,
       });
       return fulfillWithValue(res.data);
     } catch (error) {
@@ -124,7 +127,7 @@ export const SinglePost = createAsyncThunk(
         headers: {
           Authorization: `Bearer ${token}`,
         },
-        withCredentials: true
+        withCredentials: true,
       });
       return fulfillWithValue(res.data);
     } catch (error) {
@@ -146,7 +149,7 @@ export const LikePost = createAsyncThunk(
           headers: {
             Authorization: `Bearer ${token}`,
           },
-          withCredentials: true
+          withCredentials: true,
         }
       );
       return fulfillWithValue(res.data);
@@ -165,7 +168,7 @@ export const ExplorePosts = createAsyncThunk(
         headers: {
           Authorization: `Bearer ${token}`,
         },
-        withCredentials: true
+        withCredentials: true,
       });
       return fulfillWithValue(res.data);
     } catch (error) {
@@ -183,7 +186,7 @@ export const RecommendedPosts = createAsyncThunk(
         headers: {
           Authorization: `Bearer ${token}`,
         },
-        withCredentials: true
+        withCredentials: true,
       });
       return fulfillWithValue(res.data);
     } catch (error) {
@@ -201,7 +204,7 @@ export const savedPosts = createAsyncThunk(
         headers: {
           Authorization: `Bearer ${token}`,
         },
-        withCredentials: true
+        withCredentials: true,
       });
       return fulfillWithValue(res.data);
     } catch (error) {
