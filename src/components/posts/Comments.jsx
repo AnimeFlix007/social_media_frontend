@@ -5,10 +5,12 @@ import NoComments from "../../assets/nodata/NoComments.avif";
 import TurnedOff from "../../assets/nodata/TurnedOff.avif";
 import { Switch } from "@mui/material";
 import Loading from "../global/Loading";
+import { useSelector } from "react-redux";
 
 const Comments = ({ comments, loading, deleteCommentHandler }) => {
   const label = { inputProps: { "aria-label": "Switch demo" } };
   const [checked, setChecked] = React.useState(true);
+  const { userDetails } = useSelector((store) => store.auth);
 
   const handleChange = (event) => {
     setChecked(event.target.checked);
@@ -37,7 +39,11 @@ const Comments = ({ comments, loading, deleteCommentHandler }) => {
         checked &&
         comments?.map((comment) => {
           return (
-            <div key={comment._id} className="card" style={{ cursor: "default" }}>
+            <div
+              key={comment._id}
+              className="card"
+              style={{ cursor: "default" }}
+            >
               <div className="card-top">
                 <div className="card-content">
                   <img src={comment.user.avatar} />
@@ -54,10 +60,14 @@ const Comments = ({ comments, loading, deleteCommentHandler }) => {
                 <div className="reply">
                   <small>Edit</small>
                   <span className="dots"></span>
-                  <small onClick={() => deleteCommentHandler(comment._id)}>
-                    Remove
-                  </small>
-                  <span className="dots"></span>
+                  {userDetails._id === comment.user._id && (
+                    <>
+                      <small onClick={() => deleteCommentHandler(comment._id)}>
+                        Remove
+                      </small>
+                      <span className="dots"></span>
+                    </>
+                  )}
                   <small>Reply</small>
                 </div>
 

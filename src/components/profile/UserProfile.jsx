@@ -25,6 +25,8 @@ import SinglePost from "../posts/SinglePost";
 import NoImages from "../../assets/nodata/NoImages.avif";
 import NoPosts from "../../assets/nodata/NoPosts.avif";
 import { unwrapResult } from "@reduxjs/toolkit";
+import { toast } from "react-toastify";
+import { options } from "../../utils/ToastOptions";
 
 const UserProfile = ({ profile, loading, isCloseFriend, setIsCloseFriend }) => {
   const [value, setValue] = React.useState(1);
@@ -71,6 +73,9 @@ const UserProfile = ({ profile, loading, isCloseFriend, setIsCloseFriend }) => {
       });
   }
 
+  const totalLikes =
+    user_posts?.reduce((acc, post) => acc + post.likes.length, 0) || 0;
+
   return (
     <div className="header__wrapper">
       <header>
@@ -100,6 +105,18 @@ const UserProfile = ({ profile, loading, isCloseFriend, setIsCloseFriend }) => {
                   )}
                 </>
               )}
+              {totalLikes > 10 && (
+                <i
+                  onClick={() =>
+                    toast.info(
+                      "Must have atleast 10 likes to be verified!!",
+                      options
+                    )
+                  }
+                  style={{ marginLeft: ".5rem" }}
+                  className="bx bx-check-circle"
+                ></i>
+              )}
             </h2>
           )}
           <h3>@{profile?.username}</h3>
@@ -113,12 +130,7 @@ const UserProfile = ({ profile, loading, isCloseFriend, setIsCloseFriend }) => {
               <span>{user_posts?.length || 0}</span>Posts
             </li>
             <li>
-              <span>
-                {user_posts?.reduce(
-                  (acc, post) => acc + post.likes.length,
-                  0
-                ) || 0}
-              </span>
+              <span>{totalLikes}</span>
               Lkes
             </li>
           </ul>
