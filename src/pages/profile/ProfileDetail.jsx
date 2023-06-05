@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { getUserCloseFriends, userProfile } from "../../context/slice/userSlice";
+import {
+  getUserCloseFriends,
+  userProfile,
+} from "../../context/slice/userSlice";
 import BadRequestEmpty from "../../assets/BadRequestEmpty.avif";
 import "../../styles/profile/error-profile.css";
 import Loading from "../../components/global/Loading";
@@ -16,7 +19,6 @@ import { loggedInUserProfile } from "../../context/slice/authSlice";
 
 const ProfileDetail = () => {
   const { id } = useParams();
-  const [isCloseFriend, setIsCloseFriend] = useState(false);
   const [loadPg, setLoadPg] = useState(false);
   const dispatch = useDispatch();
   const { userDetails } = useSelector((store) => store.auth);
@@ -42,13 +44,9 @@ const ProfileDetail = () => {
     dispatch(getUserCloseFriends({ userId: id }));
   }, [id, dispatch, followed]);
 
-  useEffect(() => {
-    setIsCloseFriend(
-      userDetails?.close_friends?.find(
-        (friend) => friend._id === user_profile._id
-      )
-    );
-  }, [userDetails?.close_friends, user_profile?._id]);
+  const closeFriend = userDetails?.close_friends?.find(
+    (friend) => friend._id === user_profile._id
+  );
 
   return (
     <div className="main">
@@ -68,8 +66,7 @@ const ProfileDetail = () => {
         <UserProfile
           profile={user_profile}
           loading={follow_loading}
-          isCloseFriend={isCloseFriend}
-          setIsCloseFriend={setIsCloseFriend}
+          closeFriend={closeFriend}
         />
       )}
     </div>

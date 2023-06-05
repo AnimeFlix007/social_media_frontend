@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "../../styles/profile/profile.css";
 import {
   Avatar,
@@ -28,11 +28,12 @@ import { unwrapResult } from "@reduxjs/toolkit";
 import { toast } from "react-toastify";
 import { options } from "../../utils/ToastOptions";
 
-const UserProfile = ({ profile, loading, isCloseFriend, setIsCloseFriend }) => {
-  const [value, setValue] = React.useState(1);
+const UserProfile = ({ profile, loading, closeFriend }) => {
+  const [value, setValue] = useState(1);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { user } = useSelector((store) => store.auth);
+  const [isCloseFriend, setIsCloseFriend] = useState(false);
   const {
     images,
     user_posts,
@@ -72,6 +73,10 @@ const UserProfile = ({ profile, loading, isCloseFriend, setIsCloseFriend }) => {
         setIsCloseFriend(isCloseFriend);
       });
   }
+
+  useEffect(() => {
+    setIsCloseFriend(closeFriend ? true : false);
+  }, [closeFriend]);
 
   const totalLikes =
     user_posts?.reduce((acc, post) => acc + post.likes.length, 0) || 0;
