@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-import { LikePost, SinglePost } from "../context/slice/postSlice";
+import { DeletePost, LikePost, SinglePost } from "../context/slice/postSlice";
 import Loading from "../components/global/Loading";
 import "../styles/post/post-detail.css";
 import { Avatar, CircularProgress } from "@mui/material";
@@ -38,10 +38,9 @@ const PostDetail = () => {
   const { comments, loading: commentsLoading } = useSelector(
     (store) => store.comments
   );
-  const { post, loading } = useSelector((store) => store.posts);
+  const { post, loading, deleting } = useSelector((store) => store.posts);
   const [isFollowing, setFollowing] = useState(false);
   const [like, setLike] = useState(false);
-  const [count, setCount] = useState(0);
   const [save, setSaved] = useState(false);
   const comment = useRef();
 
@@ -61,6 +60,14 @@ const PostDetail = () => {
       });
   };
 
+  const deletepostHandler = (postId) => {
+    dispatch(DeletePost({ postId }))
+      .then(unwrapResult)
+      .then(() => {
+        navigate("/discover");
+      });
+  };
+
   const likehandler = () => {
     setLike((prev) => !prev);
     dispatch(LikePost({ id: post._id }))
@@ -68,10 +75,8 @@ const PostDetail = () => {
       .then((obj) => {
         if (obj.liked) {
           setLike(true);
-          setCount(true);
         } else {
           setLike(false);
-          setCount(false);
         }
       })
       .catch((obj) => {
@@ -111,11 +116,13 @@ const PostDetail = () => {
       if (comment.current.value.length === 0) {
         toast.warn("You cannot send empty comments ", options);
       } else {
-        dispatch(AddComment({ postId: post._id, content: comment.current.value }))
-        .then(unwrapResult)
-        .then(() => {
-          dispatch(getPostComments({ postId: id }));
-        });
+        dispatch(
+          AddComment({ postId: post._id, content: comment.current.value })
+        )
+          .then(unwrapResult)
+          .then(() => {
+            dispatch(getPostComments({ postId: id }));
+          });
         comment.current.value = "";
       }
     }
@@ -172,7 +179,22 @@ const PostDetail = () => {
           </h3>
         </div>
         {user?.user?._id == post?.user?._id && (
-          <button className="primary-btn">Edit</button>
+          <div>
+            <button className="primary-btn">Edit</button>
+            {!deleting ? (
+              <button
+                onClick={() => deletepostHandler(post._id)}
+                style={{ marginLeft: "1rem" }}
+                className="danger-btn"
+              >
+                Delete
+              </button>
+            ) : (
+              <button className="danger-btn">
+                <CircularProgress style={{ color: "white" }} size={"1rem"} />
+              </button>
+            )}
+          </div>
         )}
         {user?.user?._id != post?.user?._id && follow_loading && isFollowing ? (
           <button className="danger-btn">

@@ -64,7 +64,7 @@ const Discover = () => {
           sx={{ ml: 2 }}
           onClick={() => setPage((prev) => prev + 1)}
           variant="contained"
-          disabled={Math.ceil(results / 8) === page}
+          disabled={Math.ceil(results / 16) === page}
         >
           Next
         </Button>

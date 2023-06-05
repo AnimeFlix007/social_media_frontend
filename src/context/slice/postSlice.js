@@ -35,6 +35,7 @@ const initialState = {
   loading: false,
   image_loading: false,
   creating: false,
+  deleting: false
 };
 
 export const Create_Post = createAsyncThunk(
@@ -102,7 +103,7 @@ export const Posts = createAsyncThunk(
   async (payload, { rejectWithValue, fulfillWithValue, getState }) => {
     const token = getState()?.auth?.user?.access_token;
     try {
-      const res = await axios.get(`${BaseUrl}api/posts/?page=${payload.page}`, {
+      const res = await axios.get(`${BaseUrl}api/posts/all-posts/?page=${payload.page}`, {
         headers: {
           Authorization: `Bearer ${token}`,
           "Access-Control-Allow-Origin": "*",
@@ -213,6 +214,26 @@ export const savedPosts = createAsyncThunk(
   }
 );
 
+export const DeletePost = createAsyncThunk(
+  "posts/DeletePost",
+  async (payload, { rejectWithValue, fulfillWithValue, getState }) => {
+    const token = getState()?.auth?.user?.access_token;
+    try {
+      const res = await axios.delete(`${BaseUrl}api/posts/${payload.postId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        withCredentials: true,
+      });
+      return fulfillWithValue(res.data);
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
+
+
 const posts = createSlice({
   name: "posts",
   initialState,
@@ -321,6 +342,17 @@ const posts = createSlice({
     },
     [savedPosts.rejected]: (state, action) => {
       state.savedPostsloading = false;
+      toast.error(action?.payload?.message, options);
+    },
+    [DeletePost.pending]: (state, action) => {
+      state.deleting = true;
+    },
+    [DeletePost.fulfilled]: (state, action) => {
+      state.deleting = false;
+      toast.error(action?.payload?.message, options);
+    },
+    [DeletePost.rejected]: (state, action) => {
+      state.deleting = false;
       toast.error(action?.payload?.message, options);
     },
   },
