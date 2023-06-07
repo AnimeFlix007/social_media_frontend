@@ -110,7 +110,7 @@ const EditProfilleForm = () => {
             className="primary-btn"
             htmlFor="select-bgImg"
           >
-            Choose Background Image
+            Bg Image
           </label>
         </header>
         <div className="cols__container">
