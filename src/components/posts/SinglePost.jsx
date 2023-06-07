@@ -147,7 +147,7 @@ const SinglePost = ({ post, likes, saved }) => {
         <span>#onepiece</span>
         <span>#anime</span>
       </h4>
-      <h4 className="comments">View all 342 comments</h4>
+      <h4 className="comments">View all comments</h4>
       <div onClick={(e) => e.stopPropagation()} className="add-comment">
         <div className="user-img">
           <img

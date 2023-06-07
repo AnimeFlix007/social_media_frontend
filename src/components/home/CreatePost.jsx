@@ -1,4 +1,4 @@
-import { Avatar, CircularProgress } from "@mui/material";
+import { Avatar, Button, CircularProgress, Tooltip } from "@mui/material";
 import React, { useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import "../../styles/home/post.css";
@@ -41,6 +41,9 @@ const CreatePost = () => {
         content.current.value = "";
       });
   };
+  function deleteImage(file_x) {
+    setImages((prev) => prev.filter((file) => file.name !== file_x.name));
+  }
   return (
     <div className="create-post-container">
       <div>
@@ -57,17 +60,34 @@ const CreatePost = () => {
       <div className="preview-box">
         {Array.from(images).map((file) => {
           return (
-            <span key={file.name + Date.now()}>
+            <span key={file.name + Date.now()} style={{ position: "relative" }}>
               <img src={file ? URL.createObjectURL(file) : null} alt="post" />
+              <Tooltip>
+                <i
+                  className="bx bx-message-x"
+                  onClick={() => deleteImage(file)}
+                  style={{
+                    position: "absolute",
+                    top: "0%",
+                    right: "0%",
+                    cursor: "pointer",
+                  }}
+                ></i>
+              </Tooltip>
             </span>
           );
         })}
       </div>
       <div>
         <div>
-          <label htmlFor="select-images">
-            <i className="bx bx-camera post-icons"></i>
-          </label>
+          <Button
+            variant="outlined"
+            startIcon={<i className="bx bx-camera post-icons"></i>}
+          >
+            <label style={{ cursor: "pointer" }} htmlFor="select-images">
+              Upload Images
+            </label>
+          </Button>
           <input
             id="select-images"
             accept="image/*"
@@ -76,15 +96,6 @@ const CreatePost = () => {
             type="file"
             onChange={onChangeImageHandler}
           />
-          <i
-            onClick={() =>
-              toast.info(
-                "Sorry!! Currently we are working on uploading video as a post!!",
-                options
-              )
-            }
-            className="bx bxs-video post-icons"
-          ></i>
         </div>
         {!loading ? (
           <button onClick={createPostHandler} className="primary-btn">
